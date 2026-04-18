@@ -13,9 +13,8 @@
   --accent:#E94560;--gold:#D97706;--zgreen:#059669;--zblue:#0F3460;
   --muted:#7B84A3;--light:#C8D0E7;--white:#FFFFFF;
 }
+html,body{background:#0B0D1A!important}
 body{font-family:'Inter',sans-serif;background:#0B0D1A;color:#C8D0E7;min-height:100vh}
-.page{display:none;background:#0B0D1A}
-.page.active{display:block;background:#0B0D1A}
 a{text-decoration:none;color:inherit}
 button{cursor:pointer;font-family:'Inter',sans-serif;border:none;background:none}
 input,select{font-family:'Inter',sans-serif}
@@ -28,12 +27,13 @@ input,select{font-family:'Inter',sans-serif}
 #navbar{position:sticky;top:0;z-index:100;background:rgba(18,21,43,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
 .nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative}
 .nav-left{display:flex;align-items:center;gap:12px}
+.nav-logo{font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px}
+.nav-logo span{color:#E94560}
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-links a{font-size:14px;color:#7B84A3;font-weight:500;padding:8px 14px;border-radius:10px;transition:all .15s}
 .nav-links a:hover{color:#fff;background:rgba(255,255,255,.05)}
 .nav-btns{display:flex;align-items:center;gap:10px}
 .nav-hamburger{display:none;color:#C8D0E7;padding:6px;font-size:20px;background:none;border:none;cursor:pointer;line-height:1}
-/* Mobile dropdown */
 .nav-dropdown{display:none;position:absolute;top:64px;left:0;right:0;background:#12152B;border-bottom:1px solid var(--border);padding:12px 16px;flex-direction:column;gap:4px;z-index:200}
 .nav-dropdown.open{display:flex}
 .nav-dropdown a{font-size:15px;color:#C8D0E7;font-weight:500;padding:12px 16px;border-radius:10px;display:block;transition:all .15s}
@@ -81,7 +81,12 @@ input,select{font-family:'Inter',sans-serif}
 .input-icon{position:absolute;left:12px;bottom:11px;color:#7B84A3;pointer-events:none}
 .input-eye{position:absolute;right:12px;bottom:10px;color:#7B84A3;background:none;border:none;cursor:pointer;padding:2px}
 select.input-field{padding-left:16px;appearance:none}
+html{background:#0B0D1A;overflow-y:scroll}
+html,body{height:100%}
 /* ── LAYOUT ── */
+.page{display:none;background:#0B0D1A;min-height:100vh}
+.page.active{display:block;background:#0B0D1A;min-height:100vh}
+*{-webkit-tap-highlight-color:transparent}
 /* ── SIDEBAR LAYOUT ── */
 .dash-layout{display:flex;min-height:calc(100vh - 64px)}
 .sidebar{width:224px;background:#12152B;border-right:1px solid var(--border);padding:24px 16px;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
@@ -144,17 +149,17 @@ select.input-field{padding-left:16px;appearance:none}
 /* ── LANDING ── */
 #landing-page .hero{text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden;background:#0B0D1A}
 #landing-page{background:#0B0D1A}
-.hero-glow-1{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:400px;border-radius:50%;background:rgba(233,69,96,.06);filter:blur(80px);pointer-events:none}
-.hero-glow-2{position:absolute;top:10%;left:20%;width:300px;height:300px;border-radius:50%;background:rgba(15,52,96,.3);filter:blur(60px);pointer-events:none}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.2);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--accent);margin-bottom:24px}
-.hero-h1{font-size:52px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-2px;margin-bottom:20px;max-width:700px;margin-left:auto;margin-right:auto}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.2);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--accent);margin-bottom:24px;position:relative;z-index:2}
+.hero-h1{font-size:52px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-2px;margin-bottom:20px;max-width:700px;margin-left:auto;margin-right:auto;position:relative;z-index:2}
 .hero-h1 span{color:var(--accent)}
-.hero-sub{font-size:17px;color:#7B84A3;max-width:520px;margin:0 auto 40px;line-height:1.6}
-.hero-btns{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:60px}
-.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:700px;margin:0 auto}
+.hero-sub{font-size:17px;color:#7B84A3;max-width:520px;margin:0 auto 40px;line-height:1.6;position:relative;z-index:2}
+.hero-btns{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:60px;position:relative;z-index:2}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:700px;margin:0 auto;position:relative;z-index:2}
 .hero-stat{display:flex;flex-direction:column;gap:4px;align-items:center}
 .hero-stat-val{font-size:22px;font-weight:900;color:#fff}
 .hero-stat-label{font-size:12px;color:#7B84A3}
+.hero-glow-1{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:400px;border-radius:50%;background:rgba(233,69,96,.04);filter:blur(80px);pointer-events:none;z-index:1}
+.hero-glow-2{position:absolute;top:10%;left:20%;width:300px;height:300px;border-radius:50%;background:rgba(15,52,96,.2);filter:blur(60px);pointer-events:none;z-index:1}
 /* ── HOW IT WORKS ── */
 .hiw{background:#12152B;padding:80px 24px}
 .hiw-inner{max-width:1000px;margin:0 auto}
@@ -192,7 +197,18 @@ select.input-field{padding-left:16px;appearance:none}
 .compare-table th:nth-child(3),.compare-table td:nth-child(3){text-align:center;width:140px;background:rgba(217,119,6,.04)}
 .compare-table thead th:nth-child(3){border-radius:8px 8px 0 0}
 .compare-shield-badge{display:inline-flex;align-items:center;gap:5px}
-/* ── FEATURES ── */
+/* ── FAQ ── */
+.faq-sec{padding:80px 24px;background:#0B0D1A}
+.faq-inner{max-width:720px;margin:0 auto}
+.faq-item{background:#181C35;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px;cursor:pointer}
+.faq-item:hover{border-color:rgba(233,69,96,.3)}
+.faq-item.open{border-color:rgba(233,69,96,.4)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;font-size:14px;font-weight:600;color:#fff;gap:16px}
+.faq-ic{font-size:20px;color:#7B84A3;flex-shrink:0;transition:transform .2s;line-height:1;font-weight:300}
+.faq-item.open .faq-ic{transform:rotate(45deg);color:#E94560}
+.faq-a{display:none;padding:0 20px 18px;font-size:13.5px;color:#7B84A3;line-height:1.75}
+.faq-a.open{display:block}
+/* ── ANIMATED BG ── */
 .features-sec{padding:80px 24px;background:#12152B}
 .features-inner{max-width:1000px;margin:0 auto}
 .features-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
@@ -272,10 +288,7 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
 .action-val{font-size:14px;font-weight:700;color:#fff}
 .action-label{font-size:11px;color:#7B84A3}
 /* ── MOBILE ── */
-.nav-logo{font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px}
-.nav-logo span{color:#E94560}
 @media(max-width:768px){
-  /* Layout */
   *{-webkit-text-size-adjust:100%}
   .stats-grid{grid-template-columns:1fr 1fr}
   .hiw-grid{grid-template-columns:1fr 1fr}
@@ -283,40 +296,38 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
   .pricing-grid{grid-template-columns:1fr}
   .shield-grid{grid-template-columns:1fr}
   .creator-grid{grid-template-columns:1fr}
-  .hero-h1{font-size:32px;letter-spacing:-1px}
+  .hero-h1{font-size:28px;letter-spacing:-1px}
   .hero-sub{font-size:15px}
   .hero-stats{grid-template-columns:1fr 1fr;gap:8px}
-  .action-cards{grid-template-columns:1fr}
-  .footer-top{grid-template-columns:1fr}
-  /* Nav */
-  .nav-links{display:none}
-  .nav-btns .btn{display:none}
-  .nav-hamburger{display:block}
-  /* Dash */
+  .hero-btns{flex-direction:column;align-items:stretch;gap:10px}
+  .btn-lg{padding:14px 24px;font-size:15px}
   .sidebar{display:none}
   .dash-layout{flex-direction:column}
   .dash-main{width:100%}
   .dash-content{padding:16px}
-  .stats-grid{grid-template-columns:1fr 1fr}
   .topbar{padding:10px 16px}
   .topbar-search input{width:160px}
-  /* Sections */
-  .hiw-inner,.shield-inner,.features-inner,.pricing-inner{padding:0 16px}
-  .hero-btns{flex-direction:column;align-items:stretch;gap:10px}
-  .btn-lg{padding:14px 24px;font-size:15px}
+  .nav-links{display:none}
+  .nav-btns .btn{display:none}
+  .nav-hamburger{display:block}
+  .footer-top{grid-template-columns:1fr}
+  .action-cards{grid-template-columns:1fr}
   .cta-inner{padding:40px 20px}
   .cta-btns{flex-direction:column;align-items:stretch;gap:10px}
   .shield-grid{gap:24px}
-  .section-title{font-size:26px}
+  .compare-table th,.compare-table td{padding:10px 12px;font-size:13px}
+
 }
 @media(max-width:480px){
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .hiw-grid{grid-template-columns:1fr}
-  .hero-h1{font-size:28px}
-  .hero-stat-val{font-size:18px}
-  .sec-title{font-size:24px}
+.pricing-grid{grid-template-columns:1fr}
+.stats-grid{grid-template-columns:1fr 1fr}
+.hiw-grid{grid-template-columns:1fr}
+.hero-h1{font-size:26px}
+.hero-stat-val{font-size:18px}
+.sec-title{font-size:24px}
 }
 </style>
+
 </head>
 <body>
 
@@ -338,7 +349,6 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
       <button class="nav-hamburger" onclick="toggleMobileMenu()">&#9776;</button>
     </div>
   </div>
-  <!-- Mobile Dropdown -->
   <div class="nav-dropdown" id="nav-dropdown">
     <a href="#how-it-works" onclick="closeMobileMenu()">How it Works</a>
     <a href="#features" onclick="closeMobileMenu()">Features</a>
@@ -362,7 +372,7 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
     <div class="hero-glow-2"></div>
     <div class="hero-tag">&#128737; Kerala&apos;s First Legally-Protected Influencer Marketplace</div>
     <h1 class="hero-h1">Where Kerala Creators<br>Meet <span>Global Brands</span></h1>
-    <p class="hero-sub">Zeke connects verified Kerala creators with global brands - every deal backed by a legal PDF agreement. No escrow. No middlemen.</p>
+    <p class="hero-sub">The safest place for creators and brands to meet, deal, and grow - together.</p>
     <div class="hero-btns">
       <button class="btn btn-primary btn-lg" onclick="showPage('register')">I&apos;m a Brand &#8594;</button>
       <button class="btn btn-outline btn-lg" onclick="showRegister('influencer')">I&apos;m a Creator &#8594;</button>
@@ -381,15 +391,15 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
     <div class="hiw-inner">
       <div class="sec-header">
         <div class="section-chip">How It Works</div>
-        <h2 class="sec-title">Four steps to a signed deal</h2>
-        <p class="sec-sub">From discovery to legal agreement - everything happens on Zeke.</p>
+        <h2 class="sec-title">From first message to signed deal</h2>
+        <p class="sec-sub">Every user gets the full platform. No paywalls on conversations or deal-making.</p>
       </div>
-<div class="hiw-grid">
-  <div class="hiw-card"><div class="hiw-num">01</div><div class="hiw-icon">&#128269;</div><div class="hiw-title">Brand posts a campaign</div><div class="hiw-desc">Any verified brand can post a campaign with their requirements, budget and timeline. Free, always.</div></div>
-  <div class="hiw-card"><div class="hiw-num">02</div><div class="hiw-icon">&#9993;</div><div class="hiw-title">Creator gets the offer</div><div class="hiw-desc">Creators receive structured offers directly on Zeke. No DMs, no chasing. Just a clean offer waiting for your response.</div></div>
-  <div class="hiw-card"><div class="hiw-num">03</div><div class="hiw-icon">&#128172;</div><div class="hiw-title">Chat, negotiate, close</div><div class="hiw-desc">Both sides chat freely on the platform. Agree on terms, deliverables and payment until the deal is done.</div></div>
-  <div class="hiw-card"><div class="hiw-num">04</div><div class="hiw-icon">&#128196;</div><div class="hiw-title">Shield users get Zeke's backup</div><div class="hiw-desc">Zeke Shield members get a legally binding PDF agreement on every deal. If anything goes wrong, the Zeke team steps in and works to resolve it on your behalf.</div></div>
-</div>
+      <div class="hiw-grid">
+        <div class="hiw-card"><div class="hiw-num">01</div><div class="hiw-icon">&#128269;</div><div class="hiw-title">Brand posts a campaign</div><div class="hiw-desc">Any verified brand can post a campaign with their requirements, budget and timeline. Free, always.</div></div>
+        <div class="hiw-card"><div class="hiw-num">02</div><div class="hiw-icon">&#9993;</div><div class="hiw-title">Creator gets the offer</div><div class="hiw-desc">Creators receive structured offers directly on Zeke. No DMs, no chasing. Just a clean offer waiting for your response.</div></div>
+        <div class="hiw-card"><div class="hiw-num">03</div><div class="hiw-icon">&#128172;</div><div class="hiw-title">Chat, negotiate, close</div><div class="hiw-desc">Both sides chat freely on the platform. Agree on terms, deliverables and payment until the deal is done.</div></div>
+        <div class="hiw-card"><div class="hiw-num">04</div><div class="hiw-icon">&#128196;</div><div class="hiw-title">Shield users get Zeke's backup</div><div class="hiw-desc">Zeke Shield members get a legally binding PDF agreement on every deal. If anything goes wrong, the Zeke team steps in and works to resolve it on your behalf.</div></div>
+      </div>
     </div>
   </section>
 
@@ -399,8 +409,8 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
     <div class="shield-inner">
       <div class="sec-header">
         <div class="section-chip">Zeke Shield</div>
-        <h2 class="sec-title">Your work deserves protection</h2>
-        <p class="sec-sub">One annual badge that keeps your deals, money, and reputation safe - so you can focus on creating.</p>
+        <h2 class="sec-title">Everyone deals free. Shield members deal protected.</h2>
+        <p class="sec-sub">All creators can chat, negotiate and close deals on Zeke at no cost. Shield is for when you want Zeke legally standing behind you if things go wrong.</p>
       </div>
       <div class="shield-grid">
         <div class="shield-perks">
@@ -419,10 +429,15 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div class="shield-card">
           <div class="shield-badge">&#128737; Zeke Shield</div>
           <div class="shield-price"><span class="shield-price-big">&#8377;1,999</span><span class="shield-price-period">&nbsp;/ year</span></div>
-          <p style="font-size:13px;color:#7B84A3">That is just &#8377;166 a month for full legal protection</p>
+          <p style="font-size:13px;color:#7B84A3">That is just &#8377;166 a month - less than one meal out</p>
           <button class="btn btn-gold btn-md btn-full" onclick="showRegister('influencer')" style="margin-top:8px">&#128737; Get Zeke Shield</button>
           <p style="font-size:12px;color:#7B84A3;text-align:center">Renews annually - cancel anytime</p>
-          <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:#7B84A3">&#128274; Secured by Zeke legal infrastructure</div>
+          <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#7B84A3">&#10003; Zeke team in your corner on every dispute</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#7B84A3">&#10003; Gold verified badge on your profile</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#7B84A3">&#10003; Priority placement in brand searches</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#7B84A3">&#128274; Backed by Zeke legal infrastructure</div>
+          </div>
         </div>
       </div>
     </div>
@@ -446,65 +461,21 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="compare-feature">Create a profile &amp; get discovered</td>
-            <td class="compare-yes">&#10003;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">Receive structured brand offers</td>
-            <td class="compare-yes">&#10003;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">Earnings tracker</td>
-            <td class="compare-yes">&#10003;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">Open deal chat with brands</td>
-            <td class="compare-no">&#10005;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">PDF legal agreement on every deal</td>
-            <td class="compare-no">&#10005;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">Zeke backs you in disputes</td>
-            <td class="compare-no">&#10005;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">Verified gold badge on profile</td>
-            <td class="compare-no">&#10005;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">Priority ranking in brand searches</td>
-            <td class="compare-no">&#10005;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">Access to brand campaigns board</td>
-            <td class="compare-no">&#10005;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">Monthly performance PDF report</td>
-            <td class="compare-no">&#10005;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
-          <tr>
-            <td class="compare-feature">Annual Zeke legal certificate</td>
-            <td class="compare-no">&#10005;</td>
-            <td class="compare-yes">&#10003;</td>
-          </tr>
+          <tr><td class="compare-feature">Create a profile and get discovered</td><td class="compare-yes">&#10003;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">Receive structured brand offers</td><td class="compare-yes">&#10003;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">Chat, negotiate and close deals</td><td class="compare-yes">&#10003;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">Earnings tracker</td><td class="compare-yes">&#10003;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">PDF legal agreement on every deal</td><td class="compare-no">&#10005;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">Zeke backs you in disputes</td><td class="compare-no">&#10005;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">Verified gold badge on profile</td><td class="compare-no">&#10005;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">Priority ranking in brand searches</td><td class="compare-no">&#10005;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">Access to brand campaigns board</td><td class="compare-no">&#10005;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">Monthly performance PDF report</td><td class="compare-no">&#10005;</td><td class="compare-yes">&#10003;</td></tr>
+          <tr><td class="compare-feature">Annual Zeke legal certificate</td><td class="compare-no">&#10005;</td><td class="compare-yes">&#10003;</td></tr>
         </tbody>
       </table>
       <div style="margin-top:28px;text-align:center">
-        <button class="btn btn-gold btn-md" onclick="showRegister('influencer')">&#128737; Get Zeke Shield &mdash; &#8377;1,999/yr</button>
+        <button class="btn btn-gold btn-md" onclick="showRegister('influencer')">&#128737; Get Zeke Shield - &#8377;1,999/yr</button>
       </div>
     </div>
   </section>
@@ -551,7 +522,7 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div class="pricing-card">
           <div class="pricing-label">Brand</div>
           <div class="pricing-price">Free <span>forever</span></div>
-          <div class="pricing-desc">Post campaigns, search verified creators, send structured offers and sign legal agreements - all at no cost.</div>
+          <div class="pricing-desc">Post campaigns, search verified creators, send structured offers and close deals - all at no cost.</div>
         </div>
         <div class="pricing-card">
           <div class="pricing-label">Creator</div>
@@ -561,9 +532,44 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div class="pricing-card featured">
           <div class="pricing-label" style="color:#D97706">Zeke Shield</div>
           <div class="pricing-price" style="color:#D97706">&#8377;1,999 <span>/ year</span></div>
-          <div class="pricing-desc">Get legally protected, show up first to brands, and unlock every feature Zeke has to offer.</div>
+          <div class="pricing-desc">Get legally protected with a PDF agreement on every deal, show up first to brands, and have Zeke in your corner if anything goes wrong.</div>
           <button class="btn btn-gold btn-sm btn-full" onclick="showRegister('influencer')" style="margin-top:4px">Get Shield</button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+
+  <section class="faq-sec">
+    <div class="faq-inner">
+      <div class="sec-header" style="margin-bottom:40px">
+        <div class="section-chip">FAQ</div>
+        <h2 class="sec-title">Questions we hear a lot</h2>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Do I need to pay anything to join Zeke? <span class="faq-ic">+</span></div>
+        <div class="faq-a">No. Both creators and brands join completely free. You can chat, negotiate and close deals without paying anything. Zeke Shield is an optional upgrade for creators who want Zeke legally standing behind them if a deal goes wrong.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">What exactly does Zeke Shield protect me from? <span class="faq-ic">+</span></div>
+        <div class="faq-a">Shield means Zeke acts as a witness and mediator on your deals. If a brand does not pay, rejects your content unfairly, or ghosts you after delivery - the Zeke team steps in and works to resolve the dispute on your behalf. Your signed PDF agreement becomes the legal document if things need to go further.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">What happens if I have a dispute and I am not a Shield member? <span class="faq-ic">+</span></div>
+        <div class="faq-a">You still have the Zeke platform as your record of the deal and all communications. However Zeke will not actively intervene on your behalf without Shield. Shield is what gives you Zeke's direct support and legal backing.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">How does the PDF agreement work? <span class="faq-ic">+</span></div>
+        <div class="faq-a">Once a Shield member and a brand agree on a deal inside Zeke, the platform automatically generates a PDF contract with both parties details, the agreed deliverables, payment terms, deadline and content rights. Both sides sign it digitally on the platform.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Is Zeke only for Kerala creators? <span class="faq-ic">+</span></div>
+        <div class="faq-a">We are starting with Kerala as our first market because it has one of India's most engaged and underserved creator communities. We want to build something deep and trusted here first before expanding.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">How is Zeke different from just using Instagram DMs? <span class="faq-ic">+</span></div>
+        <div class="faq-a">Instagram DMs have no structure, no paper trail and no recourse if you get burned. Zeke gives you a structured offer system, a negotiation chat, and for Shield members a signed PDF agreement with a team that has your back if things go wrong.</div>
       </div>
     </div>
   </section>
@@ -573,7 +579,7 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
   <section class="cta-banner">
     <div class="cta-inner">
       <h2 class="cta-h2">Kerala's creator economy - starts here.</h2>
-      <p class="cta-sub">Whether you are a brand looking for genuine reach or a creator ready to get paid properly - Zeke is built for you.</p>
+      <p class="cta-sub">Whether you are a brand looking for genuine reach or a creator ready to deal with confidence - Zeke is built for you.</p>
       <div class="cta-btns">
         <button class="btn btn-primary btn-lg" onclick="showPage('register')" style="background:#fff;color:var(--accent);border-color:#fff">Join as a Brand &#8594;</button>
         <button class="btn btn-outline btn-lg" onclick="showRegister('influencer')" style="border-color:rgba(255,255,255,.3);color:#fff">Join as a Creator &#8594;</button>
@@ -771,7 +777,7 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div><div class="sidebar-name">Arjun Nair</div><div class="sidebar-sub">@arjun.nair</div></div>
       </div>
       <button class="sidebar-nav-btn active-tab" id="inf-tab-overview" onclick="switchInfluencerTab('overview')">&#128202; Overview</button>
-      <button class="sidebar-nav-btn" id="inf-tab-offers" onclick="switchInfluencerTab('offers')">&#128236; Offers <span class="sidebar-count">1</span></button>
+      <button class="sidebar-nav-btn" id="inf-tab-offers" onclick="switchInfluencerTab('offers')">&#128236; Offers <span class="sidebar-count">3</span></button>
       <button class="sidebar-nav-btn" id="inf-tab-deals" onclick="switchInfluencerTab('deals')">&#10003; Active Deals</button>
       <button class="sidebar-nav-btn" id="inf-tab-agreements" onclick="switchInfluencerTab('agreements')">&#128196; Agreements</button>
       <div class="sidebar-footer">
@@ -796,9 +802,9 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
           <h1 style="font-size:24px;font-weight:900;color:#fff">Hey, Arjun &#128075;</h1>
           <p style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:24px">Lifestyle &amp; Travel &middot; Kochi, Kerala</p>
           <div class="stats-grid" style="margin-bottom:24px">
-            <div class="stat-card"><div style="color:var(--accent);font-size:16px">&#128236;</div><div class="stat-val">1</div><div class="stat-label">New Offers</div></div>
-            <div class="stat-card"><div style="color:var(--zgreen);font-size:16px">&#10003;</div><div class="stat-val">1</div><div class="stat-label">Active Deal</div></div>
-            <div class="stat-card"><div style="color:var(--gold);font-size:16px">&#128200;</div><div class="stat-val">&#8377;18K</div><div class="stat-label">In Pipeline</div></div>
+            <div class="stat-card"><div style="color:var(--accent);font-size:16px">&#128236;</div><div class="stat-val">3</div><div class="stat-label">New Offers</div></div>
+            <div class="stat-card"><div style="color:var(--zgreen);font-size:16px">&#10003;</div><div class="stat-val">23</div><div class="stat-label">Deals Done</div></div>
+            <div class="stat-card"><div style="color:var(--gold);font-size:16px">&#128200;</div><div class="stat-val">&#8377;4.2L</div><div class="stat-label">Total Earned</div></div>
             <div class="stat-card"><div style="color:var(--gold);font-size:16px">&#11088;</div><div class="stat-val">4.9&#11088;</div><div class="stat-label">Rating</div></div>
           </div>
           <div class="card card-md" style="margin-bottom:24px">
@@ -819,7 +825,7 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div id="inf-offers" class="hidden">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
             <h2 style="font-size:20px;font-weight:900;color:#fff">Offers Inbox</h2>
-            <span class="badge badge-accent badge-dot">1 new</span>
+            <span class="badge badge-accent badge-dot">3 new</span>
           </div>
           <div id="inf-offers-list"></div>
         </div>
@@ -828,8 +834,8 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
           <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:16px">Active Deals</h2>
           <div class="item-card">
             <div class="item-card-header">
-              <div><div style="font-size:14px;font-weight:700;color:#fff">Noon.com</div><div style="font-size:12px;color:#7B84A3">Ramadan Fashion Drop &middot; Instagram Reel &middot; Due Apr 25</div></div>
-              <div style="font-size:14px;font-weight:900;color:var(--zgreen)">&#8377;18,000</div>
+              <div><div style="font-size:14px;font-weight:700;color:#fff">Malabar Gold</div><div style="font-size:12px;color:#7B84A3">Instagram Reel &middot; Due Apr 20</div></div>
+              <div style="font-size:14px;font-weight:900;color:var(--zgreen)">&#8377;25,000</div>
             </div>
             <div style="display:flex;align-items:center;gap:10px">
               <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
@@ -861,9 +867,9 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div><div class="sidebar-name">Noon.com</div><div class="sidebar-sub">Business &middot; Dubai</div></div>
       </div>
       <button class="sidebar-nav-btn active-tab" id="brand-tab-overview" onclick="switchBrandTab('overview')">&#128202; Overview</button>
-      <button class="sidebar-nav-btn" id="brand-tab-campaigns" onclick="switchBrandTab('campaigns')">&#128227; Campaigns <span class="sidebar-count">1</span></button>
+      <button class="sidebar-nav-btn" id="brand-tab-campaigns" onclick="switchBrandTab('campaigns')">&#128227; Campaigns <span class="sidebar-count">2</span></button>
       <button class="sidebar-nav-btn" id="brand-tab-discover" onclick="switchBrandTab('discover')">&#128269; Discover Creators</button>
-      <button class="sidebar-nav-btn" id="brand-tab-deals" onclick="switchBrandTab('deals')">&#128196; Active Deals <span class="sidebar-count">1</span></button>
+      <button class="sidebar-nav-btn" id="brand-tab-deals" onclick="switchBrandTab('deals')">&#128196; Active Deals <span class="sidebar-count">2</span></button>
       <div class="sidebar-footer">
         <button class="sidebar-nav-btn">&#9881; Settings</button>
         <button class="sidebar-nav-btn" onclick="showPage('landing')" style="color:var(--accent)">&#10006; Sign Out</button>
@@ -886,10 +892,10 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
           <h1 style="font-size:24px;font-weight:900;color:#fff">Welcome, Noon.com &#128075;</h1>
           <p style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:24px">Dubai, UAE &middot; Business</p>
           <div class="stats-grid" style="margin-bottom:24px">
-            <div class="stat-card"><div style="color:var(--accent);font-size:16px">&#128227;</div><div class="stat-val">1</div><div class="stat-label">Active Campaign</div></div>
-            <div class="stat-card"><div style="color:var(--zgreen);font-size:16px">&#10003;</div><div class="stat-val">1</div><div class="stat-label">Active Deal</div></div>
-            <div class="stat-card"><div style="color:var(--gold);font-size:16px">&#128200;</div><div class="stat-val">&#8377;18K</div><div class="stat-label">Deal Value</div></div>
-            <div class="stat-card"><div style="color:var(--gold);font-size:16px">&#11088;</div><div class="stat-val">4.9&#11088;</div><div class="stat-label">Creator Rating</div></div>
+            <div class="stat-card"><div style="color:var(--accent);font-size:16px">&#128227;</div><div class="stat-val">8</div><div class="stat-label">Active Campaigns</div></div>
+            <div class="stat-card"><div style="color:var(--zgreen);font-size:16px">&#10003;</div><div class="stat-val">3</div><div class="stat-label">Active Deals</div></div>
+            <div class="stat-card"><div style="color:var(--gold);font-size:16px">&#128200;</div><div class="stat-val">&#8377;2.1L</div><div class="stat-label">Total Spent</div></div>
+            <div class="stat-card"><div style="color:var(--gold);font-size:16px">&#11088;</div><div class="stat-val">4.8&#11088;</div><div class="stat-label">Avg Rating</div></div>
           </div>
           <div class="section-head">
             <div class="section-title">Active Campaigns</div>
@@ -929,9 +935,20 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
             <div class="item-card">
               <div class="item-card-header">
                 <div><div style="font-size:14px;font-weight:700;color:#fff">Arjun Nair</div><div style="font-size:12px;color:#7B84A3">Ramadan Fashion Drop &middot; Instagram Reel</div></div>
-                <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:var(--zgreen)">&#8377;18,000</div><div style="font-size:12px;color:#7B84A3">Due Apr 25</div></div>
+                <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:var(--zgreen)">&#8377;18,000</div><div style="font-size:12px;color:#7B84A3">Due Apr 20</div></div>
               </div>
               <span class="badge badge-green">In Progress</span>
+              <div class="item-actions">
+                <button class="btn btn-outline btn-sm">&#128172; Chat</button>
+                <button class="btn btn-ghost btn-sm">&#128196; Agreement</button>
+              </div>
+            </div>
+            <div class="item-card">
+              <div class="item-card-header">
+                <div><div style="font-size:14px;font-weight:700;color:#fff">Sneha Thomas</div><div style="font-size:12px;color:#7B84A3">Ramadan Fashion Drop &middot; Instagram Post</div></div>
+                <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:var(--zgreen)">&#8377;22,000</div><div style="font-size:12px;color:#7B84A3">Due Apr 22</div></div>
+              </div>
+              <span class="badge badge-gold">Agreement Pending</span>
               <div class="item-actions">
                 <button class="btn btn-outline btn-sm">&#128172; Chat</button>
                 <button class="btn btn-ghost btn-sm">&#128196; Agreement</button>
@@ -954,9 +971,9 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div><div class="sidebar-name">Admin Panel</div><div class="sidebar-sub">Zeke HQ</div></div>
       </div>
       <button class="sidebar-nav-btn active-tab-admin" id="admin-tab-overview" onclick="switchAdminTab('overview')">&#128202; Overview</button>
-      <button class="sidebar-nav-btn" id="admin-tab-verifications" onclick="switchAdminTab('verifications')">&#128737; Verifications <span class="sidebar-count">1</span></button>
-      <button class="sidebar-nav-btn" id="admin-tab-shield" onclick="switchAdminTab('shield')">&#9889; Shield Requests <span class="sidebar-count">1</span></button>
-      <button class="sidebar-nav-btn" id="admin-tab-disputes" onclick="switchAdminTab('disputes')">&#9888; Disputes <span class="sidebar-count">1</span></button>
+      <button class="sidebar-nav-btn" id="admin-tab-verifications" onclick="switchAdminTab('verifications')">&#128737; Verifications <span class="sidebar-count">14</span></button>
+      <button class="sidebar-nav-btn" id="admin-tab-shield" onclick="switchAdminTab('shield')">&#9889; Shield Requests <span class="sidebar-count">2</span></button>
+      <button class="sidebar-nav-btn" id="admin-tab-disputes" onclick="switchAdminTab('disputes')">&#9888; Disputes <span class="sidebar-count">3</span></button>
       <button class="sidebar-nav-btn" id="admin-tab-deals" onclick="switchAdminTab('deals')">&#128196; All Deals</button>
       <div class="sidebar-footer">
         <button class="sidebar-nav-btn">&#9881; Settings</button>
@@ -977,27 +994,27 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <!-- Overview -->
         <div id="admin-overview">
           <h1 style="font-size:24px;font-weight:900;color:#fff">Admin Overview</h1>
-          <p style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:24px">Platform demo &middot; April 2026</p>
+          <p style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:24px">Platform health &middot; April 2026</p>
           <div class="stats-grid" style="margin-bottom:24px">
-            <div class="stat-card"><div style="color:var(--accent);font-size:16px">&#128101;</div><div class="stat-val">1</div><div class="stat-label">Total Creators</div></div>
-            <div class="stat-card"><div style="color:var(--zblue);font-size:16px">&#127970;</div><div class="stat-val">1</div><div class="stat-label">Total Brands</div></div>
-            <div class="stat-card"><div style="color:var(--gold);font-size:16px">&#128737;</div><div class="stat-val">0</div><div class="stat-label">Shield Members</div></div>
-            <div class="stat-card"><div style="color:var(--zgreen);font-size:16px">&#128200;</div><div class="stat-val">&#8377;18K</div><div class="stat-label">Deal Pipeline</div></div>
+            <div class="stat-card"><div style="color:var(--accent);font-size:16px">&#128101;</div><div class="stat-val">1,243</div><div class="stat-label">Total Creators</div></div>
+            <div class="stat-card"><div style="color:var(--zblue);font-size:16px">&#127970;</div><div class="stat-val">347</div><div class="stat-label">Total Brands</div></div>
+            <div class="stat-card"><div style="color:var(--gold);font-size:16px">&#128737;</div><div class="stat-val">412</div><div class="stat-label">Shield Members</div></div>
+            <div class="stat-card"><div style="color:var(--zgreen);font-size:16px">&#128200;</div><div class="stat-val">&#8377;8.3L</div><div class="stat-label">Monthly Revenue</div></div>
           </div>
           <div class="action-cards" style="margin-bottom:24px">
             <div class="action-card card-glow-gold" onclick="switchAdminTab('verifications')">
               <div class="action-icon" style="background:rgba(217,119,6,.1)">&#128737;</div>
-              <div><div class="action-val">1 Pending</div><div class="action-label">Verifications</div></div>
+              <div><div class="action-val">14 Pending</div><div class="action-label">Verifications</div></div>
               <span style="color:#7B84A3;margin-left:auto">&rarr;</span>
             </div>
             <div class="action-card card-glow-accent" onclick="switchAdminTab('disputes')">
               <div class="action-icon" style="background:rgba(233,69,96,.1)">&#9888;</div>
-              <div><div class="action-val">1 Open</div><div class="action-label">Disputes</div></div>
+              <div><div class="action-val">3 Open</div><div class="action-label">Disputes</div></div>
               <span style="color:#7B84A3;margin-left:auto">&rarr;</span>
             </div>
             <div class="action-card card-glow-green">
               <div class="action-icon" style="background:rgba(5,150,105,.1)">&#128200;</div>
-              <div><div class="action-val">Demo</div><div class="action-label">Platform Active</div></div>
+              <div><div class="action-val">+23%</div><div class="action-label">Monthly Growth</div></div>
             </div>
           </div>
           <div class="section-head">
@@ -1010,7 +1027,7 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div id="admin-verifications" class="hidden">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
             <h2 style="font-size:20px;font-weight:900;color:#fff">Verification Queue</h2>
-            <span class="badge badge-gold">1 pending</span>
+            <span class="badge badge-gold">4 pending</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px" id="verif-list"></div>
         </div>
@@ -1018,18 +1035,29 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div id="admin-shield" class="hidden">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
             <h2 style="font-size:20px;font-weight:900;color:#fff">Zeke Shield Requests</h2>
-            <span class="badge badge-gold">1 pending</span>
+            <span class="badge badge-gold">2 pending</span>
           </div>
           <p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Creators who paid &#8377;1,999 and are awaiting Shield badge activation.</p>
           <div style="display:flex;flex-direction:column;gap:12px">
             <div class="item-card" style="flex-direction:row;align-items:center;gap:14px">
-              <div class="creator-avatar">AN</div>
+              <div class="creator-avatar">AK</div>
               <div style="flex:1">
-                <div style="display:flex;align-items:center;gap:8px"><div style="font-size:14px;font-weight:700;color:#fff">Arjun Nair</div><span class="badge badge-green badge-dot">Payment Confirmed</span></div>
-                <div style="font-size:12px;color:#7B84A3">@arjun.nair &middot; 48.2K followers &middot; Lifestyle &amp; Travel</div>
+                <div style="display:flex;align-items:center;gap:8px"><div style="font-size:14px;font-weight:700;color:#fff">Arun Kumar</div><span class="badge badge-green badge-dot">Payment Confirmed</span></div>
+                <div style="font-size:12px;color:#7B84A3">@arun.k &middot; 22K followers &middot; Travel</div>
               </div>
               <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
                 <span style="font-size:12px;color:#7B84A3">1h ago</span>
+                <button class="btn btn-primary btn-sm">Activate Shield</button>
+              </div>
+            </div>
+            <div class="item-card" style="flex-direction:row;align-items:center;gap:14px">
+              <div class="creator-avatar">MN</div>
+              <div style="flex:1">
+                <div style="display:flex;align-items:center;gap:8px"><div style="font-size:14px;font-weight:700;color:#fff">Meera Nair</div><span class="badge badge-green badge-dot">Payment Confirmed</span></div>
+                <div style="font-size:12px;color:#7B84A3">@meera.lifestyle &middot; 45K followers &middot; Lifestyle</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+                <span style="font-size:12px;color:#7B84A3">4h ago</span>
                 <button class="btn btn-primary btn-sm">Activate Shield</button>
               </div>
             </div>
@@ -1039,15 +1067,27 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
         <div id="admin-disputes" class="hidden">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
             <h2 style="font-size:20px;font-weight:900;color:#fff">Dispute Management</h2>
-            <span class="badge badge-accent">1 open</span>
+            <span class="badge badge-accent">2 open</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px">
             <div class="item-card card-glow-accent">
               <div class="item-card-header">
-                <div><div style="font-size:14px;font-weight:700;color:#fff">Arjun Nair vs Noon.com</div><div style="font-size:12px;color:#7B84A3;margin-top:3px">Content not approved after delivery</div></div>
-                <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:var(--accent)">&#8377;18,000</div><div style="font-size:12px;color:#7B84A3">2 days ago</div></div>
+                <div><div style="font-size:14px;font-weight:700;color:#fff">Rahul M vs ShopEasy</div><div style="font-size:12px;color:#7B84A3;margin-top:3px">Late delivery of content</div></div>
+                <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:var(--accent)">&#8377;15,000</div><div style="font-size:12px;color:#7B84A3">3 days ago</div></div>
               </div>
               <span class="badge badge-accent">Open</span>
+              <div class="item-actions">
+                <button class="btn btn-outline btn-sm">View Agreement</button>
+                <button class="btn btn-primary btn-sm">Open Chat</button>
+                <button class="btn-approve" style="margin-left:auto">&#10003; Resolve</button>
+              </div>
+            </div>
+            <div class="item-card card-glow-accent">
+              <div class="item-card-header">
+                <div><div style="font-size:14px;font-weight:700;color:#fff">Priya K vs FitLife UAE</div><div style="font-size:12px;color:#7B84A3;margin-top:3px">Payment not received</div></div>
+                <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:var(--accent)">&#8377;8,000</div><div style="font-size:12px;color:#7B84A3">1 week ago</div></div>
+              </div>
+              <span class="badge badge-gold">Reviewing</span>
               <div class="item-actions">
                 <button class="btn btn-outline btn-sm">View Agreement</button>
                 <button class="btn btn-primary btn-sm">Open Chat</button>
@@ -1069,19 +1109,31 @@ footer{background:#12152B;border-top:1px solid var(--border);padding:48px 24px 2
 <script>
 // ════════════════════════════════════════ DATA
 var offers = [
-  {id:'1',brand:'Noon.com',logo:'N',campaign:'Ramadan Fashion Drop',budget:'&#8377;18,000',deadline:'3 days',status:'pending',platform:'Instagram Reel'}
+  {id:'1',brand:'Noon.com',logo:'N',campaign:'Ramadan Fashion Drop',budget:'&#8377;18,000',deadline:'3 days',status:'pending',platform:'Instagram Reel'},
+  {id:'2',brand:'Dubai Tourism',logo:'DT',campaign:'Kerala Heritage Series',budget:'&#8377;35,000',deadline:'5 days',status:'negotiating',platform:'YouTube + IG'},
+  {id:'3',brand:'Lulu Hypermarket',logo:'LL',campaign:'Onam 2025 Deals',budget:'&#8377;12,000',deadline:'1 day',status:'expiring',platform:'Instagram Story'}
 ];
 var campaigns = [
-  {id:'1',title:'Ramadan Fashion Drop',niche:'Fashion',budget:'&#8377;80,000',deadline:'Apr 25',applicants:12,status:'active'}
+  {id:'1',title:'Ramadan Fashion Drop',niche:'Fashion',budget:'&#8377;80,000',deadline:'Apr 25',applicants:12,status:'active'},
+  {id:'2',title:'Summer Sale Push',niche:'Lifestyle',budget:'&#8377;45,000',deadline:'May 10',applicants:5,status:'active'},
+  {id:'3',title:'Tech Accessories Launch',niche:'Tech',budget:'&#8377;30,000',deadline:'Apr 18',applicants:8,status:'paused'}
 ];
 var creators = [
-  {id:'1',name:'Arjun Nair',handle:'@arjun.nair',niche:'Lifestyle &amp; Travel',location:'Kochi',followers:'48.2K',rating:'4.9',shielded:true,avatar:'AN'}
+  {id:'1',name:'Arjun Nair',handle:'@arjun.nair',niche:'Lifestyle & Travel',location:'Kochi',followers:'48.2K',rating:'4.9',shielded:true,avatar:'AN'},
+  {id:'2',name:'Sneha Thomas',handle:'@sneha.t',niche:'Food & Cooking',location:'Thrissur',followers:'62.1K',rating:'4.7',shielded:true,avatar:'ST'},
+  {id:'3',name:'Rahul Menon',handle:'@rahul.menon',niche:'Tech & Gadgets',location:'Trivandrum',followers:'31.5K',rating:'4.5',shielded:false,avatar:'RM'},
+  {id:'4',name:'Divya Krishnan',handle:'@divya.k',niche:'Fashion & Beauty',location:'Calicut',followers:'89.3K',rating:'4.8',shielded:true,avatar:'DK'}
 ];
 var verifications = [
-  {id:'1',name:'Arjun Nair',type:'Influencer',niche:'Lifestyle &amp; Travel',location:'Kochi',submitted:'2h ago',status:'pending'}
+  {id:'1',name:'StyleByAsha',type:'Influencer',niche:'Fashion',location:'Kochi',submitted:'2h ago',status:'pending'},
+  {id:'2',name:'FoodieKerala',type:'Influencer',niche:'Food',location:'Thrissur',submitted:'5h ago',status:'pending'},
+  {id:'3',name:'GreenLeaf Organics',type:'Brand',niche:'NGO',location:'Trivandrum',submitted:'1d ago',status:'pending'},
+  {id:'4',name:'TechZone Dubai',type:'Brand',niche:'Tech',location:'Dubai',submitted:'1d ago',status:'review'}
 ];
 var recentDeals = [
-  {id:'1',creator:'Arjun Nair',brand:'Noon.com',amount:'&#8377;18,000',status:'active',platform:'Instagram'}
+  {id:'1',creator:'Arjun Nair',brand:'Noon.com',amount:'&#8377;18,000',status:'active',platform:'Instagram'},
+  {id:'2',creator:'Sneha T',brand:'Lulu',amount:'&#8377;12,000',status:'completed',platform:'YouTube'},
+  {id:'3',creator:'Divya K',brand:'Dubai Tourism',amount:'&#8377;35,000',status:'agreement',platform:'Instagram'}
 ];
 
 // ════════════════════════════════════════ ROUTING
@@ -1089,16 +1141,20 @@ var currentPage = 'landing';
 var currentRole = 'influencer';
 
 function showPage(page) {
+  document.body.style.background = '#0B0D1A';
+  document.documentElement.style.background = '#0B0D1A';
   var pages = ['landing','login','register','influencer','brand','admin'];
-  for (var i = 0; i < pages.length; i++) {
-    var el = document.getElementById(pages[i] + '-page');
-    if (el) el.classList.remove('active');
-  }
   var target = document.getElementById(page + '-page');
-  if (target) {
-    target.classList.add('active');
-    window.scrollTo(0,0);
+  if (target) target.classList.add('active');
+  for (var i = 0; i < pages.length; i++) {
+    if (pages[i] !== page) {
+      var el = document.getElementById(pages[i] + '-page');
+      if (el) el.classList.remove('active');
+    }
   }
+  if (target) target.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
   currentPage = page;
   closeMobileMenu();
   var navLinks = document.getElementById('nav-links');
@@ -1387,6 +1443,20 @@ function toggleMobileMenu() {
 function closeMobileMenu() {
   var dd = document.getElementById('nav-dropdown');
   if (dd) dd.classList.remove('open');
+}
+function toggleFaq(item) {
+  var isOpen = item.classList.contains('open');
+  var allItems = document.querySelectorAll('.faq-item');
+  for (var i = 0; i < allItems.length; i++) {
+    allItems[i].classList.remove('open');
+    var a = allItems[i].querySelector('.faq-a');
+    if (a) a.classList.remove('open');
+  }
+  if (!isOpen) {
+    item.classList.add('open');
+    var ans = item.querySelector('.faq-a');
+    if (ans) ans.classList.add('open');
+  }
 }
 
 document.getElementById('year').textContent = new Date().getFullYear();
