@@ -2138,25 +2138,25 @@ function renderCancel(d) {
     html = '<div style="font-size:12px;color:#7B84A3;line-height:1.7;margin-bottom:12px">You can request cancellation. The brand will be notified and must agree before the deal is cancelled.</div><textarea id="cancel-reason" placeholder="Reason for cancellation..." style="width:100%;background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif;resize:vertical;min-height:80px;margin-bottom:10px"></textarea><button class="btn btn-sm btn-full" onclick="requestCancel()" style="background:rgba(233,69,96,.1);color:#E94560;border:1px solid rgba(233,69,96,.3);border-radius:8px;padding:10px;font-weight:700;font-family:Inter,sans-serif">Send Cancellation Request</button>';
 
 }
-document.getElementById(‘cancel-content’).innerHTML = html;
+document.getElementById('cancel-content').innerHTML = html;
 }
 
 function requestCancel() {
-var reason = document.getElementById(‘cancel-reason’) ? document.getElementById(‘cancel-reason’).value.trim() : ‘’;
-if (!reason) { alert(‘Please provide a reason for cancellation.’); return; }
-document.getElementById(‘cancel-content’).innerHTML = ‘<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:10px;padding:12px;font-size:12px;color:#D97706;font-weight:600">\u29e8 Cancellation request sent to “ + activeDeal + “. Waiting for their response.</div>’;
+var reason = document.getElementById('cancel-reason') ? document.getElementById('cancel-reason').value.trim() : '';
+if (!reason) { alert('Please provide a reason for cancellation.'); return; }
+document.getElementById('cancel-content').innerHTML = '<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:10px;padding:12px;font-size:12px;color:#D97706;font-weight:600">\u29e8 Cancellation request sent to " + activeDeal + ". Waiting for their response.</div>';
 }
 
 // ─── DEAL INNER TABS ─────────────────────────────────────
 function switchDealTab(key) {
-[‘overview’,‘submissions’,‘finallink’,‘payment’,‘cancel’].forEach(function(p) {
-var el = document.getElementById(‘dpanel-’ + p);
-if (el) el.classList.toggle(‘hidden’, p !== key);
-var btn = document.getElementById(‘dtab-’ + p);
+['overview','submissions','finallink','payment','cancel'].forEach(function(p) {
+var el = document.getElementById('dpanel-' + p);
+if (el) el.classList.toggle('hidden', p !== key);
+var btn = document.getElementById('dtab-' + p);
 if (!btn) return;
-btn.className = ‘deal-tab’ + (p === key ? ’ active’ : ‘’);
-if (p === ‘cancel’) btn.style.color = p === key ? ‘#E94560’ : ‘rgba(233,69,96,.5)’;
-else btn.style.color = ‘’;
+btn.className = 'deal-tab' + (p === key ? ' active' : '');
+if (p === 'cancel') btn.style.color = p === key ? '#E94560' : 'rgba(233,69,96,.5)';
+else btn.style.color = '';
 });
 }
 
@@ -2164,160 +2164,160 @@ else btn.style.color = ‘’;
 function handleFileSelect(input) {
 if (!input.files.length) return;
 var file = input.files[0];
-document.getElementById(‘sub-file-name’).textContent = file.name;
-document.getElementById(‘sub-file-size’).textContent = (file.size / 1048576).toFixed(1) + ’ MB’;
-document.getElementById(‘sub-file-preview’).classList.remove(‘hidden’);
-document.getElementById(‘sub-upload-area’).style.display = ‘none’;
+document.getElementById('sub-file-name').textContent = file.name;
+document.getElementById('sub-file-size').textContent = (file.size / 1048576).toFixed(1) + ' MB';
+document.getElementById('sub-file-preview').classList.remove('hidden');
+document.getElementById('sub-upload-area').style.display = 'none';
 }
 
 function removeSubFile() {
-document.getElementById(‘sub-file-preview’).classList.add(‘hidden’);
-document.getElementById(‘sub-upload-area’).style.display = ‘’;
-document.getElementById(‘sub-file’).value = ‘’;
+document.getElementById('sub-file-preview').classList.add('hidden');
+document.getElementById('sub-upload-area').style.display = '';
+document.getElementById('sub-file').value = '';
 }
 
 function submitFile() {
-var preview = document.getElementById(‘sub-file-preview’);
-if (preview.classList.contains(‘hidden’)) { alert(‘Please upload a file first.’); return; }
-document.getElementById(‘submissions-content’).innerHTML = ‘<div style="background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px;font-size:13px;color:#059669;font-weight:600;display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>File submitted. Awaiting brand review.</div>’;
+var preview = document.getElementById('sub-file-preview');
+if (preview.classList.contains('hidden')) { alert('Please upload a file first.'); return; }
+document.getElementById('submissions-content').innerHTML = '<div style="background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px;font-size:13px;color:#059669;font-weight:600;display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>File submitted. Awaiting brand review.</div>';
 }
 
 // Init
 updateChecklistProgress();
 
 function updateChecklistProgress() {
-var bar = document.getElementById(‘checklist-bar’);
-if (bar) bar.style.width = ‘100%’;
+var bar = document.getElementById('checklist-bar');
+if (bar) bar.style.width = '100%';
 }
 
 // ═══ BRAND JS ═══
-var campaigns = [{id:‘1’,title:‘Eid Collection’,niche:‘Fashion’,budget:’₹45,000’,deadline:‘Apr 25’,applicants:1,status:‘active’}];
-var creators = [{id:‘1’,name:‘Aligerouszz’,handle:’@aligerouszz’,niche:‘Fashion & Lifestyle’,location:‘Dubai’,followers:‘284K’,rating:‘4.9’,shielded:true,avatar:‘AL’}];
+var campaigns = [{id:'1',title:'Eid Collection',niche:'Fashion',budget:'₹45,000',deadline:'Apr 25',applicants:1,status:'active'}];
+var creators = [{id:'1',name:'Aligerouszz',handle:'@aligerouszz',niche:'Fashion & Lifestyle',location:'Dubai',followers:'284K',rating:'4.9',shielded:true,avatar:'AL'}];
 
 function bSwitchTab(tab) {
-var tabs = [‘overview’,‘campaigns’,‘discover’,‘deals’];
+var tabs = ['overview','campaigns','discover','deals'];
 tabs.forEach(function(t) {
-var el = document.getElementById(‘tab-’ + t);
-if (el) el.classList.toggle(‘hidden’, t !== tab);
-var btn = document.getElementById(‘brand-tab-’ + t);
-if (btn) btn.className = ‘sidebar-nav-btn’ + (t === tab ? ’ active-tab’ : ‘’);
+var el = document.getElementById('tab-' + t);
+if (el) el.classList.toggle('hidden', t !== tab);
+var btn = document.getElementById('brand-tab-' + t);
+if (btn) btn.className = 'sidebar-nav-btn' + (t === tab ? ' active-tab' : '');
 });
 }
 
 function bSetMob(tab) {
-[‘overview’,‘campaigns’,‘discover’,‘deals’].forEach(function(t) {
-var b = document.getElementById(‘mob-’ + t);
-if (b) b.className = ‘mob-nav-btn’ + (t === tab ? ’ active’ : ‘’);
+['overview','campaigns','discover','deals'].forEach(function(t) {
+var b = document.getElementById('mob-' + t);
+if (b) b.className = 'mob-nav-btn' + (t === tab ? ' active' : '');
 });
 }
 
 function renderCampaigns(id, count, expanded) {
 var c = document.getElementById(id); if (!c) return;
-var html = ‘’;
+var html = '';
 for (var i = 0; i < Math.min(count, campaigns.length); i++) {
 var item = campaigns[i];
-html += ‘<div class="item-card" style="margin-bottom:12px">’;
-html += ‘<div class="item-card-header"><div><div style="font-size:14px;font-weight:700;color:#fff">’ + item.title + ‘</div>’;
-html += ‘<div style="font-size:12px;color:#7B84A3">’ + item.niche + ’ · Deadline ’ + item.deadline + ‘</div></div>’;
-html += ‘<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#D97706">’ + item.budget + ‘</div>’;
-html += ‘<span class="badge badge-green" style="margin-top:4px">Active</span></div></div>’;
-html += ‘<div class="item-meta"><span>👥 <span style="color:#fff;font-weight:600">’ + item.applicants + ‘</span> applicants</span></div>’;
-if (expanded) html += ‘<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1">View Applicants</button><button class="btn btn-outline btn-sm">Edit</button></div>’;
-html += ‘</div>’;
+html += '<div class="item-card" style="margin-bottom:12px">';
+html += '<div class="item-card-header"><div><div style="font-size:14px;font-weight:700;color:#fff">' + item.title + '</div>';
+html += '<div style="font-size:12px;color:#7B84A3">' + item.niche + ' · Deadline ' + item.deadline + '</div></div>';
+html += '<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#D97706">' + item.budget + '</div>';
+html += '<span class="badge badge-green" style="margin-top:4px">Active</span></div></div>';
+html += '<div class="item-meta"><span>👥 <span style="color:#fff;font-weight:600">' + item.applicants + '</span> applicants</span></div>';
+if (expanded) html += '<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1">View Applicants</button><button class="btn btn-outline btn-sm">Edit</button></div>';
+html += '</div>';
 }
-c.innerHTML = html || ‘<div class="empty-state">📣<br>No campaigns yet. Create your first one.</div>’;
+c.innerHTML = html || '<div class="empty-state">📣<br>No campaigns yet. Create your first one.</div>';
 }
 
 function renderCreatorsGrid(id, data, expanded) {
 var c = document.getElementById(id); if (!c) return;
-var html = ‘’;
+var html = '';
 for (var i = 0; i < data.length; i++) {
 var item = data[i];
-html += ‘<div class="creator-card"><div class="creator-card-top">’;
-html += ‘<div class="creator-avatar">’ + item.avatar + ‘</div>’;
-html += ‘<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:6px">’;
-html += ‘<div style="font-size:14px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">’ + item.name + ‘</div>’;
-if (item.shielded) html += ‘<span style="color:#D97706" title="Zeke Shield">🛡</span>’;
-html += ‘</div><div style="font-size:12px;color:#7B84A3">’ + item.handle + ‘</div></div>’;
-html += ‘<div style="text-align:right;flex-shrink:0"><div class="creator-followers">’ + item.followers + ‘</div>’;
-html += ’<div class="creator-rating">⭐ ’ + item.rating + ‘</div></div></div>’;
-html += ’<div class="creator-meta"><span>📍 ’ + item.location + ‘</span><span>’ + item.niche + ‘</span></div>’;
-if (expanded) html += ‘<div class="creator-actions"><button class="btn btn-primary btn-sm" style="flex:1">Send Offer</button><button class="btn btn-outline btn-sm">View Profile</button></div>’;
-html += ‘</div>’;
+html += '<div class="creator-card"><div class="creator-card-top">';
+html += '<div class="creator-avatar">' + item.avatar + '</div>';
+html += '<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:6px">';
+html += '<div style="font-size:14px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + '</div>';
+if (item.shielded) html += '<span style="color:#D97706" title="Zeke Shield">🛡</span>';
+html += '</div><div style="font-size:12px;color:#7B84A3">' + item.handle + '</div></div>';
+html += '<div style="text-align:right;flex-shrink:0"><div class="creator-followers">' + item.followers + '</div>';
+html += '<div class="creator-rating">⭐ ' + item.rating + '</div></div></div>';
+html += '<div class="creator-meta"><span>📍 ' + item.location + '</span><span>' + item.niche + '</span></div>';
+if (expanded) html += '<div class="creator-actions"><button class="btn btn-primary btn-sm" style="flex:1">Send Offer</button><button class="btn btn-outline btn-sm">View Profile</button></div>';
+html += '</div>';
 }
-c.innerHTML = html || ‘<div class="empty-state">🔍<br>No creators found.</div>’;
+c.innerHTML = html || '<div class="empty-state">🔍<br>No creators found.</div>';
 }
 
 function filterCreators() {
-var q = document.getElementById(‘creator-search’).value.toLowerCase();
+var q = document.getElementById('creator-search').value.toLowerCase();
 var filtered = creators.filter(function(c) { return c.name.toLowerCase().indexOf(q) !== -1 || c.niche.toLowerCase().indexOf(q) !== -1; });
-renderCreatorsGrid(‘creators-grid’, filtered, true);
+renderCreatorsGrid('creators-grid', filtered, true);
 }
 
-renderCampaigns(‘boverview-campaigns’, 2, false);
-renderCampaigns(‘bcampaigns-list’, campaigns.length, true);
-renderCreatorsGrid(‘boverview-creators’, creators.filter(function(c){return c.shielded;}).slice(0,2), false);
-renderCreatorsGrid(‘creators-grid’, creators, true);
+renderCampaigns('boverview-campaigns', 2, false);
+renderCampaigns('bcampaigns-list', campaigns.length, true);
+renderCreatorsGrid('boverview-creators', creators.filter(function(c){return c.shielded;}).slice(0,2), false);
+renderCreatorsGrid('creators-grid', creators, true);
 
 // ═══ ADMIN JS ═══
-var verifications = [{id:‘1’,name:‘Aligerouszz’,type:‘Influencer’,niche:‘Fashion & Lifestyle’,location:‘Dubai’,submitted:‘2h ago’,status:‘pending’}];
-var recentDeals = [{id:‘1’,creator:‘Aligerouszz’,brand:‘Lulu Hypermarket’,amount:’₹45,000’,status:‘completed’,platform:‘Instagram Reel’}];
+var verifications = [{id:'1',name:'Aligerouszz',type:'Influencer',niche:'Fashion & Lifestyle',location:'Dubai',submitted:'2h ago',status:'pending'}];
+var recentDeals = [{id:'1',creator:'Aligerouszz',brand:'Lulu Hypermarket',amount:'₹45,000',status:'completed',platform:'Instagram Reel'}];
 
 function aSwitchTab(tab) {
-var tabs = [‘overview’,‘verifications’,‘shield’,‘disputes’,‘deals’];
+var tabs = ['overview','verifications','shield','disputes','deals'];
 tabs.forEach(function(t) {
-var el = document.getElementById(‘tab-’ + t);
-if (el) el.classList.toggle(‘hidden’, t !== tab);
-var btn = document.getElementById(‘admin-tab-’ + t);
-if (btn) btn.className = ‘sidebar-nav-btn’ + (t === tab ? ’ active-tab’ : ‘’);
+var el = document.getElementById('tab-' + t);
+if (el) el.classList.toggle('hidden', t !== tab);
+var btn = document.getElementById('admin-tab-' + t);
+if (btn) btn.className = 'sidebar-nav-btn' + (t === tab ? ' active-tab' : '');
 });
 }
 
 function aSetMob(tab) {
-[‘overview’,‘verifications’,‘disputes’,‘deals’].forEach(function(t) {
-var b = document.getElementById(‘mob-’ + t);
-if (b) b.className = ‘mob-nav-btn’ + (t === tab ? ’ active’ : ‘’);
+['overview','verifications','disputes','deals'].forEach(function(t) {
+var b = document.getElementById('mob-' + t);
+if (b) b.className = 'mob-nav-btn' + (t === tab ? ' active' : '');
 });
 }
 
 function renderDealsTable(id, data, expanded) {
 var c = document.getElementById(id); if (!c) return;
-var statusMap = {active:{label:‘Active’,cls:‘badge-green’},completed:{label:‘Completed’,cls:‘badge-muted’},agreement:{label:‘Agreement’,cls:‘badge-gold’}};
-var html = ‘’;
+var statusMap = {active:{label:'Active',cls:'badge-green'},completed:{label:'Completed',cls:'badge-muted'},agreement:{label:'Agreement',cls:'badge-gold'}};
+var html = '';
 for (var i = 0; i < data.length; i++) {
 var d = data[i];
 var s = statusMap[d.status] || statusMap.active;
-html += ‘<div class="item-card" style="margin-bottom:8px;flex-direction:row;align-items:center;gap:12px;padding:14px 16px">’;
-html += ‘<div style="flex:1;min-width:0"><div style="font-size:14px;color:#fff;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">’ + d.creator + ’ × ’ + d.brand + ‘</div>’;
-html += ‘<div style="font-size:12px;color:#7B84A3">’ + d.platform + ‘</div></div>’;
-html += ‘<div style="font-size:14px;font-weight:900;color:#fff;flex-shrink:0">’ + d.amount + ‘</div>’;
-html += ‘<span class="badge ' + s.cls + '">’ + s.label + ‘</span>’;
-if (expanded) html += ‘<button class="btn btn-ghost btn-sm">👁</button>’;
-html += ‘</div>’;
+html += '<div class="item-card" style="margin-bottom:8px;flex-direction:row;align-items:center;gap:12px;padding:14px 16px">';
+html += '<div style="flex:1;min-width:0"><div style="font-size:14px;color:#fff;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + d.creator + ' × ' + d.brand + '</div>';
+html += '<div style="font-size:12px;color:#7B84A3">' + d.platform + '</div></div>';
+html += '<div style="font-size:14px;font-weight:900;color:#fff;flex-shrink:0">' + d.amount + '</div>';
+html += '<span class="badge ' + s.cls + '">' + s.label + '</span>';
+if (expanded) html += '<button class="btn btn-ghost btn-sm">👁</button>';
+html += '</div>';
 }
-c.innerHTML = html || ‘<div class="empty-state">📄<br>No deals yet.</div>’;
+c.innerHTML = html || '<div class="empty-state">📄<br>No deals yet.</div>';
 }
 
 function renderVerifications() {
-var c = document.getElementById(‘verif-list’); if (!c) return;
-var html = ‘’;
+var c = document.getElementById('verif-list'); if (!c) return;
+var html = '';
 for (var i = 0; i < verifications.length; i++) {
 var v = verifications[i];
-html += ‘<div class="item-card"><div class="item-card-header">’;
-html += ‘<div style="display:flex;align-items:center;gap:10px">’;
-html += ‘<div class="item-avatar">’ + v.name.slice(0,2).toUpperCase() + ‘</div>’;
-html += ‘<div><div style="font-size:14px;font-weight:700;color:#fff">’ + v.name + ‘</div>’;
-html += ‘<div style="font-size:12px;color:#7B84A3">’ + v.type + ’ · ’ + v.niche + ’ · ’ + v.location + ‘</div></div></div>’;
-html += ‘<div style="text-align:right"><span class="badge badge-muted">Pending</span>’;
-html += ‘<div style="font-size:11px;color:#7B84A3;margin-top:4px">’ + v.submitted + ‘</div></div></div>’;
-html += ‘<div class="verif-card-actions"><button class="btn-approve">✓ Approve</button><button class="btn-reject">✖ Reject</button>’;
-html += ‘<button class="btn btn-ghost btn-sm">👁 View Profile</button></div></div>’;
+html += '<div class="item-card"><div class="item-card-header">';
+html += '<div style="display:flex;align-items:center;gap:10px">';
+html += '<div class="item-avatar">' + v.name.slice(0,2).toUpperCase() + '</div>';
+html += '<div><div style="font-size:14px;font-weight:700;color:#fff">' + v.name + '</div>';
+html += '<div style="font-size:12px;color:#7B84A3">' + v.type + ' · ' + v.niche + ' · ' + v.location + '</div></div></div>';
+html += '<div style="text-align:right"><span class="badge badge-muted">Pending</span>';
+html += '<div style="font-size:11px;color:#7B84A3;margin-top:4px">' + v.submitted + '</div></div></div>';
+html += '<div class="verif-card-actions"><button class="btn-approve">✓ Approve</button><button class="btn-reject">✖ Reject</button>';
+html += '<button class="btn btn-ghost btn-sm">👁 View Profile</button></div></div>';
 }
 c.innerHTML = html;
 }
 
-renderDealsTable(‘recent-deals’, recentDeals, false);
-renderDealsTable(‘all-deals’, recentDeals, true);
+renderDealsTable('recent-deals', recentDeals, false);
+renderDealsTable('all-deals', recentDeals, true);
 renderVerifications();
 </script>
 
