@@ -12,9 +12,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230B0D1A'/><text y='.9em' font-size='80' x='10' fill='white'>z</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════ */
+/* RESET & BASE */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--dark:#0B0D1A;--navy:#12152B;--card:#181C35;--border:#252A45;--accent:#E94560;--gold:#D97706;--zgreen:#059669;--muted:#7B84A3;--light:#C8D0E7}
 html,body{background:#0B0D1A!important;min-height:100%;overflow-x:hidden}
@@ -28,9 +26,7 @@ input,select,textarea{font-family:'Inter',sans-serif}
 ::-webkit-scrollbar-track{background:#0B0D1A}
 ::-webkit-scrollbar-thumb{background:#252A45;border-radius:3px}
 
-/* ═══════════════════════════════════════
-SHARED COMPONENTS
-═══════════════════════════════════════ */
+/* SHARED COMPONENTS */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;letter-spacing:.02em;transition:color .15s,background .15s,border-color .15s,opacity .15s;cursor:pointer;border-radius:10px;border:1px solid transparent;font-family:‘Inter’,sans-serif}
 .btn-sm{padding:6px 16px;font-size:12px;border-radius:8px}
 .btn-md{padding:10px 24px;font-size:14px}
@@ -58,9 +54,7 @@ SHARED COMPONENTS
 .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:60px 20px;text-align:center;color:#7B84A3;font-size:14px}
 .error-msg{font-size:12px;color:#E94560;background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.2);border-radius:10px;padding:8px 12px}
 
-/* ═══════════════════════════════════════
-NAVBAR (shared)
-═══════════════════════════════════════ */
+/* NAVBAR */
 #top-nav{position:sticky;top:0;z-index:200;background:rgba(18,21,43,.92);backdrop-filter:blur(12px);border-bottom:1px solid #252A45}
 .nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px;cursor:pointer}
@@ -68,9 +62,7 @@ NAVBAR (shared)
 .notif-btn{position:relative;color:#7B84A3;background:none;border:none;cursor:pointer;padding:2px}
 .notif-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#E94560;border-radius:50%}
 
-/* ═══════════════════════════════════════
-DASHBOARD LAYOUT (shared)
-═══════════════════════════════════════ */
+/* DASHBOARD LAYOUT */
 .dash-layout{display:flex;min-height:calc(100vh - 64px)}
 .sidebar{width:224px;background:#12152B;border-right:1px solid #252A45;padding:24px 16px;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
 .sidebar-profile{display:flex;align-items:center;gap:10px;padding:0 8px 20px;margin-bottom:12px;border-bottom:1px solid #252A45}
@@ -80,7 +72,6 @@ DASHBOARD LAYOUT (shared)
 .sidebar-nav-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;font-size:14px;font-weight:500;transition:color .15s,background .15s;color:#7B84A3;cursor:pointer;border:none;background:none;width:100%;text-align:left}
 .sidebar-nav-btn:hover{color:#C8D0E7;background:rgba(255,255,255,.05)}
 .sidebar-nav-btn.active-tab{color:#E94560;background:rgba(233,69,96,.1)}
-.sidebar-nav-btn.active-tab-gold{color:#D97706;background:rgba(217,119,6,.1)}
 .sidebar-count{margin-left:auto;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px}
 .sidebar-footer{margin-top:auto;display:flex;flex-direction:column;gap:4px}
 .dash-main{flex:1;min-height:0}
@@ -111,14 +102,6 @@ DASHBOARD LAYOUT (shared)
 /* DEAL TABS */
 .deal-tab{padding:10px 14px;font-size:13px;font-weight:600;color:#7B84A3;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:‘Inter’,sans-serif;white-space:nowrap;transition:color .15s,border-color .15s}
 .deal-tab.active{color:#E94560;border-bottom-color:#E94560}
-
-/* DEAL TIMELINE */
-.deal-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;position:relative}
-.deal-step:not(:last-child)::after{content:’’;position:absolute;left:7px;top:22px;bottom:-4px;width:1px;background:#252A45}
-.deal-step-dot{width:15px;height:15px;border-radius:50%;border:2px solid #252A45;background:#0B0D1A;flex-shrink:0;margin-top:2px}
-.deal-step-dot.done{background:#059669;border-color:#059669}
-.deal-step-label{font-size:12px;color:#7B84A3;flex:1;line-height:1.4}
-.deal-step-time{font-size:11px;color:#7B84A3;flex-shrink:0;white-space:nowrap}
 
 /* CHAT */
 .chat-bubble-in{background:#12152B;border:1px solid #252A45;border-radius:14px 14px 14px 4px;padding:10px 14px;max-width:78%}
@@ -152,8 +135,6 @@ DASHBOARD LAYOUT (shared)
 .mob-nav-btn.active{color:#E94560}
 .mob-nav-btn svg{transition:stroke .15s}
 .mob-nav-btn.active svg{stroke:#E94560!important}
-.mob-nav-btn-gold.active{color:#D97706}
-.mob-nav-btn-gold.active svg{stroke:#D97706!important}
 
 /* ADMIN */
 .btn-approve{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:12px;font-weight:700;border-radius:8px;border:1px solid rgba(5,150,105,.3);background:rgba(5,150,105,.05);color:#059669;cursor:pointer;transition:background .15s;font-family:‘Inter’,sans-serif}
@@ -198,9 +179,7 @@ DASHBOARD LAYOUT (shared)
 select.input-field{padding-left:16px;appearance:none}
 .pw-toggle{position:absolute;right:12px;bottom:10px;color:#7B84A3;background:none;border:none;cursor:pointer;padding:2px;font-size:13px;font-family:‘Inter’,sans-serif}
 
-/* ═══════════════════════════════════════
-LANDING PAGE - COMPLETE CSS
-═══════════════════════════════════════ */
+/* LANDING */
 .nav-left{display:flex;align-items:center;gap:12px}
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-links a{font-size:14px;color:#7B84A3;font-weight:500;padding:8px 14px;border-radius:10px;transition:color .15s,background .15s}
@@ -330,15 +309,8 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
 .v-icon{font-size:22px;margin-bottom:8px}
 .v-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px}
 .v-desc{font-size:12px;color:#7B84A3;line-height:1.6}
-
-/* AUTH EXTRAS */
 .card-lg{padding:28px}
 .auth-note{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:#7B84A3;margin-top:20px}
-.auth-tabs{display:flex;gap:0;margin-bottom:28px;border-bottom:1px solid #252A45}
-.auth-tab{padding:12px 24px;font-size:14px;font-weight:600;color:#7B84A3;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;border-left:none;border-right:none;border-top:none;font-family:Inter,sans-serif}
-.auth-tab.active{color:#E94560;border-bottom-color:#E94560}
-
-/* INNER PAGES - ABOUT, PRIVACY, TERMS */
 .page-label-small{font-size:11px;font-weight:700;color:#E94560;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
 .inner-page-h1{font-size:36px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-1px;margin-bottom:16px}
 .inner-page-lead{font-size:16px;color:#7B84A3;line-height:1.75;margin-bottom:48px;max-width:600px}
@@ -346,7 +318,6 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
 .inner-sec h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #252A45}
 .inner-sec p{font-size:14px;color:#7B84A3;line-height:1.8;margin-bottom:10px}
 .inner-divider{height:1px;background:#252A45;margin:40px 0}
-/* ACCORDION */
 .acc-item{background:#181C35;border:1px solid #252A45;border-radius:12px;margin-bottom:8px;cursor:pointer;overflow:hidden;transition:border-color .15s}
 .acc-item:hover{border-color:rgba(233,69,96,.3)}
 .acc-item.open{border-color:rgba(233,69,96,.4)}
@@ -355,14 +326,6 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
 .acc-item.open .acc-ic{transform:rotate(45deg);color:#E94560}
 .acc-a{display:none;padding:0 18px 16px;font-size:13px;color:#7B84A3;line-height:1.75}
 .acc-item.open .acc-a{display:block}
-/* FOUNDER & VALUE CARDS */
-.f-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;flex-shrink:0}
-.f-name{font-size:14px;font-weight:700;color:#fff}
-.f-role{font-size:11px;color:#E94560;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
-.f-desc{font-size:13px;color:#7B84A3;line-height:1.6}
-.v-icon{font-size:22px;margin-bottom:8px}
-.v-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px}
-.v-desc{font-size:12px;color:#7B84A3;line-height:1.6}
 
 /* MOBILE RESPONSIVE */
 @media(max-width:768px){
@@ -408,7 +371,6 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
 
 </head>
 <body>
-
 <nav id="top-nav">
   <div class="nav-inner">
     <div class="nav-logo" onclick="showPage('landing')">zeke<span>.</span></div>
@@ -432,13 +394,6 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
         <button class="btn btn-primary btn-sm btn-full" onclick="showPage('auth');closeMenu()">Get Started</button>
       </div>
     </div>
-    <div id="nav-right-creator" class="hidden" style="display:flex;align-items:center;gap:12px">
-      <span style="font-size:12px;color:#7B84A3;background:rgba(123,132,163,.08);border:1px solid #252A45;padding:4px 12px;border-radius:20px;font-weight:600">Free Creator</span>
-      <button class="notif-btn" aria-label="Notifications" onclick="toggleNotif()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <span class="notif-dot" id="main-notif-dot"></span>
-      </button>
-    </div>
     <div id="nav-right-brand" class="hidden" style="display:flex;align-items:center;gap:12px">
       <button class="btn btn-primary btn-sm" onclick="bSwitchTab('campaigns')">+ New Campaign</button>
       <button class="notif-btn" aria-label="Notifications">
@@ -456,16 +411,11 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
   </div>
 </nav>
 
-<!-- ═══════════════════════════════════════
-     PAGES WRAPPER
-═══════════════════════════════════════ -->
-
 <div id="pages">
 
 <!-- PAGE: LANDING -->
 
 <div id="page-landing">
-<!-- HERO -->
 <div id="landing-content">
 <section class="hero">
   <div class="hero-glow-1"></div>
@@ -485,10 +435,7 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
   </div>
 </section>
 
-<!-- COLLAPSIBLE SECTIONS -->
-
 <div class="landing-sections">
-
   <div class="ls-item" id="how-it-works">
     <div class="ls-header" onclick="toggleSection('hiw')">
       <div class="ls-left"><span class="ls-chip">How It Works</span><span class="ls-title">From first message to signed deal</span></div>
@@ -619,10 +566,7 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
       <div class="faq-item" onclick="event.stopPropagation();toggleFaq(this)"><div class="faq-q">How is Zeke different from Instagram DMs? <span class="faq-ic">+</span></div><div class="faq-a">Instagram DMs have no structure, no paper trail and no recourse. Zeke gives you a structured offer system, negotiation chat, and for Shield members a signed PDF agreement.</div></div>
     </div>
   </div>
-
 </div>
-
-<!-- CTA -->
 
 <section class="cta-banner">
   <div class="cta-inner">
@@ -634,8 +578,6 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
     </div>
   </div>
 </section>
-
-<!-- FOOTER -->
 
 <footer>
   <div class="footer-inner">
@@ -674,9 +616,7 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
     </div>
   </div>
 </footer>
-</div><!-- end landing-content -->
-
-<!-- ABOUT SECTION -->
+</div>
 
 <div id="about" class="inner-page hidden">
   <div class="inner-page-inner">
@@ -719,8 +659,6 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
   </div>
 </div>
 
-<!-- PRIVACY SECTION -->
-
 <div id="privacy" class="inner-page hidden">
   <div class="inner-page-inner">
     <button class="back-btn" onclick="showSection('landing')">&#8592; Back</button>
@@ -728,60 +666,21 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
     <h2 class="inner-page-h1">Privacy Policy</h2>
     <p style="font-size:13px;color:#7B84A3;margin-bottom:28px">Last updated: April 2026</p>
     <div style="background:rgba(233,69,96,.06);border:1px solid rgba(233,69,96,.15);border-radius:12px;padding:16px 20px;font-size:14px;color:#C8D0E7;line-height:1.7;margin-bottom:28px">Zeke is committed to protecting your privacy. We do not sell your data - ever.</div>
-
-```
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">1. Who we are <span class="acc-ic">+</span></div>
-  <div class="acc-a">Zeke is a creator-brand deal platform. For privacy questions, contact us at privacy[at]zeke.global</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">2. What data we collect <span class="acc-ic">+</span></div>
-  <div class="acc-a">Account data (name, email, password), profile data (niche, location, social handles), deal data (offers, messages, agreements), payment records for Shield subscriptions, and basic usage analytics.</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">3. How we use your data <span class="acc-ic">+</span></div>
-  <div class="acc-a">To operate the platform, match creators with brands, generate PDF agreements, provide Shield dispute resolution, send platform notifications you have opted into, and comply with legal obligations.</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">4. Who we share data with <span class="acc-ic">+</span></div>
-  <div class="acc-a">We do not sell your data. We share only between deal parties (creators and brands), with service providers under strict agreements, and when legally required.</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">5. Zeke Shield and legal agreements <span class="acc-ic">+</span></div>
-  <div class="acc-a">Shield member deal agreements are stored as legal records. In a dispute, these records may be accessed by the Zeke team and, if escalated, relevant legal parties. Never shared outside of a legitimate dispute process.</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">6. Data retention <span class="acc-ic">+</span></div>
-  <div class="acc-a">Account data is kept while your account is active. Deal records are kept for a minimum of 3 years for legal compliance. You may request deletion at any time subject to legal retention requirements.</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">7. Your rights <span class="acc-ic">+</span></div>
-  <div class="acc-a">You have the right to access, correct, delete, and export your data. To exercise these rights contact privacy[at]zeke.global</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">8. Cookies <span class="acc-ic">+</span></div>
-  <div class="acc-a">We use essential cookies only - to keep you logged in and maintain your session. No advertising cookies. We do not track you across other sites.</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">9. Security <span class="acc-ic">+</span></div>
-  <div class="acc-a">All data is transmitted over HTTPS. Passwords are hashed and never stored in plain text. We follow industry-standard security practices.</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">10. Changes to this policy <span class="acc-ic">+</span></div>
-  <div class="acc-a">We will notify registered users of any significant changes by email. Continued use after changes constitutes acceptance.</div>
-</div>
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-q">11. Contact <span class="acc-ic">+</span></div>
-  <div class="acc-a">privacy[at]zeke.global</div>
-</div>
-```
-
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">1. Who we are <span class="acc-ic">+</span></div><div class="acc-a">Zeke is a creator-brand deal platform. For privacy questions, contact us at privacy[at]zeke.global</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">2. What data we collect <span class="acc-ic">+</span></div><div class="acc-a">Account data (name, email, password), profile data (niche, location, social handles), deal data (offers, messages, agreements), payment records for Shield subscriptions, and basic usage analytics.</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">3. How we use your data <span class="acc-ic">+</span></div><div class="acc-a">To operate the platform, match creators with brands, generate PDF agreements, provide Shield dispute resolution, send platform notifications you have opted into, and comply with legal obligations.</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">4. Who we share data with <span class="acc-ic">+</span></div><div class="acc-a">We do not sell your data. We share only between deal parties (creators and brands), with service providers under strict agreements, and when legally required.</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">5. Zeke Shield and legal agreements <span class="acc-ic">+</span></div><div class="acc-a">Shield member deal agreements are stored as legal records. In a dispute, these records may be accessed by the Zeke team and, if escalated, relevant legal parties. Never shared outside of a legitimate dispute process.</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">6. Data retention <span class="acc-ic">+</span></div><div class="acc-a">Account data is kept while your account is active. Deal records are kept for a minimum of 3 years for legal compliance. You may request deletion at any time subject to legal retention requirements.</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">7. Your rights <span class="acc-ic">+</span></div><div class="acc-a">You have the right to access, correct, delete, and export your data. To exercise these rights contact privacy[at]zeke.global</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">8. Cookies <span class="acc-ic">+</span></div><div class="acc-a">We use essential cookies only - to keep you logged in and maintain your session. No advertising cookies. We do not track you across other sites.</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">9. Security <span class="acc-ic">+</span></div><div class="acc-a">All data is transmitted over HTTPS. Passwords are hashed and never stored in plain text. We follow industry-standard security practices.</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">10. Changes to this policy <span class="acc-ic">+</span></div><div class="acc-a">We will notify registered users of any significant changes by email. Continued use after changes constitutes acceptance.</div></div>
+    <div class="acc-item" onclick="toggleAcc(this)"><div class="acc-q">11. Contact <span class="acc-ic">+</span></div><div class="acc-a">privacy[at]zeke.global</div></div>
   </div>
 </div>
 </div>
-
 <!-- PAGE: AUTH -->
-
 <div id="page-auth" class="hidden">
 <div class="auth-page" id="login-view">
   <div class="auth-glow"></div>
@@ -803,7 +702,7 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
           <label class="input-label" for="login-password">Password</label>
           <div style="position:relative">
             <span class="input-icon">&#128274;</span>
-            <input class="input-field" type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"><button type="button" class="pw-toggle" onclick="togglePw('login-password',this)">Show</button>
+            <input class="input-field" type="password" id="login-password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="current-password"><button type="button" class="pw-toggle" onclick="togglePw('login-password',this)">Show</button>
           </div>
         </div>
         <div id="login-error" class="error-msg hidden"></div>
@@ -859,18 +758,9 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
         <div id="brand-fields">
           <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
             <label class="input-label">Brand Type</label>
-            <label class="radio-option selected" id="opt-business">
-              <input type="radio" name="btype" value="business" checked onchange="selectBrandType(this)">
-              <div><div style="font-size:14px;font-weight:700;color:#fff">Business</div><div style="font-size:12px;color:#7B84A3">Company / startup</div></div>
-            </label>
-            <label class="radio-option" id="opt-ngo">
-              <input type="radio" name="btype" value="ngo" onchange="selectBrandType(this)">
-              <div><div style="font-size:14px;font-weight:700;color:#fff">NGO / Cause</div><div style="font-size:12px;color:#7B84A3">Non-profit, social cause</div></div>
-            </label>
-            <label class="radio-option" id="opt-agency">
-              <input type="radio" name="btype" value="agency" onchange="selectBrandType(this)">
-              <div><div style="font-size:14px;font-weight:700;color:#fff">Agency</div><div style="font-size:12px;color:#7B84A3">Marketing / PR agency</div></div>
-            </label>
+            <label class="radio-option selected" id="opt-business"><input type="radio" name="btype" value="business" checked onchange="selectBrandType(this)"><div><div style="font-size:14px;font-weight:700;color:#fff">Business</div><div style="font-size:12px;color:#7B84A3">Company / startup</div></div></label>
+            <label class="radio-option" id="opt-ngo"><input type="radio" name="btype" value="ngo" onchange="selectBrandType(this)"><div><div style="font-size:14px;font-weight:700;color:#fff">NGO / Cause</div><div style="font-size:12px;color:#7B84A3">Non-profit, social cause</div></div></label>
+            <label class="radio-option" id="opt-agency"><input type="radio" name="btype" value="agency" onchange="selectBrandType(this)"><div><div style="font-size:14px;font-weight:700;color:#fff">Agency</div><div style="font-size:12px;color:#7B84A3">Marketing / PR agency</div></div></label>
           </div>
           <div class="input-wrap">
             <label class="input-label">Location / Region</label>
@@ -894,70 +784,38 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
             <label class="input-label">Based in</label>
             <input class="input-field no-icon" type="text" id="inf-location" placeholder="e.g. Kochi, Kerala">
           </div>
-
-```
-      <!-- AGE CHECK -->
-      <div style="background:rgba(233,69,96,.04);border:1px solid rgba(233,69,96,.15);border-radius:12px;padding:14px;margin-bottom:12px">
-        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px">Are you 18 or older?</div>
-        <div style="display:flex;gap:10px">
-          <label id="age-yes-btn" onclick="setAge(true)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid rgba(5,150,105,.4);border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#059669;background:rgba(5,150,105,.08);transition:border-color .15s,color .15s,background .15s">
-            <input type="radio" name="agecheck" value="yes" style="display:none"> &#10003; Yes, I am 18+
-          </label>
-          <label id="age-no-btn" onclick="setAge(false)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid #252A45;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#7B84A3;background:transparent;transition:border-color .15s,color .15s,background .15s">
-            <input type="radio" name="agecheck" value="no" style="display:none"> I am under 18
-          </label>
-        </div>
-      </div>
-
-      <!-- GUARDIAN FIELDS - shown if under 18 -->
-      <div id="guardian-fields" class="hidden" style="background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.2);border-radius:12px;padding:14px;margin-bottom:12px">
-        <div style="font-size:12px;font-weight:700;color:#D97706;margin-bottom:4px">&#128737; Guardian required</div>
-        <div style="font-size:11px;color:#7B84A3;margin-bottom:14px">Since you are under 18, a parent or legal guardian must manage this account and is legally responsible for all deals.</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div class="input-wrap">
-            <label class="input-label">Guardian Full Name</label>
-            <input class="input-field no-icon" type="text" id="guardian-name" placeholder="Parent or legal guardian name">
+          <div style="background:rgba(233,69,96,.04);border:1px solid rgba(233,69,96,.15);border-radius:12px;padding:14px;margin-bottom:12px">
+            <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px">Are you 18 or older?</div>
+            <div style="display:flex;gap:10px">
+              <label id="age-yes-btn" onclick="setAge(true)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid rgba(5,150,105,.4);border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#059669;background:rgba(5,150,105,.08)"><input type="radio" name="agecheck" value="yes" style="display:none"> &#10003; Yes, I am 18+</label>
+              <label id="age-no-btn" onclick="setAge(false)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid #252A45;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#7B84A3;background:transparent"><input type="radio" name="agecheck" value="no" style="display:none"> I am under 18</label>
+            </div>
           </div>
-          <div class="input-wrap">
-            <label class="input-label">Guardian Email</label>
-            <input class="input-field no-icon" type="email" id="guardian-email" placeholder="Guardian's email address">
+          <div id="guardian-fields" class="hidden" style="background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.2);border-radius:12px;padding:14px;margin-bottom:12px">
+            <div style="font-size:12px;font-weight:700;color:#D97706;margin-bottom:4px">&#128737; Guardian required</div>
+            <div style="font-size:11px;color:#7B84A3;margin-bottom:14px">Since you are under 18, a parent or legal guardian must manage this account and is legally responsible for all deals.</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="input-wrap"><label class="input-label">Guardian Full Name</label><input class="input-field no-icon" type="text" id="guardian-name" placeholder="Parent or legal guardian name"></div>
+              <div class="input-wrap"><label class="input-label">Guardian Email</label><input class="input-field no-icon" type="email" id="guardian-email" placeholder="Guardian's email address"></div>
+              <div class="input-wrap"><label class="input-label">Relationship</label><select class="input-field no-icon" id="guardian-relation"><option value="">Select relationship</option><option>Parent</option><option>Legal Guardian</option><option>Sibling (18+)</option><option>Other Authorized Person</option></select></div>
+            </div>
           </div>
-          <div class="input-wrap">
-            <label class="input-label">Relationship</label>
-            <select class="input-field no-icon" id="guardian-relation">
-              <option value="">Select relationship</option>
-              <option>Parent</option>
-              <option>Legal Guardian</option>
-              <option>Sibling (18+)</option>
-              <option>Other Authorized Person</option>
-            </select>
+          <div class="shield-teaser">
+            <span style="color:#D97706;font-size:16px">&#128737;</span>
+            <div><div style="font-size:12px;font-weight:700;color:#D97706">Upgrade to Zeke Shield later</div><div style="font-size:12px;color:#7B84A3;margin-top:2px">&#8377;1,999/yr - legal protection, verified badge &amp; priority discovery</div></div>
           </div>
         </div>
+        <div id="step2-error" class="error-msg hidden"></div>
+        <button class="btn btn-primary btn-md btn-full" onclick="doRegister()">Create Account</button>
+        <p style="font-size:12px;color:#7B84A3;text-align:center">By signing up you agree to our <a onclick="showSection('privacy')" style="color:#7B84A3;text-decoration:underline">Terms</a> &amp; <a onclick="showSection('privacy')" style="color:#7B84A3;text-decoration:underline">Privacy Policy</a></p>
       </div>
-
-      <div class="shield-teaser">
-        <span style="color:#D97706;font-size:16px">&#128737;</span>
-        <div>
-          <div style="font-size:12px;font-weight:700;color:#D97706">Upgrade to Zeke Shield later</div>
-          <div style="font-size:12px;color:#7B84A3;margin-top:2px">&#8377;1,999/yr - legal protection, verified badge &amp; priority discovery</div>
-        </div>
-      </div>
+      <div class="auth-bottom">Already have an account? <a onclick="showView('login')">Sign in</a></div>
     </div>
-    <div id="step2-error" class="error-msg hidden"></div>
-    <button class="btn btn-primary btn-md btn-full" onclick="doRegister()">Create Account</button>
-    <p style="font-size:12px;color:#7B84A3;text-align:center">By signing up you agree to our <a href="index.html#privacy" onclick="localStorage.setItem('zeke-section','privacy')" style="color:#7B84A3;text-decoration:underline">Terms</a> &amp; <a href="index.html#privacy" onclick="localStorage.setItem('zeke-section','privacy')" style="color:#7B84A3;text-decoration:underline">Privacy Policy</a></p>
-  </div>
-  <div class="auth-bottom">Already have an account? <a onclick="showView('login')">Sign in</a></div>
-</div>
-<div class="auth-note">&#128737; Kerala's legally protected influencer marketplace</div>
-```
-
+    <div class="auth-note">&#128737; Kerala's legally protected influencer marketplace</div>
   </div>
 </div>
 </div>
-
-<!-- PAGE: CREATOR -->
-
+<!-- PAGE: CREATOR (new dashboard) -->
 <div id="page-creator" class="hidden">
 <div class="dash-layout">
   <aside class="sidebar">
@@ -987,9 +845,9 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
       <button class="sidebar-nav-btn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings
       </button>
-      <a class="sidebar-nav-btn" href="index.html" style="color:#E94560">
+      <button class="sidebar-nav-btn" onclick="showPage('landing')" style="color:#E94560">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Sign Out
-      </a>
+      </button>
     </div>
   </aside>
 
@@ -999,11 +857,18 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input type="text" placeholder="Search offers, brands...">
       </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:12px;color:#7B84A3;background:rgba(123,132,163,.08);border:1px solid #252A45;padding:4px 12px;border-radius:20px;font-weight:600">Free Creator</span>
+        <button class="notif-btn" aria-label="Notifications" onclick="toggleNotif()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot" id="main-notif-dot"></span>
+        </button>
+      </div>
     </div>
     <div class="dash-content">
 
 ```
-  <!-- ═══════════ HOME ═══════════ -->
+  <!-- HOME -->
   <div id="tab-overview">
     <h1 style="font-size:24px;font-weight:900;color:#fff">Hey, Aligerouszz</h1>
     <p style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:20px">Fashion &amp; Lifestyle &middot; Dubai, UAE</p>
@@ -1048,7 +913,7 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
     </div>
   </div>
 
-  <!-- ═══════════ OFFERS ═══════════ -->
+  <!-- OFFERS -->
   <div id="tab-offers" class="hidden">
     <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:16px">Offers Inbox</h2>
     <div class="empty-state">
@@ -1057,9 +922,8 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
     </div>
   </div>
 
-  <!-- ═══════════ CHATS ═══════════ -->
+  <!-- CHATS -->
   <div id="tab-chats" class="hidden">
-    <!-- List view -->
     <div id="chats-list">
       <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Chats</h2>
       <p style="font-size:12px;color:#7B84A3;margin-bottom:20px">Your deal conversations with brands</p>
@@ -1076,15 +940,10 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
           </div>
         </div>
       </div>
-
     </div>
-
-    <!-- Chat window (full screen) -->
     <div id="chats-window" class="hidden" style="flex-direction:column;height:calc(100vh - 140px)">
       <div style="display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid #252A45;margin-bottom:16px;flex-shrink:0">
-        <button onclick="closeChat()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
+        <button onclick="closeChat()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
         <div class="item-avatar" id="chat-avatar" style="background:rgba(5,150,105,.1);border-color:rgba(5,150,105,.3);color:#059669;width:36px;height:36px;font-size:11px;flex-shrink:0">LU</div>
         <div style="flex:1;min-width:0">
           <div id="chat-brand-name" style="font-size:14px;font-weight:700;color:#fff">Lulu Hypermarket</div>
@@ -1093,18 +952,14 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
         <button id="chat-deal-btn" onclick="switchTab('deals');setMob('deals')" style="background:none;border:none;cursor:pointer;color:#7B84A3;font-size:11px;font-weight:600;font-family:'Inter',sans-serif;flex-shrink:0">View Deal</button>
       </div>
       <div id="chat-messages" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-bottom:16px"></div>
-      <div id="chat-footer" style="flex-shrink:0;padding-top:12px;border-top:1px solid #252A45;text-align:center;font-size:12px;color:#7B84A3">
-        This deal is closed. Chat is read-only.
-      </div>
+      <div id="chat-footer" style="flex-shrink:0;padding-top:12px;border-top:1px solid #252A45;text-align:center;font-size:12px;color:#7B84A3">This deal is closed. Chat is read-only.</div>
     </div>
   </div>
 
-  <!-- ═══════════ DEALS ═══════════ -->
+  <!-- DEALS -->
   <div id="tab-deals" class="hidden">
-    <!-- Deals list -->
     <div id="deals-list">
       <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:16px">Deals</h2>
-      <!-- Lulu deal (completed) -->
       <div class="item-card" style="border-color:rgba(5,150,105,.3);background:rgba(5,150,105,.03);cursor:pointer" onclick="openDeal('lulu')">
         <div class="item-card-header">
           <div style="display:flex;align-items:center;gap:10px">
@@ -1119,16 +974,10 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
         </div>
         <div style="font-size:12px;color:#E94560;font-weight:600;text-align:right">View deal &#8594;</div>
       </div>
-
     </div>
-
-    <!-- Deal detail view -->
     <div id="deals-detail" class="hidden">
-      <!-- Header -->
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-        <button onclick="closeDeal()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
+        <button onclick="closeDeal()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
         <div style="flex:1;min-width:0">
           <div id="deal-brand-name" style="font-size:16px;font-weight:800;color:#fff">Lulu Hypermarket</div>
           <div id="deal-brand-sub" style="font-size:12px;color:#7B84A3">Eid Collection Reel &middot; &#8377;45,000</div>
@@ -1139,8 +988,6 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
         <div class="progress-bar"><div class="progress-fill" id="deal-progress-fill" style="width:100%;background:#059669"></div></div>
         <span id="deal-progress-label" style="font-size:12px;color:#059669;font-weight:700;white-space:nowrap">Complete</span>
       </div>
-
-      <!-- Inner tabs -->
       <div style="display:flex;gap:0;border-bottom:1px solid #252A45;margin-bottom:20px;overflow-x:auto">
         <button class="deal-tab active" id="dtab-overview" onclick="switchDealTab('overview')">Overview</button>
         <button class="deal-tab" id="dtab-submissions" onclick="switchDealTab('submissions')">Submissions</button>
@@ -1148,8 +995,6 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
         <button class="deal-tab" id="dtab-payment" onclick="switchDealTab('payment')">Payment</button>
         <button class="deal-tab" id="dtab-cancel" onclick="switchDealTab('cancel')" style="color:rgba(233,69,96,.5)">Cancel</button>
       </div>
-
-      <!-- Overview panel -->
       <div id="dpanel-overview">
         <div id="deal-timeline-wrap" style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;margin-bottom:14px"></div>
         <div id="deal-deliverables-wrap" style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;font-size:12px;color:#7B84A3;line-height:1.9;margin-bottom:14px"></div>
@@ -1158,26 +1003,18 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
           <button class="btn btn-ghost btn-sm" onclick="switchTab('agreements')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Agreement</button>
         </div>
       </div>
-
-      <!-- Submissions panel -->
       <div id="dpanel-submissions" class="hidden">
         <p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Upload your reel file for brand review. Do not post on Instagram until approved.</p>
         <div id="submissions-content"></div>
       </div>
-
-      <!-- Final Link panel -->
       <div id="dpanel-finallink" class="hidden">
         <p style="font-size:12px;color:#7B84A3;margin-bottom:16px">The live Instagram link submitted after brand approval. Locked into the agreement.</p>
         <div id="finallink-content"></div>
       </div>
-
-      <!-- Payment panel -->
       <div id="dpanel-payment" class="hidden">
         <p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Upload payment screenshot as proof. Stored securely on Zeke.</p>
         <div id="payment-content"></div>
       </div>
-
-      <!-- Cancel panel -->
       <div id="dpanel-cancel" class="hidden">
         <div style="background:rgba(233,69,96,.04);border:1px solid rgba(233,69,96,.2);border-radius:14px;padding:16px;margin-bottom:14px">
           <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Cancel Agreement</div>
@@ -1195,11 +1032,10 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
     </div>
   </div>
 
-  <!-- ═══════════ AGREEMENTS ═══════════ -->
+  <!-- AGREEMENTS -->
   <div id="tab-agreements" class="hidden">
     <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Agreements</h2>
     <p style="font-size:12px;color:#7B84A3;margin-bottom:20px">Generated automatically when both sides agree on terms</p>
-    <!-- Lulu agreement -->
     <div class="item-card" style="border-color:rgba(5,150,105,.25);margin-bottom:12px">
       <div class="item-card-header">
         <div style="display:flex;align-items:center;gap:12px">
@@ -1225,12 +1061,12 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
         <button class="btn btn-outline btn-sm" style="flex:1"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF</button>
       </div>
     </div>
-            <div style="margin-top:16px;padding:12px 14px;background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.15);border-radius:12px;font-size:12px;color:#7B84A3;line-height:1.6">
+    <div style="margin-top:16px;padding:12px 14px;background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.15);border-radius:12px;font-size:12px;color:#7B84A3;line-height:1.6">
       <span style="color:#D97706;font-weight:700">How agreements work &mdash;</span> Generated the moment both sides agree on price and terms. Terms are locked immediately. Neither side can change them after this point.
     </div>
   </div>
 
-  <!-- ═══════════ PROFILE ═══════════ -->
+  <!-- PROFILE -->
   <div id="tab-profile" class="hidden">
     <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">My Profile</h2>
     <p style="font-size:13px;color:#7B84A3;margin-bottom:20px">This is how brands see you on Zeke</p>
@@ -1260,7 +1096,7 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
       </div>
       <div style="padding:14px;background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.15);border-radius:12px;display:flex;align-items:center;justify-content:space-between">
         <div><div style="font-size:13px;font-weight:700;color:#D97706">&#128737; Get Zeke Shield</div><div style="font-size:12px;color:#7B84A3;margin-top:2px">Legal protection + gold badge + priority in searches</div></div>
-        <a href="index.html" class="btn btn-gold btn-sm">Rs.1,999/yr</a>
+        <button onclick="showPage('landing')" class="btn btn-gold btn-sm">Rs.1,999/yr</button>
       </div>
     </div>
     <button class="btn btn-outline btn-sm btn-full" style="margin-top:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit Profile</button>
@@ -1272,8 +1108,29 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
   </div>
 </div>
 
-<!-- PAGE: BRAND -->
+<!-- MOBILE BOTTOM NAV - CREATOR -->
 
+<div class="mob-bottom-nav" id="mob-nav">
+  <div class="mob-bottom-nav-inner">
+    <button class="mob-nav-btn active" id="mob-overview" onclick="switchTab('overview');setMob('overview')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
+    </button>
+    <button class="mob-nav-btn" id="mob-offers" onclick="switchTab('offers');setMob('offers')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Offers
+    </button>
+    <button class="mob-nav-btn" id="mob-chats" onclick="switchTab('chats');setMob('chats')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chats
+    </button>
+    <button class="mob-nav-btn" id="mob-deals" onclick="switchTab('deals');setMob('deals')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Deals
+    </button>
+    <button class="mob-nav-btn" id="mob-profile" onclick="switchTab('profile');setMob('profile')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile
+    </button>
+  </div>
+</div>
+</div>
+<!-- PAGE: BRAND -->
 <div id="page-brand" class="hidden">
 <div class="dash-layout">
   <aside class="sidebar">
@@ -1287,91 +1144,66 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
     <button class="sidebar-nav-btn" id="brand-tab-deals" onclick="bSwitchTab('deals')">&#128196; Active Deals <span class="sidebar-count">1</span></button>
     <div class="sidebar-footer">
       <button class="sidebar-nav-btn">&#9881; Settings</button>
-      <a class="sidebar-nav-btn" href='#' onclick="showPage('landing')" style="color:#E94560">&#10006; Sign Out</a>
+      <button class="sidebar-nav-btn" onclick="showPage('landing')" style="color:#E94560">&#10006; Sign Out</button>
     </div>
   </aside>
-
   <div class="dash-main">
     <div class="topbar">
       <div class="topbar-search">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input type="text" placeholder="Search creators, campaigns...">
       </div>
-      <div class="topbar-right">
-        <button class="notif-btn">&#128276;<span class="notif-dot"></span></button>
-      </div>
     </div>
     <div class="dash-content">
-
-```
-  <!-- OVERVIEW -->
-  <div id="btab-overview">
-    <h1 style="font-size:24px;font-weight:900;color:#fff">Welcome, Lulu Hypermarket</h1>
-    <p style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:24px">Dubai, UAE &middot; Retail</p>
-    <div class="stats-grid" style="margin-bottom:24px">
-      <div class="stat-card"><div style="color:#E94560;font-size:16px">&#128227;</div><div class="stat-val">1</div><div class="stat-label">Active Campaign</div></div>
-      <div class="stat-card"><div style="color:#059669;font-size:16px">&#10003;</div><div class="stat-val">1</div><div class="stat-label">Active Deal</div></div>
-      <div class="stat-card"><div style="color:#D97706;font-size:16px">&#128200;</div><div class="stat-val">&#8377;18K</div><div class="stat-label">Deal Value</div></div>
-      <div class="stat-card"><div style="color:#D97706;font-size:16px">&#11088;</div><div class="stat-val">4.9&#11088;</div><div class="stat-label">Creator Rating</div></div>
-    </div>
-    <div class="section-head">
-      <div class="section-title">Active Campaigns</div>
-      <div class="section-link" onclick="bSwitchTab('campaigns')">View all &#8594;</div>
-    </div>
-    <div id="boverview-campaigns" style="margin-bottom:24px"></div>
-    <div class="section-head">
-      <div class="section-title">Recommended Creators</div>
-      <div class="section-link" onclick="bSwitchTab('discover')">Browse all &#8594;</div>
-    </div>
-    <div id="boverview-creators" class="creator-grid"></div>
-  </div>
-
-  <!-- CAMPAIGNS -->
-  <div id="btab-campaigns" class="hidden">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <h2 style="font-size:20px;font-weight:900;color:#fff">Campaigns</h2>
-      <button class="btn btn-primary btn-sm">+ Create Campaign</button>
-    </div>
-    <div id="bcampaigns-list"></div>
-  </div>
-
-  <!-- DISCOVER -->
-  <div id="btab-discover" class="hidden">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-      <h2 style="font-size:20px;font-weight:900;color:#fff">Discover Creators</h2>
-      <button class="btn btn-ghost btn-sm" style="border:1px solid #252A45">&#9878; Filter</button>
-    </div>
-    <div style="position:relative;margin-bottom:16px">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#7B84A3"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="creator-search" oninput="filterCreators()" placeholder="Search by name or niche..." style="width:100%;background:#12152B;border:1px solid #252A45;border-radius:12px;padding:10px 16px 10px 36px;font-size:14px;color:#C8D0E7;outline:none">
-    </div>
-    <div id="creators-grid" class="creator-grid"></div>
-  </div>
-
-  <!-- DEALS -->
-  <div id="btab-deals" class="hidden">
-    <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:16px">Active Deals</h2>
-    <div class="item-card">
-      <div class="item-card-header">
-        <div><div style="font-size:14px;font-weight:700;color:#fff">Aligerouszz</div><div style="font-size:12px;color:#7B84A3">Eid Collection &middot; Instagram Reel</div></div>
-        <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#059669">&#8377;45,000</div><div style="font-size:12px;color:#7B84A3">Delivered Apr 18</div></div>
+      <div id="btab-overview">
+        <h1 style="font-size:24px;font-weight:900;color:#fff">Welcome, Lulu Hypermarket</h1>
+        <p style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:24px">Dubai, UAE &middot; Retail</p>
+        <div class="stats-grid" style="margin-bottom:24px">
+          <div class="stat-card"><div style="color:#E94560;font-size:16px">&#128227;</div><div class="stat-val">1</div><div class="stat-label">Active Campaign</div></div>
+          <div class="stat-card"><div style="color:#059669;font-size:16px">&#10003;</div><div class="stat-val">1</div><div class="stat-label">Active Deal</div></div>
+          <div class="stat-card"><div style="color:#D97706;font-size:16px">&#128200;</div><div class="stat-val">&#8377;18K</div><div class="stat-label">Deal Value</div></div>
+          <div class="stat-card"><div style="color:#D97706;font-size:16px">&#11088;</div><div class="stat-val">4.9&#11088;</div><div class="stat-label">Creator Rating</div></div>
+        </div>
+        <div class="section-head"><div class="section-title">Active Campaigns</div><div class="section-link" onclick="bSwitchTab('campaigns')">View all &#8594;</div></div>
+        <div id="boverview-campaigns" style="margin-bottom:24px"></div>
+        <div class="section-head"><div class="section-title">Recommended Creators</div><div class="section-link" onclick="bSwitchTab('discover')">Browse all &#8594;</div></div>
+        <div id="boverview-creators" class="creator-grid"></div>
       </div>
-      <span class="badge badge-green">Paid</span>
-      <div class="item-actions">
-        <button class="btn btn-outline btn-sm">&#128172; Chat</button>
-        <button class="btn btn-ghost btn-sm">&#128196; Agreement</button>
+      <div id="btab-campaigns" class="hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <h2 style="font-size:20px;font-weight:900;color:#fff">Campaigns</h2>
+          <button class="btn btn-primary btn-sm">+ Create Campaign</button>
+        </div>
+        <div id="bcampaigns-list"></div>
+      </div>
+      <div id="btab-discover" class="hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <h2 style="font-size:20px;font-weight:900;color:#fff">Discover Creators</h2>
+          <button class="btn btn-ghost btn-sm" style="border:1px solid #252A45">&#9878; Filter</button>
+        </div>
+        <div style="position:relative;margin-bottom:16px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#7B84A3"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="creator-search" oninput="filterCreators()" placeholder="Search by name or niche..." style="width:100%;background:#12152B;border:1px solid #252A45;border-radius:12px;padding:10px 16px 10px 36px;font-size:14px;color:#C8D0E7;outline:none">
+        </div>
+        <div id="creators-grid" class="creator-grid"></div>
+      </div>
+      <div id="btab-deals" class="hidden">
+        <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:16px">Active Deals</h2>
+        <div class="item-card">
+          <div class="item-card-header">
+            <div><div style="font-size:14px;font-weight:700;color:#fff">Aligerouszz</div><div style="font-size:12px;color:#7B84A3">Eid Collection &middot; Instagram Reel</div></div>
+            <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#059669">&#8377;45,000</div><div style="font-size:12px;color:#7B84A3">Delivered Apr 18</div></div>
+          </div>
+          <span class="badge badge-green">Paid</span>
+          <div class="item-actions">
+            <button class="btn btn-outline btn-sm">&#128172; Chat</button>
+            <button class="btn btn-ghost btn-sm">&#128196; Agreement</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
 </div>
-```
-
-  </div>
-</div>
-
-<!-- MOBILE BOTTOM NAV -->
-
 <div class="mob-bottom-nav">
   <div class="mob-bottom-nav-inner">
     <button class="mob-nav-btn active" id="bmob-overview" onclick="bSwitchTab('overview');bSetMob('overview')">
@@ -1406,119 +1238,69 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
     <button class="sidebar-nav-btn" id="admin-tab-deals" onclick="aSwitchTab('deals')">&#128196; All Deals</button>
     <div class="sidebar-footer">
       <button class="sidebar-nav-btn">&#9881; Settings</button>
-      <a class="sidebar-nav-btn" href='#' onclick="showPage('landing')" style="color:#E94560">&#10006; Sign Out</a>
+      <button class="sidebar-nav-btn" onclick="showPage('landing')" style="color:#E94560">&#10006; Sign Out</button>
     </div>
   </aside>
-
   <div class="dash-main">
     <div class="topbar">
       <div class="topbar-search">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input type="text" placeholder="Search users, deals...">
       </div>
-      <div class="topbar-right">
-        <button class="notif-btn">&#128276;<span class="notif-dot"></span></button>
-      </div>
     </div>
     <div class="dash-content">
-
-```
-  <!-- OVERVIEW -->
-  <div id="atab-overview">
-    <h1 style="font-size:24px;font-weight:900;color:#fff">Admin Overview</h1>
-    <p style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:24px">Platform demo &middot; April 2026</p>
-    <div class="stats-grid" style="margin-bottom:24px">
-      <div class="stat-card"><div style="color:#E94560;font-size:16px">&#128101;</div><div class="stat-val">1</div><div class="stat-label">Total Creators</div></div>
-      <div class="stat-card"><div style="color:#0F3460;font-size:16px">&#127970;</div><div class="stat-val">1</div><div class="stat-label">Total Brands</div></div>
-      <div class="stat-card"><div style="color:#D97706;font-size:16px">&#128737;</div><div class="stat-val">0</div><div class="stat-label">Shield Members</div></div>
-      <div class="stat-card"><div style="color:#059669;font-size:16px">&#128200;</div><div class="stat-val">&#8377;18K</div><div class="stat-label">Deal Pipeline</div></div>
-    </div>
-    <div class="action-cards" style="margin-bottom:24px">
-      <div class="action-card card-glow-gold" onclick="aSwitchTab('verifications')">
-        <div class="action-icon" style="background:rgba(217,119,6,.1)">&#128737;</div>
-        <div><div class="action-val">1 Pending</div><div class="action-label">Verifications</div></div>
-        <span style="color:#7B84A3;margin-left:auto">&#8594;</span>
+      <div id="atab-overview">
+        <h1 style="font-size:24px;font-weight:900;color:#fff">Admin Overview</h1>
+        <p style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:24px">Platform demo &middot; April 2026</p>
+        <div class="stats-grid" style="margin-bottom:24px">
+          <div class="stat-card"><div style="color:#E94560;font-size:16px">&#128101;</div><div class="stat-val">1</div><div class="stat-label">Total Creators</div></div>
+          <div class="stat-card"><div style="color:#0F3460;font-size:16px">&#127970;</div><div class="stat-val">1</div><div class="stat-label">Total Brands</div></div>
+          <div class="stat-card"><div style="color:#D97706;font-size:16px">&#128737;</div><div class="stat-val">0</div><div class="stat-label">Shield Members</div></div>
+          <div class="stat-card"><div style="color:#059669;font-size:16px">&#128200;</div><div class="stat-val">&#8377;18K</div><div class="stat-label">Deal Pipeline</div></div>
+        </div>
+        <div class="action-cards" style="margin-bottom:24px">
+          <div class="action-card card-glow-gold" onclick="aSwitchTab('verifications')"><div class="action-icon" style="background:rgba(217,119,6,.1)">&#128737;</div><div><div class="action-val">1 Pending</div><div class="action-label">Verifications</div></div><span style="color:#7B84A3;margin-left:auto">&#8594;</span></div>
+          <div class="action-card card-glow-accent" onclick="aSwitchTab('disputes')"><div class="action-icon" style="background:rgba(233,69,96,.1)">&#9888;</div><div><div class="action-val">1 Open</div><div class="action-label">Disputes</div></div><span style="color:#7B84A3;margin-left:auto">&#8594;</span></div>
+          <div class="action-card card-glow-green"><div class="action-icon" style="background:rgba(5,150,105,.1)">&#128200;</div><div><div class="action-val">Demo</div><div class="action-label">Platform Active</div></div></div>
+        </div>
+        <div class="section-head"><div class="section-title">Recent Deals</div><div class="section-link" onclick="aSwitchTab('deals')">View all &#8594;</div></div>
+        <div id="recent-deals"></div>
       </div>
-      <div class="action-card card-glow-accent" onclick="aSwitchTab('disputes')">
-        <div class="action-icon" style="background:rgba(233,69,96,.1)">&#9888;</div>
-        <div><div class="action-val">1 Open</div><div class="action-label">Disputes</div></div>
-        <span style="color:#7B84A3;margin-left:auto">&#8594;</span>
+      <div id="atab-verifications" class="hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px"><h2 style="font-size:20px;font-weight:900;color:#fff">Verification Queue</h2><span class="badge badge-gold">1 pending</span></div>
+        <div id="verif-list"></div>
       </div>
-      <div class="action-card card-glow-green">
-        <div class="action-icon" style="background:rgba(5,150,105,.1)">&#128200;</div>
-        <div><div class="action-val">Demo</div><div class="action-label">Platform Active</div></div>
+      <div id="atab-shield" class="hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><h2 style="font-size:20px;font-weight:900;color:#fff">Zeke Shield Requests</h2><span class="badge badge-gold">1 pending</span></div>
+        <p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Creators who paid &#8377;1,999 and are awaiting Shield badge activation.</p>
+        <div class="item-card" style="flex-direction:row;align-items:center;gap:14px">
+          <div class="creator-avatar">AN</div>
+          <div style="flex:1"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:14px;font-weight:700;color:#fff">Aligerouszz</div><span class="badge badge-green badge-dot">Payment Confirmed</span></div><div style="font-size:12px;color:#7B84A3">@aligerouszz &middot; 284K followers &middot; Fashion &amp; Lifestyle</div></div>
+          <div style="display:flex;align-items:center;gap:10px;flex-shrink:0"><span style="font-size:12px;color:#7B84A3">1h ago</span><button class="btn btn-primary btn-sm">Activate Shield</button></div>
+        </div>
       </div>
-    </div>
-    <div class="section-head">
-      <div class="section-title">Recent Deals</div>
-      <div class="section-link" onclick="aSwitchTab('deals')">View all &#8594;</div>
-    </div>
-    <div id="recent-deals"></div>
-  </div>
-
-  <!-- VERIFICATIONS -->
-  <div id="atab-verifications" class="hidden">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <h2 style="font-size:20px;font-weight:900;color:#fff">Verification Queue</h2>
-      <span class="badge badge-gold">1 pending</span>
-    </div>
-    <div id="verif-list"></div>
-  </div>
-
-  <!-- SHIELD REQUESTS -->
-  <div id="atab-shield" class="hidden">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <h2 style="font-size:20px;font-weight:900;color:#fff">Zeke Shield Requests</h2>
-      <span class="badge badge-gold">1 pending</span>
-    </div>
-    <p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Creators who paid &#8377;1,999 and are awaiting Shield badge activation.</p>
-    <div class="item-card" style="flex-direction:row;align-items:center;gap:14px">
-      <div class="creator-avatar">AN</div>
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:8px"><div style="font-size:14px;font-weight:700;color:#fff">Aligerouszz</div><span class="badge badge-green badge-dot">Payment Confirmed</span></div>
-        <div style="font-size:12px;color:#7B84A3">@aligerouszz &middot; 284K followers &middot; Fashion &amp; Lifestyle</div>
+      <div id="atab-disputes" class="hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px"><h2 style="font-size:20px;font-weight:900;color:#fff">Dispute Management</h2><span class="badge badge-accent">1 open</span></div>
+        <div class="item-card card-glow-accent">
+          <div class="item-card-header">
+            <div><div style="font-size:14px;font-weight:700;color:#fff">Aligerouszz vs Lulu Hypermarket</div><div style="font-size:12px;color:#7B84A3;margin-top:3px">Payment dispute - creator pending confirmation</div></div>
+            <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#E94560">&#8377;45,000</div><div style="font-size:12px;color:#7B84A3">2 days ago</div></div>
+          </div>
+          <span class="badge badge-accent">Open</span>
+          <div class="item-actions">
+            <button class="btn btn-outline btn-sm">View Agreement</button>
+            <button class="btn btn-primary btn-sm">Open Chat</button>
+            <button class="btn-approve" style="margin-left:auto">&#10003; Resolve</button>
+          </div>
+        </div>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
-        <span style="font-size:12px;color:#7B84A3">1h ago</span>
-        <button class="btn btn-primary btn-sm">Activate Shield</button>
+      <div id="atab-deals" class="hidden">
+        <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:16px">All Deals</h2>
+        <div id="all-deals"></div>
       </div>
     </div>
-  </div>
-
-  <!-- DISPUTES -->
-  <div id="atab-disputes" class="hidden">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <h2 style="font-size:20px;font-weight:900;color:#fff">Dispute Management</h2>
-      <span class="badge badge-accent">1 open</span>
-    </div>
-    <div class="item-card card-glow-accent">
-      <div class="item-card-header">
-        <div><div style="font-size:14px;font-weight:700;color:#fff">Aligerouszz vs Lulu Hypermarket</div><div style="font-size:12px;color:#7B84A3;margin-top:3px">Payment dispute - creator pending confirmation</div></div>
-        <div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#E94560">&#8377;45,000</div><div style="font-size:12px;color:#7B84A3">2 days ago</div></div>
-      </div>
-      <span class="badge badge-accent">Open</span>
-      <div class="item-actions">
-        <button class="btn btn-outline btn-sm">View Agreement</button>
-        <button class="btn btn-primary btn-sm">Open Chat</button>
-        <button class="btn-approve" style="margin-left:auto">&#10003; Resolve</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ALL DEALS -->
-  <div id="atab-deals" class="hidden">
-    <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:16px">All Deals</h2>
-    <div id="all-deals"></div>
-  </div>
-
-</div>
-```
-
   </div>
 </div>
-
-<!-- MOBILE BOTTOM NAV -->
-
 <div class="mob-bottom-nav">
   <div class="mob-bottom-nav-inner">
     <button class="mob-nav-btn active" id="amob-overview" onclick="aSwitchTab('overview');aSetMob('overview')">
@@ -1538,50 +1320,6 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
 </div>
 
 </div><!-- end #pages -->
-</div><!-- end #pages -->
-
-<!-- WHATSAPP CONTACT MODAL -->
-
-<div id="contact-overlay" onclick="hideContact()" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)"></div>
-<div id="contact-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:501;width:100%;max-width:420px;padding:0 16px">
-  <div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:28px;position:relative">
-    <!-- Close -->
-    <button onclick="hideContact()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,.06);border:1px solid #252A45;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#7B84A3;font-size:16px;line-height:1">&times;</button>
-    <!-- Header -->
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <div style="width:40px;height:40px;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </div>
-      <div>
-        <div style="font-size:16px;font-weight:800;color:#fff">Chat with Zeke</div>
-        <div style="font-size:12px;color:#7B84A3">We usually reply within a few hours</div>
-      </div>
-    </div>
-    <!-- Form -->
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div>
-        <label style="font-size:11px;font-weight:700;color:#C8D0E7;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">Your Name</label>
-        <input id="wa-name" type="text" placeholder="Aligerouszz" style="width:100%;background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 14px;font-size:14px;color:#C8D0E7;outline:none;font-family:'Inter',sans-serif;transition:border-color .15s" onfocus="this.style.borderColor='rgba(37,211,102,.5)'" onblur="this.style.borderColor='#252A45'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;color:#C8D0E7;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">I am a</label>
-        <div style="display:flex;gap:8px">
-          <button id="wa-role-creator" onclick="setWaRole('creator')" style="flex:1;padding:9px;font-size:13px;font-weight:600;border-radius:8px;border:1px solid rgba(37,211,102,.4);background:rgba(37,211,102,.08);color:#25D366;cursor:pointer;font-family:'Inter',sans-serif">Creator</button>
-          <button id="wa-role-brand" onclick="setWaRole('brand')" style="flex:1;padding:9px;font-size:13px;font-weight:600;border-radius:8px;border:1px solid #252A45;background:transparent;color:#7B84A3;cursor:pointer;font-family:'Inter',sans-serif">Brand</button>
-          <button id="wa-role-other" onclick="setWaRole('other')" style="flex:1;padding:9px;font-size:13px;font-weight:600;border-radius:8px;border:1px solid #252A45;background:transparent;color:#7B84A3;cursor:pointer;font-family:'Inter',sans-serif">Other</button>
-        </div>
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;color:#C8D0E7;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">Message</label>
-        <textarea id="wa-message" placeholder="Hi Zeke, I'd like to know more about..." rows="3" style="width:100%;background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 14px;font-size:14px;color:#C8D0E7;outline:none;font-family:'Inter',sans-serif;resize:none;transition:border-color .15s" onfocus="this.style.borderColor='rgba(37,211,102,.5)'" onblur="this.style.borderColor='#252A45'"></textarea>
-      </div>
-      <button onclick="sendWhatsApp()" style="background:#25D366;color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Send on WhatsApp
-      </button>
-    </div>
-  </div>
-</div>
 
 <!-- NOTIFICATION PANEL -->
 
@@ -1604,721 +1342,544 @@ footer{background:#12152B;border-top:1px solid #252A45;padding:48px 24px 24px}
     <div class="notif-time">Today</div>
   </div>
 </div>
-
 <script>
-// ═══════════════════════════════════════
 // PAGE ROUTING
-// ═══════════════════════════════════════
 var PAGES = ['landing','auth','creator','brand','admin'];
 var currentPage = 'landing';
 
 function showPage(page) {
-  // Hide all pages
-  PAGES.forEach(function(p) {
-    var el = document.getElementById('page-' + p);
-    if (el) el.classList.add('hidden');
-  });
-  // Show target page
-  var target = document.getElementById('page-' + page);
-  if (target) target.classList.remove('hidden');
-  // Hide all nav-rights
-  ['landing','creator','brand','admin'].forEach(function(p) {
-    var nr = document.getElementById('nav-right-' + p);
-    if (nr) { nr.classList.add('hidden'); nr.style.display = 'none'; }
-  });
-  // Show correct nav-right
-  var showNav = page === 'auth' ? 'landing' : page;
-  var nr = document.getElementById('nav-right-' + showNav);
-  if (nr) { nr.classList.remove('hidden'); nr.style.display = 'flex'; }
-  currentPage = page;
-  document.title = page === 'landing' ? 'Zeke - Your Perfect PR Partner'
-    : page === 'auth' ? 'Sign In - Zeke'
-    : page === 'creator' ? 'Home - Zeke'
-    : page === 'brand' ? 'Brand Dashboard - Zeke'
-    : 'Admin - Zeke';
-  window.scrollTo(0,0);
-  if (page === 'creator') { closeDeal(); closeChat(); }
+PAGES.forEach(function(p) {
+var el = document.getElementById(‘page-’ + p);
+if (el) el.classList.add(‘hidden’);
+});
+var target = document.getElementById(‘page-’ + page);
+if (target) target.classList.remove(‘hidden’);
+[‘brand’,‘admin’].forEach(function(p) {
+var nr = document.getElementById(‘nav-right-’ + p);
+if (nr) { nr.classList.add(‘hidden’); nr.style.display = ‘none’; }
+});
+if (page === ‘brand’) {
+var nr = document.getElementById(‘nav-right-brand’);
+if (nr) { nr.classList.remove(‘hidden’); nr.style.display = ‘flex’; }
+} else if (page === ‘admin’) {
+var nr = document.getElementById(‘nav-right-admin’);
+if (nr) { nr.classList.remove(‘hidden’); nr.style.display = ‘flex’; }
+}
+var landingNav = document.getElementById(‘nav-right-landing’);
+if (landingNav) {
+if (page === ‘landing’ || page === ‘auth’) {
+landingNav.classList.remove(‘hidden’);
+landingNav.style.display = ‘flex’;
+} else {
+landingNav.classList.add(‘hidden’);
+landingNav.style.display = ‘none’;
+}
+}
+currentPage = page;
+document.title = page === ‘landing’ ? ‘Zeke - Your Perfect PR Partner’
+: page === ‘auth’ ? ‘Sign In - Zeke’
+: page === ‘creator’ ? ‘Home - Zeke’
+: page === ‘brand’ ? ‘Brand Dashboard - Zeke’
+: ‘Admin - Zeke’;
+window.scrollTo(0,0);
+if (page === ‘creator’) { closeDeal(); closeChat(); }
 }
 
-
-// ═══════════════════════════════════════
-// LANDING PAGE FUNCTIONS
-// ═══════════════════════════════════════
+// LANDING
 function toggleMenu() {
-  var dd = document.getElementById('nav-dropdown');
-  if (dd) dd.classList.toggle('open');
+var dd = document.getElementById(‘nav-dropdown’);
+if (dd) dd.classList.toggle(‘open’);
 }
 function closeMenu() {
-  var dd = document.getElementById('nav-dropdown');
-  if (dd) dd.classList.remove('open');
+var dd = document.getElementById(‘nav-dropdown’);
+if (dd) dd.classList.remove(‘open’);
 }
 function toggleFaq(item) {
-  var isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(function(el){
-    el.classList.remove('open');
-    var a = el.querySelector('.faq-a'); if(a) a.classList.remove('open');
-  });
-  if (!isOpen) {
-    item.classList.add('open');
-    var ans = item.querySelector('.faq-a'); if(ans) ans.classList.add('open');
-  }
+var isOpen = item.classList.contains(‘open’);
+document.querySelectorAll(’.faq-item’).forEach(function(el){
+el.classList.remove(‘open’);
+var a = el.querySelector(’.faq-a’); if(a) a.classList.remove(‘open’);
+});
+if (!isOpen) {
+item.classList.add(‘open’);
+var ans = item.querySelector(’.faq-a’); if(ans) ans.classList.add(‘open’);
+}
 }
 function toggleAcc(item) {
-  var isOpen = item.classList.contains('open');
-  document.querySelectorAll('.acc-item').forEach(function(el){ el.classList.remove('open'); });
-  if (!isOpen) item.classList.add('open');
+var isOpen = item.classList.contains(‘open’);
+document.querySelectorAll(’.acc-item’).forEach(function(el){ el.classList.remove(‘open’); });
+if (!isOpen) item.classList.add(‘open’);
+}
+function toggleSection(id) {
+if (currentPage !== ‘landing’) showPage(‘landing’);
+var lc = document.getElementById(‘landing-content’);
+var ab = document.getElementById(‘about’);
+var pr = document.getElementById(‘privacy’);
+if (lc) lc.classList.remove(‘hidden’);
+if (ab) ab.classList.add(‘hidden’);
+if (pr) pr.classList.add(‘hidden’);
+var bodyEl = document.getElementById(‘ls-body-’ + id);
+var item = bodyEl ? bodyEl.closest(’.ls-item’) : null;
+if (!item) return;
+var isOpen = item.classList.contains(‘open’);
+document.querySelectorAll(’.ls-item’).forEach(function(s){ s.classList.remove(‘open’); });
+if (!isOpen) item.classList.add(‘open’);
+setTimeout(function(){ item.scrollIntoView({behavior:‘smooth’, block:‘start’}); }, 50);
+}
+function showSection(name) {
+var lc = document.getElementById(‘landing-content’);
+var ab = document.getElementById(‘about’);
+var pr = document.getElementById(‘privacy’);
+[lc, ab, pr].forEach(function(el){ if(el) el.classList.add(‘hidden’); });
+if (name === ‘landing’ && lc) lc.classList.remove(‘hidden’);
+else if (name === ‘about’ && ab) ab.classList.remove(‘hidden’);
+else if (name === ‘privacy’ && pr) pr.classList.remove(‘hidden’);
+window.scrollTo(0,0);
 }
 
-
-
-// ═══════════════════════════════════════
-// AUTH LOGIC
-// ═══════════════════════════════════════
+// AUTH
 var isAdult = null;
-var regRole = 'influencer';
+var regRole = ‘influencer’;
 
 function togglePw(id, btn) {
-  var input = document.getElementById(id);
-  if (input.type === 'password') { input.type = 'text'; btn.textContent = 'Hide'; }
-  else { input.type = 'password'; btn.textContent = 'Show'; }
+var input = document.getElementById(id);
+if (input.type === ‘password’) { input.type = ‘text’; btn.textContent = ‘Hide’; }
+else { input.type = ‘password’; btn.textContent = ‘Show’; }
 }
-
 function showView(v) {
-  document.getElementById('login-view').classList.toggle('hidden', v !== 'login');
-  document.getElementById('register-view').classList.toggle('hidden', v !== 'register');
-  document.title = v === 'register' ? 'Create Account - Zeke' : 'Sign In - Zeke';
-  if (v === 'register') { goStep1(); setRole('influencer'); }
+document.getElementById(‘login-view’).classList.toggle(‘hidden’, v !== ‘login’);
+document.getElementById(‘register-view’).classList.toggle(‘hidden’, v !== ‘register’);
+if (v === ‘register’) { goStep1(); setRole(‘influencer’); }
 }
-
 function setAge(adult) {
-  isAdult = adult;
-  var yesBtn = document.getElementById('age-yes-btn');
-  var noBtn = document.getElementById('age-no-btn');
-  var guardianFields = document.getElementById('guardian-fields');
-  if (adult) {
-    yesBtn.style.cssText = 'flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid rgba(5,150,105,.4);border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#059669;background:rgba(5,150,105,.08)';
-    noBtn.style.cssText = 'flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid #252A45;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#7B84A3;background:transparent';
-    guardianFields.classList.add('hidden');
-  } else {
-    noBtn.style.cssText = 'flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid rgba(217,119,6,.4);border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#D97706;background:rgba(217,119,6,.08)';
-    yesBtn.style.cssText = 'flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid #252A45;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#7B84A3;background:transparent';
-    guardianFields.classList.remove('hidden');
-  }
+isAdult = adult;
+var yesBtn = document.getElementById(‘age-yes-btn’);
+var noBtn = document.getElementById(‘age-no-btn’);
+var guardianFields = document.getElementById(‘guardian-fields’);
+if (adult) {
+yesBtn.style.cssText = ‘flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid rgba(5,150,105,.4);border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#059669;background:rgba(5,150,105,.08)’;
+noBtn.style.cssText = ‘flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid #252A45;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#7B84A3;background:transparent’;
+guardianFields.classList.add(‘hidden’);
+} else {
+noBtn.style.cssText = ‘flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid rgba(217,119,6,.4);border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#D97706;background:rgba(217,119,6,.08)’;
+yesBtn.style.cssText = ‘flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid #252A45;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#7B84A3;background:transparent’;
+guardianFields.classList.remove(‘hidden’);
 }
-
-function showErr(id, msg) { var el = document.getElementById(id); if(el){el.textContent=msg;el.classList.remove('hidden');} }
-function hideErr(id) { var el = document.getElementById(id); if(el) el.classList.add('hidden'); }
-
+}
+function showErr(id, msg) { var el = document.getElementById(id); if(el){el.textContent=msg;el.classList.remove(‘hidden’);} }
+function hideErr(id) { var el = document.getElementById(id); if(el) el.classList.add(‘hidden’); }
 function doLogin() {
-  var email = document.getElementById('login-email').value.trim();
-  var pass = document.getElementById('login-password').value;
-  if (!email || email.indexOf('@') === -1 || email.split('@')[1].indexOf('.') === -1) { showErr('login-error','Please enter a valid email address.'); return; }
-  if (!pass) { showErr('login-error','Please enter your password.'); return; }
-  if (pass.length < 8) { showErr('login-error','Password must be at least 8 characters.'); return; }
-  hideErr('login-error');
-  if (email.indexOf('admin') !== -1) showPage('admin');
-  else if (email.indexOf('brand') !== -1) showPage('brand');
-  else showPage('creator');
+var email = document.getElementById(‘login-email’).value.trim();
+var pass = document.getElementById(‘login-password’).value;
+if (!email || email.indexOf(’@’) === -1 || email.split(’@’)[1].indexOf(’.’) === -1) { showErr(‘login-error’,‘Please enter a valid email address.’); return; }
+if (!pass) { showErr(‘login-error’,‘Please enter your password.’); return; }
+if (pass.length < 8) { showErr(‘login-error’,‘Password must be at least 8 characters.’); return; }
+hideErr(‘login-error’);
+if (email.indexOf(‘admin’) !== -1) showPage(‘admin’);
+else if (email.indexOf(‘brand’) !== -1) showPage(‘brand’);
+else showPage(‘creator’);
 }
-
 function setRole(role) {
-  regRole = role;
-  isAdult = null;
-  document.getElementById('role-creator-btn').className = 'role-btn' + (role === 'influencer' ? ' active' : '');
-  document.getElementById('role-brand-btn').className = 'role-btn' + (role === 'brand' ? ' active' : '');
-  document.getElementById('name-label').textContent = role === 'influencer' ? 'Full Name' : 'Brand / Company Name';
-  goStep1();
-  ['reg-name','reg-email','reg-password'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+regRole = role;
+isAdult = null;
+document.getElementById(‘role-creator-btn’).className = ‘role-btn’ + (role === ‘influencer’ ? ’ active’ : ‘’);
+document.getElementById(‘role-brand-btn’).className = ‘role-btn’ + (role === ‘brand’ ? ’ active’ : ‘’);
+document.getElementById(‘name-label’).textContent = role === ‘influencer’ ? ‘Full Name’ : ‘Brand / Company Name’;
+goStep1();
+[‘reg-name’,‘reg-email’,‘reg-password’].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=’’; });
 }
-
 function goStep2() {
-  var name = document.getElementById('reg-name').value.trim();
-  var email = document.getElementById('reg-email').value.trim();
-  var pass = document.getElementById('reg-password').value;
-  if (!name) { showErr('step1-error','Please enter your name.'); return; }
-  if (!email || email.indexOf('@') === -1 || email.split('@')[1].indexOf('.') === -1) { showErr('step1-error','Please enter a valid email address.'); return; }
-  if (!pass || pass.length < 8) { showErr('step1-error','Password must be at least 8 characters.'); return; }
-  hideErr('step1-error');
-  document.getElementById('reg-step1').classList.add('hidden');
-  document.getElementById('reg-step2').classList.remove('hidden');
-  if (regRole === 'brand') { document.getElementById('brand-fields').classList.remove('hidden'); document.getElementById('influencer-fields').classList.add('hidden'); }
-  else { document.getElementById('brand-fields').classList.add('hidden'); document.getElementById('influencer-fields').classList.remove('hidden'); }
+var name = document.getElementById(‘reg-name’).value.trim();
+var email = document.getElementById(‘reg-email’).value.trim();
+var pass = document.getElementById(‘reg-password’).value;
+if (!name) { showErr(‘step1-error’,‘Please enter your name.’); return; }
+if (!email || email.indexOf(’@’) === -1 || email.split(’@’)[1].indexOf(’.’) === -1) { showErr(‘step1-error’,‘Please enter a valid email address.’); return; }
+if (!pass || pass.length < 8) { showErr(‘step1-error’,‘Password must be at least 8 characters.’); return; }
+hideErr(‘step1-error’);
+document.getElementById(‘reg-step1’).classList.add(‘hidden’);
+document.getElementById(‘reg-step2’).classList.remove(‘hidden’);
+if (regRole === ‘brand’) { document.getElementById(‘brand-fields’).classList.remove(‘hidden’); document.getElementById(‘influencer-fields’).classList.add(‘hidden’); }
+else { document.getElementById(‘brand-fields’).classList.add(‘hidden’); document.getElementById(‘influencer-fields’).classList.remove(‘hidden’); }
 }
-
 function goStep1() {
-  var s1=document.getElementById('reg-step1'); var s2=document.getElementById('reg-step2');
-  if(s1) s1.classList.remove('hidden'); if(s2) s2.classList.add('hidden');
-  hideErr('step1-error'); hideErr('step2-error');
+var s1=document.getElementById(‘reg-step1’); var s2=document.getElementById(‘reg-step2’);
+if(s1) s1.classList.remove(‘hidden’); if(s2) s2.classList.add(‘hidden’);
+hideErr(‘step1-error’); hideErr(‘step2-error’);
 }
-
 function doRegister() {
-  var err = 'step2-error';
-  if (regRole === 'brand') {
-    var loc = document.getElementById('brand-location').value.trim();
-    if (!loc) { showErr(err,'Please enter your location or region.'); return; }
-  } else {
-    var niche = document.getElementById('inf-niche').value;
-    var loc = document.getElementById('inf-location').value.trim();
-    if (!niche) { showErr(err,'Please select your primary niche.'); return; }
-    if (!loc) { showErr(err,'Please enter your location.'); return; }
-    if (isAdult === null) { showErr(err,'Please confirm whether you are 18 or older.'); return; }
-    if (!isAdult) {
-      var gName=document.getElementById('guardian-name').value.trim();
-      var gEmail=document.getElementById('guardian-email').value.trim();
-      var gRel=document.getElementById('guardian-relation').value;
-      if (!gName) { showErr(err,"Please enter your guardian's full name."); return; }
-      if (!gEmail||gEmail.indexOf('@')===-1) { showErr(err,'Please enter a valid guardian email.'); return; }
-      if (!gRel) { showErr(err,'Please select your relationship to the guardian.'); return; }
-    }
-  }
-  hideErr(err);
-  if (regRole === 'brand') showPage('brand');
-  else showPage('creator');
+var err = ‘step2-error’;
+if (regRole === ‘brand’) {
+var loc = document.getElementById(‘brand-location’).value.trim();
+if (!loc) { showErr(err,‘Please enter your location or region.’); return; }
+} else {
+var niche = document.getElementById(‘inf-niche’).value;
+var loc2 = document.getElementById(‘inf-location’).value.trim();
+if (!niche) { showErr(err,‘Please select your primary niche.’); return; }
+if (!loc2) { showErr(err,‘Please enter your location.’); return; }
+if (isAdult === null) { showErr(err,‘Please confirm whether you are 18 or older.’); return; }
+if (!isAdult) {
+var gName=document.getElementById(‘guardian-name’).value.trim();
+var gEmail=document.getElementById(‘guardian-email’).value.trim();
+var gRel=document.getElementById(‘guardian-relation’).value;
+if (!gName) { showErr(err,“Please enter your guardian’s full name.”); return; }
+if (!gEmail||gEmail.indexOf(’@’)===-1) { showErr(err,‘Please enter a valid guardian email.’); return; }
+if (!gRel) { showErr(err,‘Please select your relationship to the guardian.’); return; }
 }
-
+}
+hideErr(err);
+if (regRole === ‘brand’) showPage(‘brand’);
+else showPage(‘creator’);
+}
 function selectBrandType(input) {
-  ['opt-business','opt-ngo','opt-agency'].forEach(function(id){ var el=document.getElementById(id); if(el) el.className='radio-option'; });
-  input.parentElement.className = 'radio-option selected';
+[‘opt-business’,‘opt-ngo’,‘opt-agency’].forEach(function(id){ var el=document.getElementById(id); if(el) el.className=‘radio-option’; });
+input.parentElement.className = ‘radio-option selected’;
 }
 
-// ═══════════════════════════════════════
-// WHATSAPP CONTACT
-// ═══════════════════════════════════════
-var waRole = 'creator';
-
-function showContact() {
-  document.getElementById('contact-overlay').style.display = 'block';
-  document.getElementById('contact-modal').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
-
-function hideContact() {
-  document.getElementById('contact-overlay').style.display = 'none';
-  document.getElementById('contact-modal').style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-function setWaRole(role) {
-  waRole = role;
-  ['creator','brand','other'].forEach(function(r) {
-    var btn = document.getElementById('wa-role-' + r);
-    if (!btn) return;
-    if (r === role) {
-      btn.style.borderColor = 'rgba(37,211,102,.4)';
-      btn.style.background = 'rgba(37,211,102,.08)';
-      btn.style.color = '#25D366';
-    } else {
-      btn.style.borderColor = '#252A45';
-      btn.style.background = 'transparent';
-      btn.style.color = '#7B84A3';
-    }
-  });
-}
-
-function sendWhatsApp() {
-  var name = (document.getElementById('wa-name').value.trim()) || 'Someone';
-  var message = (document.getElementById('wa-message').value.trim()) || 'Hi, I want to know more about Zeke.';
-  var role = waRole.charAt(0).toUpperCase() + waRole.slice(1);
-  var text = 'Hi Zeke! I am ' + name + ' (' + role + ').\n\n' + message;
-  var url = 'https://wa.me/918943015958?text=' + encodeURIComponent(text);
-  window.open(url, '_blank');
-  hideContact();
-}
-
-// ═══════════════════════════════════════
-// LANDING PAGE
-// ═══════════════════════════════════════
-function toggleSection(id) {
-  // Make sure we're on landing page with landing-content visible
-  if (currentPage !== 'landing') showPage('landing');
-  var lc = document.getElementById('landing-content');
-  var ab = document.getElementById('about');
-  var pr = document.getElementById('privacy');
-  if (lc) lc.classList.remove('hidden');
-  if (ab) ab.classList.add('hidden');
-  if (pr) pr.classList.add('hidden');
-  // Find the ls-item by its body ID
-  var bodyEl = document.getElementById('ls-body-' + id);
-  var item = bodyEl ? bodyEl.closest('.ls-item') : null;
-  if (!item) return;
-  var isOpen = item.classList.contains('open');
-  document.querySelectorAll('.ls-item').forEach(function(s){ s.classList.remove('open'); });
-  if (!isOpen) item.classList.add('open');
-  setTimeout(function(){ item.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
-}
-
-function showSection(name) {
-  var lc = document.getElementById('landing-content');
-  var ab = document.getElementById('about');
-  var pr = document.getElementById('privacy');
-  var tr = document.getElementById('terms');
-  [lc, ab, pr, tr].forEach(function(el){ if(el) el.classList.add('hidden'); });
-  if (name === 'landing' && lc) lc.classList.remove('hidden');
-  else if (name === 'about' && ab) ab.classList.remove('hidden');
-  else if (name === 'privacy' && pr) pr.classList.remove('hidden');
-  else if (name === 'terms' && tr) tr.classList.remove('hidden');
-  window.scrollTo(0,0);
-}
-
-// ═══════════════════════════════════════
 // NOTIFICATIONS
-// ═══════════════════════════════════════
 function toggleNotif() {
-  var panel = document.getElementById('notif-panel');
-  var overlay = document.getElementById('notif-overlay');
-  var isOpen = !panel.classList.contains('hidden');
-  panel.classList.toggle('hidden', isOpen);
-  overlay.classList.toggle('open', !isOpen);
+var panel = document.getElementById(‘notif-panel’);
+var overlay = document.getElementById(‘notif-overlay’);
+var isOpen = !panel.classList.contains(‘hidden’);
+panel.classList.toggle(‘hidden’, isOpen);
+overlay.classList.toggle(‘open’, !isOpen);
 }
-
 function clearNotifs() {
-  document.querySelectorAll('.notif-item.unread').forEach(function(el){ el.classList.remove('unread'); });
-  document.querySelectorAll('.notif-unread-dot').forEach(function(el){ el.style.display='none'; });
-  var dot = document.getElementById('main-notif-dot');
-  if (dot) dot.style.display = 'none';
+document.querySelectorAll(’.notif-item.unread’).forEach(function(el){ el.classList.remove(‘unread’); });
+document.querySelectorAll(’.notif-unread-dot’).forEach(function(el){ el.style.display=‘none’; });
+var dot = document.getElementById(‘main-notif-dot’);
+if (dot) dot.style.display = ‘none’;
 }
 
-// ═══════════════════════════════════════
-// ═══ CREATOR JS ═══
-// ─── DATA ───────────────────────────────────────────────
+// CREATOR - DATA
 var DEALS = {
-  lulu: {
-    name: 'Lulu Hypermarket',
-    initials: 'LU',
-    color: '#059669',
-    colorBg: 'rgba(5,150,105,.1)',
-    colorBorder: 'rgba(5,150,105,.3)',
-    sub: 'Eid Collection Reel · ₹45,000',
-    amount: '₹45,000',
-    status: 'Paid',
-    statusClass: 'badge-green',
-    progress: 100,
-    progressColor: '#059669',
-    progressLabel: 'Complete',
-    timeline: [
-      {done:true, label:'Agreement generated · Terms locked', time:'Apr 16'},
-      {done:true, label:'File submitted by Aligerouszz (Round 1)', time:'Apr 17'},
-      {done:true, label:'Content approved by Lulu Hypermarket', time:'Apr 18'},
-      {done:true, label:'Final Instagram link submitted', time:'Apr 18'},
-      {done:true, label:'Payment of ₹45,000 sent by Lulu', time:'Apr 19'},
-      {done:true, label:'Payment confirmed · Deal closed', time:'Apr 19', highlight:true}
-    ],
-    deliverables: '1 Instagram Reel · Eid Collection theme · 30-day usage · Lulu social channels only · No exclusivity · Full payment on delivery',
-    submissions: 'approved',
-    finallink: 'instagram.com/reel/eid-lulu-aligerouszz',
-    payment: 'confirmed',
-    cancelDone: true
-  }
+lulu: {
+name: ‘Lulu Hypermarket’, initials: ‘LU’, color: ‘#059669’,
+colorBg: ‘rgba(5,150,105,.1)’, colorBorder: ‘rgba(5,150,105,.3)’,
+sub: ‘Eid Collection Reel \u00b7 \u20b945,000’, amount: ‘\u20b945,000’,
+status: ‘Paid’, statusClass: ‘badge-green’, progress: 100,
+progressColor: ‘#059669’, progressLabel: ‘Complete’,
+timeline: [
+{done:true, label:‘Agreement generated \u00b7 Terms locked’, time:‘Apr 16’},
+{done:true, label:‘File submitted by Aligerouszz (Round 1)’, time:‘Apr 17’},
+{done:true, label:‘Content approved by Lulu Hypermarket’, time:‘Apr 18’},
+{done:true, label:‘Final Instagram link submitted’, time:‘Apr 18’},
+{done:true, label:‘Payment of \u20b945,000 sent by Lulu’, time:‘Apr 19’},
+{done:true, label:‘Payment confirmed \u00b7 Deal closed’, time:‘Apr 19’, highlight:true}
+],
+deliverables: ‘1 Instagram Reel \u00b7 Eid Collection theme \u00b7 30-day usage \u00b7 Lulu social channels only \u00b7 No exclusivity \u00b7 Full payment on delivery’,
+submissions: ‘approved’, finallink: ‘instagram.com/reel/eid-lulu-aligerouszz’,
+payment: ‘confirmed’, cancelDone: true
+}
 };
 
 var CHAT_MESSAGES = {
-  lulu: [
-    {type:'offer', brand:'Lulu Hypermarket', title:'Eid Collection Reel', details:'Platform: Instagram Reel\nBudget: \u20b935,000\nUsage: 30-day rights\nDeadline: Apr 20, 2026', time:'Apr 15'},
-    {type:'out', text:'Thanks for the offer! I usually charge ₹50,000 for a Reel with full usage rights. Can we meet somewhere in between?', time:'Apr 15'},
-    {type:'in', text:'We can go up to ₹45,000 with 30-day usage rights. That is our best offer.', time:'Apr 16'},
-    {type:'out', text:'Deal. ₹45,000, 1 Instagram Reel, 30-day usage. Accepting on Zeke now.', time:'Apr 16'},
-    {type:'event', text:'✓ Aligerouszz accepted the offer · Deal created · Agreement generated'},
-    {type:'out', text:'Reel file uploaded to Zeke. Please review when you get a chance.', time:'Apr 17'},
-    {type:'event', text:'✓ File submitted by Aligerouszz · Awaiting brand review'},
-    {type:'event', text:'✓ Content approved by Lulu Hypermarket'},
-    {type:'in', text:'Looks perfect! Go ahead and post it on Instagram.', time:'Apr 18'},
-    {type:'out', text:'Posted! Here is the live link: instagram.com/reel/eid-lulu-aligerouszz', time:'Apr 18'},
-    {type:'event', text:'✓ Final Instagram link submitted by Aligerouszz'},
-    {type:'event-gold', text:'₹ Payment of ₹45,000 sent by Lulu Hypermarket'},
-    {type:'in', text:'Thank you Aligerouszz! Lulu is very happy with the content. Looking forward to working together again.', time:'Apr 19'},
-    {type:'out', text:'Thank you! Great working with Lulu. Hope to do more deals soon.', time:'Apr 19'},
-    {type:'event', text:'✓ Payment received confirmed by Aligerouszz · Deal complete'}
-  ]
+lulu: [
+{type:‘offer’, brand:‘Lulu Hypermarket’, title:‘Eid Collection Reel’, details:‘Platform: Instagram Reel\nBudget: \u20b935,000\nUsage: 30-day rights\nDeadline: Apr 20, 2026’, time:‘Apr 15’},
+{type:‘out’, text:‘Thanks for the offer! I usually charge \u20b950,000 for a Reel with full usage rights. Can we meet somewhere in between?’, time:‘Apr 15’},
+{type:‘in’, text:‘We can go up to \u20b945,000 with 30-day usage rights. That is our best offer.’, time:‘Apr 16’},
+{type:‘out’, text:‘Deal. \u20b945,000, 1 Instagram Reel, 30-day usage. Accepting on Zeke now.’, time:‘Apr 16’},
+{type:‘event’, text:’\u2713 Aligerouszz accepted the offer \u00b7 Deal created \u00b7 Agreement generated’},
+{type:‘out’, text:‘Reel file uploaded to Zeke. Please review when you get a chance.’, time:‘Apr 17’},
+{type:‘event’, text:’\u2713 File submitted by Aligerouszz \u00b7 Awaiting brand review’},
+{type:‘event’, text:’\u2713 Content approved by Lulu Hypermarket’},
+{type:‘in’, text:‘Looks perfect! Go ahead and post it on Instagram.’, time:‘Apr 18’},
+{type:‘out’, text:‘Posted! Here is the live link: instagram.com/reel/eid-lulu-aligerouszz’, time:‘Apr 18’},
+{type:‘event’, text:’\u2713 Final Instagram link submitted by Aligerouszz’},
+{type:‘event-gold’, text:’\u20b9 Payment of \u20b945,000 sent by Lulu Hypermarket’},
+{type:‘in’, text:‘Thank you Aligerouszz! Lulu is very happy with the content. Looking forward to working together again.’, time:‘Apr 19’},
+{type:‘out’, text:‘Thank you! Great working with Lulu. Hope to do more deals soon.’, time:‘Apr 19’},
+{type:‘event’, text:’\u2713 Payment received confirmed by Aligerouszz \u00b7 Deal complete’}
+]
 };
 
-// ─── STATE ───────────────────────────────────────────────
-var activeTab = 'overview';
+// CREATOR - STATE
+var activeTab = ‘overview’;
 var activeDeal = null;
 var activeChat = null;
-
-// ─── TAB SWITCHING ───────────────────────────────────────
-var TAB_TITLES = {overview:'Home',offers:'Offers',chats:'Chats',deals:'Deals',agreements:'Agreements',profile:'Profile'};
+var TAB_TITLES = {overview:‘Home’,offers:‘Offers’,chats:‘Chats’,deals:‘Deals’,agreements:‘Agreements’,profile:‘Profile’};
 
 function switchTab(tab) {
-  ['overview','offers','chats','deals','agreements','profile'].forEach(function(t) {
-    var el = document.getElementById('tab-' + t);
-    if (el) el.classList.toggle('hidden', t !== tab);
-    var btn = document.getElementById('inf-tab-' + t);
-    if (btn) btn.className = 'sidebar-nav-btn' + (t === tab ? ' active-tab' : '');
-  });
-  document.title = (TAB_TITLES[tab] || tab) + ' - Zeke';
-  activeTab = tab;
-  // Reset sub-views when leaving
-  if (tab !== 'deals') closeDeal();
-  if (tab !== 'chats') closeChat();
+[‘overview’,‘offers’,‘chats’,‘deals’,‘agreements’,‘profile’].forEach(function(t) {
+var el = document.getElementById(‘tab-’ + t);
+if (el) el.classList.toggle(‘hidden’, t !== tab);
+var btn = document.getElementById(‘inf-tab-’ + t);
+if (btn) btn.className = ‘sidebar-nav-btn’ + (t === tab ? ’ active-tab’ : ‘’);
+});
+document.title = (TAB_TITLES[tab] || tab) + ’ - Zeke’;
+activeTab = tab;
+if (tab !== ‘deals’) closeDeal();
+if (tab !== ‘chats’) closeChat();
 }
-
 function setMob(tab) {
-  ['overview','offers','chats','deals','profile'].forEach(function(t) {
-    var b = document.getElementById('mob-' + t);
-    if (b) b.className = 'mob-nav-btn' + (t === tab ? ' active' : '');
-  });
-}
-
-// ─── NOTIFICATIONS ───────────────────────────────────────
-function toggleNotif() {
-  var panel = document.getElementById('notif-panel');
-  var overlay = document.getElementById('notif-overlay');
-  var isOpen = !panel.classList.contains('hidden');
-  panel.classList.toggle('hidden', isOpen);
-  overlay.classList.toggle('open', !isOpen);
-}
-
-function clearNotifs() {
-  document.querySelectorAll('.notif-item.unread').forEach(function(el){ el.classList.remove('unread'); });
-  document.querySelectorAll('.notif-unread-dot').forEach(function(el){ el.style.display = 'none'; });
-  document.getElementById('main-notif-dot').style.display = 'none';
-}
-
-// ─── OFFERS ──────────────────────────────────────────────
-
-
-
-
-
-
-// ─── CHATS ───────────────────────────────────────────────
-function openChat(id) {
-  activeChat = id;
-  var d = DEALS[id];
-  document.getElementById('chats-list').classList.add('hidden');
-  var win = document.getElementById('chats-window');
-  win.classList.remove('hidden');
-  win.style.display = 'flex';
-  // Header
-  var av = document.getElementById('chat-avatar');
-  av.textContent = d.initials;
-  av.style.background = d.colorBg;
-  av.style.borderColor = d.colorBorder;
-  av.style.color = d.color;
-  document.getElementById('chat-brand-name').textContent = d.name;
-  document.getElementById('chat-brand-sub').textContent = id === 'lulu' ? 'Deal closed \u00b7 \u20b945,000 paid' : 'Deal active \u00b7 \u20b935,000';
-  document.getElementById('chat-brand-sub').style.color = d.color;
-  // Footer
-  var footer = document.getElementById('chat-footer');
-  footer.textContent = id === 'lulu' ? 'This deal is closed. Chat is read-only.' : 'Deal is active.';
-  // Messages
-  renderChatMessages(id);
-  window.scrollTo(0,0);
-}
-
-function closeChat() {
-  activeChat = null;
-  var win = document.getElementById('chats-window');
-  if (win) { win.classList.add('hidden'); win.style.display = 'none'; }
-  var list = document.getElementById('chats-list');
-  if (list) list.classList.remove('hidden');
-}
-
-function renderChatMessages(id) {
-  var msgs = CHAT_MESSAGES[id];
-  var container = document.getElementById('chat-messages');
-  container.innerHTML = '';
-  msgs.forEach(function(m) {
-    var div = document.createElement('div');
-    if (m.type === 'offer') {
-      div.style.cssText = 'display:flex;justify-content:center';
-      div.innerHTML = '<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:14px;padding:14px 16px;width:100%;max-width:88%"><div style="font-size:10px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Offer from ' + m.brand + '</div><div style="font-size:13px;color:#C8D0E7;font-weight:600;margin-bottom:6px">' + m.title + '</div><div style="font-size:12px;color:#7B84A3;white-space:pre-line;line-height:1.7">' + m.details + '</div><div style="font-size:10px;color:#7B84A3;margin-top:8px">Sent via Zeke \u00b7 ' + m.time + '</div></div>';
-    } else if (m.type === 'out') {
-      div.style.cssText = 'display:flex;justify-content:flex-end';
-      div.innerHTML = '<div class="chat-bubble-out"><div style="font-size:13px;color:#C8D0E7">' + m.text + '</div><div style="font-size:10px;color:#7B84A3;margin-top:4px">You \u00b7 ' + m.time + '</div></div>';
-    } else if (m.type === 'in') {
-      div.style.cssText = 'display:flex;justify-content:flex-start';
-      div.innerHTML = '<div class="chat-bubble-in"><div style="font-size:13px;color:#C8D0E7">' + m.text + '</div><div style="font-size:10px;color:#7B84A3;margin-top:4px">' + d.name.split(' ')[0] + ' \u00b7 ' + m.time + '</div></div>';
-    } else if (m.type === 'event') {
-      div.style.cssText = 'display:flex;justify-content:center';
-      div.innerHTML = '<div class="chat-event">' + m.text + '</div>';
-    } else if (m.type === 'event-gold') {
-      div.style.cssText = 'display:flex;justify-content:center';
-      div.innerHTML = '<div class="chat-event-gold">' + m.text + '</div>';
-    }
-    container.appendChild(div);
-  });
-  // Scroll to bottom
-  setTimeout(function(){ container.scrollTop = container.scrollHeight; }, 50);
-}
-
-// ─── DEALS ───────────────────────────────────────────────
-function openDeal(id) {
-  activeDeal = id;
-  var d = DEALS[id];
-  document.getElementById('deals-list').classList.add('hidden');
-  document.getElementById('deals-detail').classList.remove('hidden');
-  // Header
-  document.getElementById('deal-brand-name').textContent = d.name;
-  document.getElementById('deal-brand-sub').textContent = d.sub;
-  var badge = document.getElementById('deal-status-badge');
-  badge.textContent = d.status;
-  badge.className = 'badge ' + d.statusClass;
-  // Progress
-  var fill = document.getElementById('deal-progress-fill');
-  fill.style.width = d.progress + '%';
-  fill.style.background = d.progressColor;
-  document.getElementById('deal-progress-label').textContent = d.progressLabel;
-  document.getElementById('deal-progress-label').style.color = d.progressColor;
-  // Render panels
-  renderTimeline(d);
-  renderDeliverables(d);
-  renderSubmissions(d);
-  renderFinalLink(d);
-  renderPayment(d);
-  renderCancel(d);
-  // Reset to overview tab
-  switchDealTab('overview');
-  window.scrollTo(0,0);
-}
-
-function closeDeal() {
-  activeDeal = null;
-  var detail = document.getElementById('deals-detail');
-  var list = document.getElementById('deals-list');
-  if (detail) detail.classList.add('hidden');
-  if (list) list.classList.remove('hidden');
-}
-
-function renderTimeline(d) {
-  var html = '<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:14px">Deal Timeline</div><div style="display:flex;flex-direction:column;gap:0">';
-  d.timeline.forEach(function(step, i) {
-    var isLast = i === d.timeline.length - 1;
-    html += '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;position:relative' + (!isLast ? ';padding-bottom:0' : '') + '">';
-    if (!isLast) html += '<div style="position:absolute;left:7px;top:22px;bottom:-4px;width:1px;background:#252A45"></div>';
-    html += '<div style="width:15px;height:15px;border-radius:50%;border:2px solid ' + (step.done ? '#059669' : '#252A45') + ';background:' + (step.done ? '#059669' : '#0B0D1A') + ';flex-shrink:0;margin-top:2px"></div>';
-    html += '<div style="font-size:12px;color:' + (step.highlight ? '#059669' : (step.done ? '#C8D0E7' : '#7B84A3')) + ';font-weight:' + (step.highlight ? '700' : '400') + ';flex:1;line-height:1.4">' + step.label + '</div>';
-    html += '<div style="font-size:11px;color:#7B84A3;flex-shrink:0;white-space:nowrap">' + step.time + '</div>';
-    html += '</div>';
-  });
-  html += '</div>';
-  document.getElementById('deal-timeline-wrap').innerHTML = html;
-}
-
-function renderDeliverables(d) {
-  document.getElementById('deal-deliverables-wrap').innerHTML = '<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">Deliverables</div><div style="font-size:12px;color:#7B84A3;line-height:1.9">' + d.deliverables + '</div>';
-}
-
-function renderSubmissions(d) {
-  var html = '';
-  if (d.submissions === 'approved') {
-    html = '<div style="background:#181C35;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:14px;margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:13px;font-weight:700;color:#fff">Round 1</div><span class="badge badge-green">Approved</span></div><div style="background:#0B0D1A;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><div><div style="font-size:13px;font-weight:600;color:#fff">eid_collection_v1.mp4</div><div style="font-size:11px;color:#7B84A3">84.2 MB \u00b7 Submitted Apr 17</div></div></div><div style="font-size:12px;color:#059669;margin-top:10px;padding:8px 12px;background:rgba(5,150,105,.06);border-radius:8px">\u2713 Lulu approved on Apr 18 \u2014 "Looks great! Go ahead and post."</div></div><div style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:14px;opacity:.5"><div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Submit New Round</div><div style="font-size:12px;color:#7B84A3">Content approved. No further submissions needed.</div></div>';
-  } else {
-    html = '<div style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px"><div style="font-size:13px;font-weight:700;color:#fff">Round 1 \u2014 Submit File</div><div style="font-size:12px;color:#7B84A3">Upload your reel file. Do not post on Instagram until brand approves.</div><div id="sub-upload-area" onclick="document.getElementById(\'sub-file\').click()" style="border:2px dashed #252A45;border-radius:12px;padding:20px;text-align:center;cursor:pointer"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7B84A3" stroke-width="2" style="margin-bottom:8px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><div style="font-size:13px;font-weight:600;color:#C8D0E7;margin-bottom:4px">Upload Reel File</div><div style="font-size:11px;color:#7B84A3">MP4, MOV up to 200MB</div><input id="sub-file" type="file" accept="video/*" style="display:none" onchange="handleFileSelect(this)"></div><div id="sub-file-preview" class="hidden" style="background:#0B0D1A;border:1px solid rgba(5,150,105,.3);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><div style="flex:1;min-width:0"><div id="sub-file-name" style="font-size:13px;font-weight:600;color:#fff">file.mp4</div><div id="sub-file-size" style="font-size:11px;color:#7B84A3">0 MB</div></div><button onclick="removeSubFile()" style="background:none;border:none;color:#7B84A3;cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><button class="btn btn-primary btn-sm btn-full" onclick="submitFile()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Submit for Review</button></div>';
-  }
-  document.getElementById('submissions-content').innerHTML = html;
-}
-
-function renderFinalLink(d) {
-  var html = '';
-  if (d.finallink === 'pending') {
-    html = '<div style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;opacity:.5"><div style="font-size:13px;font-weight:700;color:#fff">Final Instagram Link</div><div style="font-size:12px;color:#7B84A3">Available after brand approves your content.</div></div>';
-  } else {
-    html = '<div style="background:#181C35;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px;margin-bottom:12px"><div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">Final Instagram Link</div><div style="background:#0B0D1A;border-radius:10px;padding:10px 14px;font-size:13px;color:#059669;word-break:break-all">' + d.finallink + '</div><div style="font-size:11px;color:#7B84A3;margin-top:8px">Submitted Apr 18, 2026 \u00b7 Locked into agreement</div></div><div style="background:rgba(5,150,105,.04);border:1px solid rgba(5,150,105,.2);border-radius:12px;padding:12px;font-size:12px;color:#059669">\u2713 Final link confirmed and locked. Deal is complete.</div>';
-  }
-  document.getElementById('finallink-content').innerHTML = html;
-}
-
-function renderPayment(d) {
-  var html = '';
-  if (d.payment === 'pending') {
-    html = '<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.25);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;opacity:.5"><div style="font-size:13px;font-weight:700;color:#D97706">Confirm Payment Received</div><div style="font-size:12px;color:#7B84A3">Available after brand marks payment as sent.</div></div>';
-  } else {
-    html = '<div style="background:#181C35;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px"><div style="font-size:13px;font-weight:700;color:#fff">Payment Status</div><div style="background:#0B0D1A;border:1px solid rgba(5,150,105,.3);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#fff">payment_proof.jpg</div><div style="font-size:11px;color:#7B84A3">Uploaded Apr 19</div></div><span class="badge badge-green" style="font-size:10px">Confirmed</span></div><div style="font-size:12px;color:#059669;padding:10px 12px;background:rgba(5,150,105,.06);border-radius:8px;font-weight:600">\u2713 \u20b945,000 received and confirmed by Aligerouszz on Apr 19, 2026</div></div>';
-  }
-  document.getElementById('payment-content').innerHTML = html;
-}
-
-function renderCancel(d) {
-  var html = '';
-  if (d.cancelDone) {
-    html = '<div style="font-size:12px;color:#7B84A3;line-height:1.7;margin-bottom:12px">Cancellation requires both parties to agree.</div><div style="background:rgba(123,132,163,.08);border:1px solid #252A45;border-radius:10px;padding:12px;font-size:12px;color:#7B84A3;text-align:center">This deal is already completed. Cancellation is no longer available.</div>';
-  } else {
-    html = '<div style="font-size:12px;color:#7B84A3;line-height:1.7;margin-bottom:12px">You can request cancellation. The brand will be notified and must agree before the deal is cancelled.</div><textarea id="cancel-reason" placeholder="Reason for cancellation..." style="width:100%;background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif;resize:vertical;min-height:80px;margin-bottom:10px"></textarea><button class="btn btn-sm btn-full" onclick="requestCancel()" style="background:rgba(233,69,96,.1);color:#E94560;border:1px solid rgba(233,69,96,.3);border-radius:8px;padding:10px;font-weight:700;font-family:Inter,sans-serif">Send Cancellation Request</button>';
-
-}
-document.getElementById('cancel-content').innerHTML = html;
-}
-
-function requestCancel() {
-var reason = document.getElementById('cancel-reason') ? document.getElementById('cancel-reason').value.trim() : '';
-if (!reason) { alert('Please provide a reason for cancellation.'); return; }
-document.getElementById('cancel-content').innerHTML = '<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:10px;padding:12px;font-size:12px;color:#D97706;font-weight:600">\u29e8 Cancellation request sent to " + activeDeal + ". Waiting for their response.</div>';
-}
-
-// ─── DEAL INNER TABS ─────────────────────────────────────
-function switchDealTab(key) {
-['overview','submissions','finallink','payment','cancel'].forEach(function(p) {
-var el = document.getElementById('dpanel-' + p);
-if (el) el.classList.toggle('hidden', p !== key);
-var btn = document.getElementById('dtab-' + p);
-if (!btn) return;
-btn.className = 'deal-tab' + (p === key ? ' active' : '');
-if (p === 'cancel') btn.style.color = p === key ? '#E94560' : 'rgba(233,69,96,.5)';
-else btn.style.color = '';
+[‘overview’,‘offers’,‘chats’,‘deals’,‘profile’].forEach(function(t) {
+var b = document.getElementById(‘mob-’ + t);
+if (b) b.className = ‘mob-nav-btn’ + (t === tab ? ’ active’ : ‘’);
 });
 }
 
-// ─── FILE UPLOAD HELPERS ─────────────────────────────────
+// CHATS
+function openChat(id) {
+activeChat = id;
+var d = DEALS[id];
+document.getElementById(‘chats-list’).classList.add(‘hidden’);
+var win = document.getElementById(‘chats-window’);
+win.classList.remove(‘hidden’);
+win.style.display = ‘flex’;
+var av = document.getElementById(‘chat-avatar’);
+av.textContent = d.initials;
+av.style.background = d.colorBg;
+av.style.borderColor = d.colorBorder;
+av.style.color = d.color;
+document.getElementById(‘chat-brand-name’).textContent = d.name;
+document.getElementById(‘chat-brand-sub’).textContent = id === ‘lulu’ ? ‘Deal closed \u00b7 \u20b945,000 paid’ : ‘Deal active’;
+document.getElementById(‘chat-brand-sub’).style.color = d.color;
+document.getElementById(‘chat-footer’).textContent = id === ‘lulu’ ? ‘This deal is closed. Chat is read-only.’ : ‘Deal is active.’;
+renderChatMessages(id);
+window.scrollTo(0,0);
+}
+function closeChat() {
+activeChat = null;
+var win = document.getElementById(‘chats-window’);
+if (win) { win.classList.add(‘hidden’); win.style.display = ‘none’; }
+var list = document.getElementById(‘chats-list’);
+if (list) list.classList.remove(‘hidden’);
+}
+function renderChatMessages(id) {
+var msgs = CHAT_MESSAGES[id];
+var d = DEALS[id];
+var container = document.getElementById(‘chat-messages’);
+container.innerHTML = ‘’;
+msgs.forEach(function(m) {
+var div = document.createElement(‘div’);
+if (m.type === ‘offer’) {
+div.style.cssText = ‘display:flex;justify-content:center’;
+div.innerHTML = ’<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:14px;padding:14px 16px;width:100%;max-width:88%"><div style="font-size:10px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Offer from ’ + m.brand + ‘</div><div style="font-size:13px;color:#C8D0E7;font-weight:600;margin-bottom:6px">’ + m.title + ‘</div><div style="font-size:12px;color:#7B84A3;white-space:pre-line;line-height:1.7">’ + m.details + ’</div><div style="font-size:10px;color:#7B84A3;margin-top:8px">Sent via Zeke \u00b7 ’ + m.time + ‘</div></div>’;
+} else if (m.type === ‘out’) {
+div.style.cssText = ‘display:flex;justify-content:flex-end’;
+div.innerHTML = ‘<div class="chat-bubble-out"><div style="font-size:13px;color:#C8D0E7">’ + m.text + ‘</div><div style="font-size:10px;color:#7B84A3;margin-top:4px">You \u00b7 ’ + m.time + ‘</div></div>’;
+} else if (m.type === ‘in’) {
+div.style.cssText = ‘display:flex;justify-content:flex-start’;
+div.innerHTML = ‘<div class="chat-bubble-in"><div style="font-size:13px;color:#C8D0E7">’ + m.text + ‘</div><div style="font-size:10px;color:#7B84A3;margin-top:4px">’ + d.name.split(’ ’)[0] + ’ \u00b7 ’ + m.time + ‘</div></div>’;
+} else if (m.type === ‘event’) {
+div.style.cssText = ‘display:flex;justify-content:center’;
+div.innerHTML = ‘<div class="chat-event">’ + m.text + ‘</div>’;
+} else if (m.type === ‘event-gold’) {
+div.style.cssText = ‘display:flex;justify-content:center’;
+div.innerHTML = ‘<div class="chat-event-gold">’ + m.text + ‘</div>’;
+}
+container.appendChild(div);
+});
+setTimeout(function(){ container.scrollTop = container.scrollHeight; }, 50);
+}
+
+// DEALS
+function openDeal(id) {
+activeDeal = id;
+var d = DEALS[id];
+document.getElementById(‘deals-list’).classList.add(‘hidden’);
+document.getElementById(‘deals-detail’).classList.remove(‘hidden’);
+document.getElementById(‘deal-brand-name’).textContent = d.name;
+document.getElementById(‘deal-brand-sub’).textContent = d.sub;
+var badge = document.getElementById(‘deal-status-badge’);
+badge.textContent = d.status;
+badge.className = ‘badge ’ + d.statusClass;
+var fill = document.getElementById(‘deal-progress-fill’);
+fill.style.width = d.progress + ‘%’;
+fill.style.background = d.progressColor;
+document.getElementById(‘deal-progress-label’).textContent = d.progressLabel;
+document.getElementById(‘deal-progress-label’).style.color = d.progressColor;
+renderTimeline(d);
+renderDeliverables(d);
+renderSubmissions(d);
+renderFinalLink(d);
+renderPayment(d);
+renderCancel(d);
+switchDealTab(‘overview’);
+window.scrollTo(0,0);
+}
+function closeDeal() {
+activeDeal = null;
+var detail = document.getElementById(‘deals-detail’);
+var list = document.getElementById(‘deals-list’);
+if (detail) detail.classList.add(‘hidden’);
+if (list) list.classList.remove(‘hidden’);
+}
+function renderTimeline(d) {
+var html = ‘<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:14px">Deal Timeline</div><div style="display:flex;flex-direction:column;gap:0">’;
+d.timeline.forEach(function(step, i) {
+var isLast = i === d.timeline.length - 1;
+html += ‘<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;position:relative' + (!isLast ? ';padding-bottom:0' : '') + '">’;
+if (!isLast) html += ‘<div style="position:absolute;left:7px;top:22px;bottom:-4px;width:1px;background:#252A45"></div>’;
+html += ‘<div style="width:15px;height:15px;border-radius:50%;border:2px solid ' + (step.done ? '#059669' : '#252A45') + ';background:' + (step.done ? '#059669' : '#0B0D1A') + ';flex-shrink:0;margin-top:2px"></div>’;
+html += ‘<div style="font-size:12px;color:' + (step.highlight ? '#059669' : (step.done ? '#C8D0E7' : '#7B84A3')) + ';font-weight:' + (step.highlight ? '700' : '400') + ';flex:1;line-height:1.4">’ + step.label + ‘</div>’;
+html += ‘<div style="font-size:11px;color:#7B84A3;flex-shrink:0;white-space:nowrap">’ + step.time + ‘</div>’;
+html += ‘</div>’;
+});
+html += ‘</div>’;
+document.getElementById(‘deal-timeline-wrap’).innerHTML = html;
+}
+function renderDeliverables(d) {
+document.getElementById(‘deal-deliverables-wrap’).innerHTML = ‘<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">Deliverables</div><div style="font-size:12px;color:#7B84A3;line-height:1.9">’ + d.deliverables + ‘</div>’;
+}
+function renderSubmissions(d) {
+var html = ‘’;
+if (d.submissions === ‘approved’) {
+html = ‘<div style="background:#181C35;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:14px;margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:13px;font-weight:700;color:#fff">Round 1</div><span class="badge badge-green">Approved</span></div><div style="background:#0B0D1A;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><div><div style="font-size:13px;font-weight:600;color:#fff">eid_collection_v1.mp4</div><div style="font-size:11px;color:#7B84A3">84.2 MB \u00b7 Submitted Apr 17</div></div></div><div style="font-size:12px;color:#059669;margin-top:10px;padding:8px 12px;background:rgba(5,150,105,.06);border-radius:8px">\u2713 Lulu approved on Apr 18 \u2014 Looks great! Go ahead and post.</div></div>’;
+} else {
+html = ‘<div style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px"><div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px">Round 1</div><div id="sub-upload-area" onclick="document.getElementById(\'sub-file\').click()" style="border:2px dashed #252A45;border-radius:12px;padding:20px;text-align:center;cursor:pointer"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7B84A3" stroke-width="2" style="margin-bottom:8px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><div style="font-size:13px;font-weight:600;color:#C8D0E7;margin-bottom:4px">Upload Reel File</div><div style="font-size:11px;color:#7B84A3">MP4, MOV up to 200MB</div><input id="sub-file" type="file" accept="video/*" style="display:none" onchange="handleFileSelect(this)"></div><div id="sub-file-preview" class="hidden" style="background:#0B0D1A;border:1px solid rgba(5,150,105,.3);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;margin-top:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><div style="flex:1;min-width:0"><div id="sub-file-name" style="font-size:13px;font-weight:600;color:#fff">file.mp4</div><div id="sub-file-size" style="font-size:11px;color:#7B84A3">0 MB</div></div><button onclick="removeSubFile()" style="background:none;border:none;color:#7B84A3;cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><button class="btn btn-primary btn-sm btn-full" onclick="submitFile()" style="margin-top:12px">Submit for Review</button></div>’;
+}
+document.getElementById(‘submissions-content’).innerHTML = html;
+}
+function renderFinalLink(d) {
+var html = d.finallink === ‘pending’
+? ‘<div style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;opacity:.5"><div style="font-size:13px;font-weight:700;color:#fff">Final Instagram Link</div><div style="font-size:12px;color:#7B84A3;margin-top:6px">Available after brand approves your content.</div></div>’
+: ‘<div style="background:#181C35;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px;margin-bottom:12px"><div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">Final Instagram Link</div><div style="background:#0B0D1A;border-radius:10px;padding:10px 14px;font-size:13px;color:#059669;word-break:break-all">’ + d.finallink + ‘</div><div style="font-size:11px;color:#7B84A3;margin-top:8px">Submitted Apr 18, 2026 \u00b7 Locked into agreement</div></div><div style="background:rgba(5,150,105,.04);border:1px solid rgba(5,150,105,.2);border-radius:12px;padding:12px;font-size:12px;color:#059669">\u2713 Final link confirmed and locked. Deal is complete.</div>’;
+document.getElementById(‘finallink-content’).innerHTML = html;
+}
+function renderPayment(d) {
+var html = d.payment === ‘pending’
+? ‘<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.25);border-radius:14px;padding:16px;opacity:.5"><div style="font-size:13px;font-weight:700;color:#D97706">Confirm Payment Received</div><div style="font-size:12px;color:#7B84A3;margin-top:6px">Available after brand marks payment as sent.</div></div>’
+: ‘<div style="background:#181C35;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px"><div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px">Payment Status</div><div style="background:#0B0D1A;border:1px solid rgba(5,150,105,.3);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#fff">payment_proof.jpg</div><div style="font-size:11px;color:#7B84A3">Uploaded Apr 19</div></div><span class="badge badge-green" style="font-size:10px">Confirmed</span></div><div style="font-size:12px;color:#059669;padding:10px 12px;background:rgba(5,150,105,.06);border-radius:8px;font-weight:600;margin-top:10px">\u2713 \u20b945,000 received and confirmed by Aligerouszz on Apr 19, 2026</div></div>’;
+document.getElementById(‘payment-content’).innerHTML = html;
+}
+function renderCancel(d) {
+var html = d.cancelDone
+? ‘<div style="font-size:12px;color:#7B84A3;line-height:1.7;margin-bottom:12px">Cancellation requires both parties to agree.</div><div style="background:rgba(123,132,163,.08);border:1px solid #252A45;border-radius:10px;padding:12px;font-size:12px;color:#7B84A3;text-align:center">This deal is already completed. Cancellation is no longer available.</div>’
+: ‘<div style="font-size:12px;color:#7B84A3;line-height:1.7;margin-bottom:12px">You can request cancellation. The brand will be notified and must agree before the deal is cancelled.</div><textarea id="cancel-reason" placeholder="Reason for cancellation..." style="width:100%;background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif;resize:vertical;min-height:80px;margin-bottom:10px"></textarea><button onclick="requestCancel()" style="width:100%;background:rgba(233,69,96,.1);color:#E94560;border:1px solid rgba(233,69,96,.3);border-radius:8px;padding:10px;font-weight:700;font-family:Inter,sans-serif;cursor:pointer">Send Cancellation Request</button>’;
+document.getElementById(‘cancel-content’).innerHTML = html;
+}
+function requestCancel() {
+var reason = document.getElementById(‘cancel-reason’) ? document.getElementById(‘cancel-reason’).value.trim() : ‘’;
+if (!reason) { alert(‘Please provide a reason for cancellation.’); return; }
+document.getElementById(‘cancel-content’).innerHTML = ‘<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:10px;padding:12px;font-size:12px;color:#D97706;font-weight:600">\u29e8 Cancellation request sent. Waiting for their response.</div>’;
+}
+function switchDealTab(key) {
+[‘overview’,‘submissions’,‘finallink’,‘payment’,‘cancel’].forEach(function(p) {
+var el = document.getElementById(‘dpanel-’ + p);
+if (el) el.classList.toggle(‘hidden’, p !== key);
+var btn = document.getElementById(‘dtab-’ + p);
+if (!btn) return;
+btn.className = ‘deal-tab’ + (p === key ? ’ active’ : ‘’);
+if (p === ‘cancel’) btn.style.color = p === key ? ‘#E94560’ : ‘rgba(233,69,96,.5)’;
+else btn.style.color = ‘’;
+});
+}
 function handleFileSelect(input) {
 if (!input.files.length) return;
 var file = input.files[0];
-document.getElementById('sub-file-name').textContent = file.name;
-document.getElementById('sub-file-size').textContent = (file.size / 1048576).toFixed(1) + ' MB';
-document.getElementById('sub-file-preview').classList.remove('hidden');
-document.getElementById('sub-upload-area').style.display = 'none';
+document.getElementById(‘sub-file-name’).textContent = file.name;
+document.getElementById(‘sub-file-size’).textContent = (file.size / 1048576).toFixed(1) + ’ MB’;
+document.getElementById(‘sub-file-preview’).classList.remove(‘hidden’);
+document.getElementById(‘sub-upload-area’).style.display = ‘none’;
 }
-
 function removeSubFile() {
-document.getElementById('sub-file-preview').classList.add('hidden');
-document.getElementById('sub-upload-area').style.display = '';
-document.getElementById('sub-file').value = '';
+document.getElementById(‘sub-file-preview’).classList.add(‘hidden’);
+document.getElementById(‘sub-upload-area’).style.display = ‘’;
+document.getElementById(‘sub-file’).value = ‘’;
 }
-
 function submitFile() {
-var preview = document.getElementById('sub-file-preview');
-if (preview.classList.contains('hidden')) { alert('Please upload a file first.'); return; }
-document.getElementById('submissions-content').innerHTML = '<div style="background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px;font-size:13px;color:#059669;font-weight:600;display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>File submitted. Awaiting brand review.</div>';
+var preview = document.getElementById(‘sub-file-preview’);
+if (preview.classList.contains(‘hidden’)) { alert(‘Please upload a file first.’); return; }
+document.getElementById(‘submissions-content’).innerHTML = ‘<div style="background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px;font-size:13px;color:#059669;font-weight:600;display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>File submitted. Awaiting brand review.</div>’;
 }
 
-// Init
-updateChecklistProgress();
-
-function updateChecklistProgress() {
-var bar = document.getElementById('checklist-bar');
-if (bar) bar.style.width = '100%';
-}
-
-// ═══ BRAND JS ═══
-var campaigns = [{id:'1',title:'Eid Collection',niche:'Fashion',budget:'₹45,000',deadline:'Apr 25',applicants:1,status:'active'}];
-var creators = [{id:'1',name:'Aligerouszz',handle:'@aligerouszz',niche:'Fashion & Lifestyle',location:'Dubai',followers:'284K',rating:'4.9',shielded:true,avatar:'AL'}];
+// BRAND
+var campaigns = [{id:‘1’,title:‘Eid Collection’,niche:‘Fashion’,budget:’\u20b945,000’,deadline:‘Apr 25’,applicants:1,status:‘active’}];
+var creators = [{id:‘1’,name:‘Aligerouszz’,handle:’@aligerouszz’,niche:‘Fashion & Lifestyle’,location:‘Dubai’,followers:‘284K’,rating:‘4.9’,shielded:true,avatar:‘AL’}];
 
 function bSwitchTab(tab) {
-var tabs = ['overview','campaigns','discover','deals'];
-tabs.forEach(function(t) {
-var el = document.getElementById('tab-' + t);
-if (el) el.classList.toggle('hidden', t !== tab);
-var btn = document.getElementById('brand-tab-' + t);
-if (btn) btn.className = 'sidebar-nav-btn' + (t === tab ? ' active-tab' : '');
+[‘overview’,‘campaigns’,‘discover’,‘deals’].forEach(function(t) {
+var el = document.getElementById(‘btab-’ + t);
+if (el) el.classList.toggle(‘hidden’, t !== tab);
+var btn = document.getElementById(‘brand-tab-’ + t);
+if (btn) btn.className = ‘sidebar-nav-btn’ + (t === tab ? ’ active-tab’ : ‘’);
 });
 }
-
 function bSetMob(tab) {
-['overview','campaigns','discover','deals'].forEach(function(t) {
-var b = document.getElementById('mob-' + t);
-if (b) b.className = 'mob-nav-btn' + (t === tab ? ' active' : '');
+[‘overview’,‘campaigns’,‘discover’,‘deals’].forEach(function(t) {
+var b = document.getElementById(‘bmob-’ + t);
+if (b) b.className = ‘mob-nav-btn’ + (t === tab ? ’ active’ : ‘’);
 });
 }
-
 function renderCampaigns(id, count, expanded) {
 var c = document.getElementById(id); if (!c) return;
-var html = '';
+var html = ‘’;
 for (var i = 0; i < Math.min(count, campaigns.length); i++) {
 var item = campaigns[i];
-html += '<div class="item-card" style="margin-bottom:12px">';
-html += '<div class="item-card-header"><div><div style="font-size:14px;font-weight:700;color:#fff">' + item.title + '</div>';
-html += '<div style="font-size:12px;color:#7B84A3">' + item.niche + ' · Deadline ' + item.deadline + '</div></div>';
-html += '<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#D97706">' + item.budget + '</div>';
-html += '<span class="badge badge-green" style="margin-top:4px">Active</span></div></div>';
-html += '<div class="item-meta"><span>👥 <span style="color:#fff;font-weight:600">' + item.applicants + '</span> applicants</span></div>';
-if (expanded) html += '<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1">View Applicants</button><button class="btn btn-outline btn-sm">Edit</button></div>';
-html += '</div>';
+html += ‘<div class="item-card" style="margin-bottom:12px"><div class="item-card-header"><div><div style="font-size:14px;font-weight:700;color:#fff">’ + item.title + ‘</div><div style="font-size:12px;color:#7B84A3">’ + item.niche + ’ \u00b7 Deadline ’ + item.deadline + ‘</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#D97706">’ + item.budget + ‘</div><span class="badge badge-green" style="margin-top:4px">Active</span></div></div>’;
+if (expanded) html += ‘<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1">View Applicants</button><button class="btn btn-outline btn-sm">Edit</button></div>’;
+html += ‘</div>’;
 }
-c.innerHTML = html || '<div class="empty-state">📣<br>No campaigns yet. Create your first one.</div>';
+c.innerHTML = html || ‘<div class="empty-state">No campaigns yet.</div>’;
 }
-
 function renderCreatorsGrid(id, data, expanded) {
 var c = document.getElementById(id); if (!c) return;
-var html = '';
+var html = ‘’;
 for (var i = 0; i < data.length; i++) {
 var item = data[i];
-html += '<div class="creator-card"><div class="creator-card-top">';
-html += '<div class="creator-avatar">' + item.avatar + '</div>';
-html += '<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:6px">';
-html += '<div style="font-size:14px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + '</div>';
-if (item.shielded) html += '<span style="color:#D97706" title="Zeke Shield">🛡</span>';
-html += '</div><div style="font-size:12px;color:#7B84A3">' + item.handle + '</div></div>';
-html += '<div style="text-align:right;flex-shrink:0"><div class="creator-followers">' + item.followers + '</div>';
-html += '<div class="creator-rating">⭐ ' + item.rating + '</div></div></div>';
-html += '<div class="creator-meta"><span>📍 ' + item.location + '</span><span>' + item.niche + '</span></div>';
-if (expanded) html += '<div class="creator-actions"><button class="btn btn-primary btn-sm" style="flex:1">Send Offer</button><button class="btn btn-outline btn-sm">View Profile</button></div>';
-html += '</div>';
+html += ‘<div class="creator-card"><div class="creator-card-top"><div class="creator-avatar">’ + item.avatar + ‘</div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:6px"><div style="font-size:14px;font-weight:700;color:#fff">’ + item.name + ‘</div>’ + (item.shielded ? ‘<span style="color:#D97706">\uD83D\uDEE1</span>’ : ‘’) + ‘</div><div style="font-size:12px;color:#7B84A3">’ + item.handle + ‘</div></div><div style="text-align:right;flex-shrink:0"><div style="font-size:14px;font-weight:700;color:#fff">’ + item.followers + ’</div><div style="font-size:12px;color:#D97706">\u2605 ’ + item.rating + ‘</div></div></div>’;
+if (expanded) html += ‘<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1">Send Offer</button><button class="btn btn-outline btn-sm">View Profile</button></div>’;
+html += ‘</div>’;
 }
-c.innerHTML = html || '<div class="empty-state">🔍<br>No creators found.</div>';
+c.innerHTML = html || ‘<div class="empty-state">No creators found.</div>’;
 }
-
 function filterCreators() {
-var q = document.getElementById('creator-search').value.toLowerCase();
+var q = document.getElementById(‘creator-search’).value.toLowerCase();
 var filtered = creators.filter(function(c) { return c.name.toLowerCase().indexOf(q) !== -1 || c.niche.toLowerCase().indexOf(q) !== -1; });
-renderCreatorsGrid('creators-grid', filtered, true);
+renderCreatorsGrid(‘creators-grid’, filtered, true);
 }
 
-renderCampaigns('boverview-campaigns', 2, false);
-renderCampaigns('bcampaigns-list', campaigns.length, true);
-renderCreatorsGrid('boverview-creators', creators.filter(function(c){return c.shielded;}).slice(0,2), false);
-renderCreatorsGrid('creators-grid', creators, true);
-
-// ═══ ADMIN JS ═══
-var verifications = [{id:'1',name:'Aligerouszz',type:'Influencer',niche:'Fashion & Lifestyle',location:'Dubai',submitted:'2h ago',status:'pending'}];
-var recentDeals = [{id:'1',creator:'Aligerouszz',brand:'Lulu Hypermarket',amount:'₹45,000',status:'completed',platform:'Instagram Reel'}];
+// ADMIN
+var verifications = [{id:‘1’,name:‘Aligerouszz’,type:‘Influencer’,niche:‘Fashion & Lifestyle’,location:‘Dubai’,submitted:‘2h ago’,status:‘pending’}];
+var recentDeals = [{id:‘1’,creator:‘Aligerouszz’,brand:‘Lulu Hypermarket’,amount:’\u20b945,000’,status:‘completed’,platform:‘Instagram Reel’}];
 
 function aSwitchTab(tab) {
-var tabs = ['overview','verifications','shield','disputes','deals'];
-tabs.forEach(function(t) {
-var el = document.getElementById('tab-' + t);
-if (el) el.classList.toggle('hidden', t !== tab);
-var btn = document.getElementById('admin-tab-' + t);
-if (btn) btn.className = 'sidebar-nav-btn' + (t === tab ? ' active-tab' : '');
+[‘overview’,‘verifications’,‘shield’,‘disputes’,‘deals’].forEach(function(t) {
+var el = document.getElementById(‘atab-’ + t);
+if (el) el.classList.toggle(‘hidden’, t !== tab);
+var btn = document.getElementById(‘admin-tab-’ + t);
+if (btn) btn.className = ‘sidebar-nav-btn’ + (t === tab ? ’ active-tab’ : ‘’);
 });
 }
-
 function aSetMob(tab) {
-['overview','verifications','disputes','deals'].forEach(function(t) {
-var b = document.getElementById('mob-' + t);
-if (b) b.className = 'mob-nav-btn' + (t === tab ? ' active' : '');
+[‘overview’,‘verifications’,‘disputes’,‘deals’].forEach(function(t) {
+var b = document.getElementById(‘amob-’ + t);
+if (b) b.className = ‘mob-nav-btn’ + (t === tab ? ’ active’ : ‘’);
 });
 }
-
 function renderDealsTable(id, data, expanded) {
 var c = document.getElementById(id); if (!c) return;
-var statusMap = {active:{label:'Active',cls:'badge-green'},completed:{label:'Completed',cls:'badge-muted'},agreement:{label:'Agreement',cls:'badge-gold'}};
-var html = '';
+var statusMap = {active:{label:‘Active’,cls:‘badge-green’},completed:{label:‘Completed’,cls:‘badge-muted’},agreement:{label:‘Agreement’,cls:‘badge-gold’}};
+var html = ‘’;
 for (var i = 0; i < data.length; i++) {
 var d = data[i];
 var s = statusMap[d.status] || statusMap.active;
-html += '<div class="item-card" style="margin-bottom:8px;flex-direction:row;align-items:center;gap:12px;padding:14px 16px">';
-html += '<div style="flex:1;min-width:0"><div style="font-size:14px;color:#fff;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + d.creator + ' × ' + d.brand + '</div>';
-html += '<div style="font-size:12px;color:#7B84A3">' + d.platform + '</div></div>';
-html += '<div style="font-size:14px;font-weight:900;color:#fff;flex-shrink:0">' + d.amount + '</div>';
-html += '<span class="badge ' + s.cls + '">' + s.label + '</span>';
-if (expanded) html += '<button class="btn btn-ghost btn-sm">👁</button>';
-html += '</div>';
+html += ‘<div class="item-card" style="margin-bottom:8px;flex-direction:row;align-items:center;gap:12px;padding:14px 16px"><div style="flex:1;min-width:0"><div style="font-size:14px;color:#fff;font-weight:500">’ + d.creator + ’ \u00d7 ’ + d.brand + ‘</div><div style="font-size:12px;color:#7B84A3">’ + d.platform + ‘</div></div><div style="font-size:14px;font-weight:900;color:#fff;flex-shrink:0">’ + d.amount + ‘</div><span class="badge ' + s.cls + '">’ + s.label + ‘</span></div>’;
 }
-c.innerHTML = html || '<div class="empty-state">📄<br>No deals yet.</div>';
+c.innerHTML = html || ‘<div class="empty-state">No deals yet.</div>’;
 }
-
 function renderVerifications() {
-var c = document.getElementById('verif-list'); if (!c) return;
-var html = '';
+var c = document.getElementById(‘verif-list’); if (!c) return;
+var html = ‘’;
 for (var i = 0; i < verifications.length; i++) {
 var v = verifications[i];
-html += '<div class="item-card"><div class="item-card-header">';
-html += '<div style="display:flex;align-items:center;gap:10px">';
-html += '<div class="item-avatar">' + v.name.slice(0,2).toUpperCase() + '</div>';
-html += '<div><div style="font-size:14px;font-weight:700;color:#fff">' + v.name + '</div>';
-html += '<div style="font-size:12px;color:#7B84A3">' + v.type + ' · ' + v.niche + ' · ' + v.location + '</div></div></div>';
-html += '<div style="text-align:right"><span class="badge badge-muted">Pending</span>';
-html += '<div style="font-size:11px;color:#7B84A3;margin-top:4px">' + v.submitted + '</div></div></div>';
-html += '<div class="verif-card-actions"><button class="btn-approve">✓ Approve</button><button class="btn-reject">✖ Reject</button>';
-html += '<button class="btn btn-ghost btn-sm">👁 View Profile</button></div></div>';
+html += ‘<div class="item-card"><div class="item-card-header"><div style="display:flex;align-items:center;gap:10px"><div class="item-avatar">’ + v.name.slice(0,2).toUpperCase() + ‘</div><div><div style="font-size:14px;font-weight:700;color:#fff">’ + v.name + ‘</div><div style="font-size:12px;color:#7B84A3">’ + v.type + ’ \u00b7 ’ + v.niche + ’ \u00b7 ’ + v.location + ‘</div></div></div><div style="text-align:right"><span class="badge badge-muted">Pending</span><div style="font-size:11px;color:#7B84A3;margin-top:4px">’ + v.submitted + ‘</div></div></div><div class="item-actions"><button class="btn-approve">\u2713 Approve</button><button class="btn-reject">\u2716 Reject</button></div></div>’;
 }
 c.innerHTML = html;
 }
 
-renderDealsTable('recent-deals', recentDeals, false);
-renderDealsTable('all-deals', recentDeals, true);
+// INIT
+document.addEventListener(‘DOMContentLoaded’, function() {
+var yearEl = document.getElementById(‘year’);
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+renderCampaigns(‘boverview-campaigns’, 2, false);
+renderCampaigns(‘bcampaigns-list’, campaigns.length, true);
+renderCreatorsGrid(‘boverview-creators’, creators.filter(function(c){return c.shielded;}).slice(0,2), false);
+renderCreatorsGrid(‘creators-grid’, creators, true);
+renderDealsTable(‘recent-deals’, recentDeals, false);
+renderDealsTable(‘all-deals’, recentDeals, true);
 renderVerifications();
+});
 </script>
 
 </body>
