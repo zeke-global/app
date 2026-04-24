@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0B0D1A">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - Zeke</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230B0D1A'/><text y='.9em' font-size='80' x='10' fill='white'>z</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/zeke.css">
+</head>
+<body>
+
+<nav id="top-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">zeke<span>.</span></a>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span id="nav-shield-badge" style="font-size:12px;color:#7B84A3;background:rgba(123,132,163,.08);border:1px solid #252A45;padding:4px 12px;border-radius:20px;font-weight:600">Free Creator</span>
+      <button class="notif-btn" aria-label="Notifications" onclick="toggleNotif()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notif-dot" id="main-notif-dot" style="display:none"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="dash-layout">
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div id="sidebar-creator-avatar" class="sidebar-avatar" style="background:rgba(233,69,96,.2);border:1px solid rgba(233,69,96,.3);color:#E94560">--</div>
+      <div><div id="sidebar-creator-name" class="sidebar-name">Loading...</div><div id="sidebar-creator-handle" class="sidebar-sub">--</div></div>
+    </div>
+    <button class="sidebar-nav-btn active-tab" id="inf-tab-overview" onclick="switchTab('overview');setMob('overview')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home
+    </button>
+    <button class="sidebar-nav-btn" id="inf-tab-offers" onclick="switchTab('offers');setMob('offers')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Offers
+    </button>
+    <button class="sidebar-nav-btn" id="inf-tab-chats" onclick="switchTab('chats');setMob('chats')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Chats
+    </button>
+    <button class="sidebar-nav-btn" id="inf-tab-deals" onclick="switchTab('deals');setMob('deals')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Deals
+    </button>
+    <button class="sidebar-nav-btn" id="inf-tab-agreements" onclick="switchTab('agreements')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Agreements
+    </button>
+    <button class="sidebar-nav-btn" id="inf-tab-profile" onclick="switchTab('profile');setMob('profile');loadProfile()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Profile
+    </button>
+    <div class="sidebar-footer">
+      <button class="sidebar-nav-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings</button>
+      <a class="sidebar-nav-btn sign-out-btn" href="#" style="color:#E94560">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Sign Out
+      </a>
+    </div>
+  </aside>
+
+  <div class="dash-main">
+    <div class="topbar">
+      <div class="topbar-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search offers, brands...">
+      </div>
+    </div>
+    <div class="dash-content">
+
+      <!-- HOME -->
+      <div id="tab-overview">
+        <h1 id="overview-name" style="font-size:24px;font-weight:900;color:#fff">Hey...</h1>
+        <p id="overview-sub" style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:20px">Loading...</p>
+        <div class="stats-grid" style="margin-bottom:20px">
+          <div class="stat-card" style="border-color:rgba(5,150,105,.3);background:rgba(5,150,105,.04)">
+            <div style="color:#059669"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div id="stat-deals" class="stat-val" style="color:#059669">--</div><div class="stat-label">Deals Done</div>
+          </div>
+          <div class="stat-card">
+            <div style="color:#D97706"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+            <div id="stat-earned" class="stat-val">--</div><div class="stat-label">Earned</div>
+          </div>
+          <div class="stat-card">
+            <div style="color:#D97706"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div id="stat-offers" class="stat-val">--</div><div class="stat-label">New Offers</div>
+          </div>
+          <div class="stat-card">
+            <div style="color:#D97706"><svg width="18" height="18" viewBox="0 0 24 24" fill="#D97706" stroke="#D97706" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div id="stat-rating" class="stat-val">--</div><div class="stat-label">Rating</div>
+          </div>
+        </div>
+        <div class="card card-md" style="margin-bottom:20px">
+          <h3 class="section-title" style="margin-bottom:16px">Connected Platforms</h3>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="platform-row">
+              <div class="platform-label"><span style="font-size:11px;font-weight:800;color:#E94560;background:rgba(233,69,96,.12);padding:2px 7px;border-radius:6px">IG</span> Instagram</div>
+              <div id="stat-ig" class="platform-val">--</div>
+            </div>
+            <div id="platform-row-yt" class="platform-row" style="display:none">
+              <div class="platform-label"><span style="font-size:11px;font-weight:800;color:#f87171;background:rgba(248,113,113,.12);padding:2px 7px;border-radius:6px">YT</span> YouTube</div>
+              <div id="stat-yt" class="platform-val">--</div>
+            </div>
+            <div id="platform-row-x" class="platform-row" style="display:none">
+              <div class="platform-label"><span style="font-size:11px;font-weight:800;color:#38bdf8;background:rgba(56,189,248,.12);padding:2px 7px;border-radius:6px">X</span> Twitter / X</div>
+              <div id="stat-x" class="platform-val">--</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-head"><div class="section-title">Recent Activity</div></div>
+        <div id="overview-recent-deal"><div class="empty-state" style="padding:20px">Loading...</div></div>
+      </div>
+
+      <!-- OFFERS -->
+      <div id="tab-offers" class="hidden">
+        <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:16px">Offers Inbox</h2>
+        <div id="offers-list"><div class="empty-state">Loading...</div></div>
+      </div>
+
+      <!-- CHATS -->
+      <div id="tab-chats" class="hidden">
+        <div id="chats-list">
+          <div id="chats-list-inner">
+            <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Chats</h2>
+            <p style="font-size:12px;color:#7B84A3;margin-bottom:20px">Your deal conversations</p>
+            <div class="empty-state">Loading...</div>
+          </div>
+        </div>
+        <div id="chats-window" class="hidden" style="flex-direction:column;height:calc(100vh - 140px)">
+          <div style="display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid #252A45;margin-bottom:16px;flex-shrink:0">
+            <button onclick="closeChat()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <div class="item-avatar" id="chat-avatar" style="width:36px;height:36px;font-size:11px;flex-shrink:0">--</div>
+            <div style="flex:1;min-width:0">
+              <div id="chat-brand-name" style="font-size:14px;font-weight:700;color:#fff">Brand</div>
+              <div id="chat-brand-sub" style="font-size:11px;color:#7B84A3">Deal active</div>
+            </div>
+            <button onclick="switchTab('deals');setMob('deals')" style="background:none;border:none;cursor:pointer;color:#7B84A3;font-size:11px;font-weight:600;font-family:'Inter',sans-serif;flex-shrink:0">View Deal</button>
+          </div>
+          <div id="chat-messages" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-bottom:16px"></div>
+          <div style="flex-shrink:0;padding-top:12px;border-top:1px solid #252A45">
+            <div style="display:flex;gap:8px">
+              <input id="chat-input" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChatMessage()" style="flex:1;background:#12152B;border:1px solid #252A45;border-radius:12px;padding:8px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif">
+              <button onclick="sendChatMessage()" style="background:#E94560;border:none;border-radius:12px;padding:8px 16px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEALS -->
+      <div id="tab-deals" class="hidden">
+        <div id="deals-list">
+          <div id="deals-list-inner">
+            <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:16px">Deals</h2>
+            <div class="empty-state">Loading...</div>
+          </div>
+        </div>
+        <div id="deals-detail" class="hidden">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <button onclick="closeDeal()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <div style="flex:1;min-width:0">
+              <div id="deal-brand-name" style="font-size:16px;font-weight:800;color:#fff"></div>
+              <div id="deal-brand-sub" style="font-size:12px;color:#7B84A3"></div>
+            </div>
+            <span id="deal-status-badge" class="badge badge-green">Active</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <div class="progress-bar"><div class="progress-fill" id="deal-progress-fill" style="width:30%;background:#E94560"></div></div>
+            <span id="deal-progress-label" style="font-size:12px;color:#E94560;font-weight:700;white-space:nowrap">Active</span>
+          </div>
+          <div style="display:flex;gap:0;border-bottom:1px solid #252A45;margin-bottom:20px;overflow-x:auto">
+            <button class="deal-tab active" id="dtab-overview"     onclick="switchDealTab('overview')">Overview</button>
+            <button class="deal-tab"         id="dtab-submissions" onclick="switchDealTab('submissions')">Submissions</button>
+            <button class="deal-tab"         id="dtab-finallink"   onclick="switchDealTab('finallink')">Final Link</button>
+            <button class="deal-tab"         id="dtab-payment"     onclick="switchDealTab('payment')">Payment</button>
+            <button class="deal-tab"         id="dtab-cancel"      onclick="switchDealTab('cancel')" style="color:rgba(233,69,96,.5)">Cancel</button>
+          </div>
+          <div id="dpanel-overview">
+            <div id="deal-timeline-wrap" style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;margin-bottom:14px"></div>
+            <div id="deal-deliverables-wrap" style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;margin-bottom:14px"></div>
+            <div class="item-actions">
+              <button class="btn btn-outline btn-sm" onclick="switchTab('chats');setMob('chats')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Chat</button>
+              <button class="btn btn-ghost btn-sm" onclick="switchTab('agreements')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Agreement</button>
+            </div>
+          </div>
+          <div id="dpanel-submissions" class="hidden"><p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Upload your content file for brand review. Do not post until approved.</p><div id="submissions-content"></div></div>
+          <div id="dpanel-finallink" class="hidden"><p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Submit the live link after brand approves your content.</p><div id="finallink-content"></div></div>
+          <div id="dpanel-payment" class="hidden"><p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Confirm once you receive payment from the brand.</p><div id="payment-content"></div></div>
+          <div id="dpanel-cancel" class="hidden">
+            <div style="background:rgba(233,69,96,.04);border:1px solid rgba(233,69,96,.2);border-radius:14px;padding:16px;margin-bottom:14px">
+              <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Cancel Agreement</div>
+              <div id="cancel-content"></div>
+            </div>
+            <div style="background:#181C35;border:1px solid #252A45;border-radius:12px;padding:14px;font-size:12px;color:#7B84A3;line-height:1.7">
+              <div style="font-size:12px;font-weight:700;color:#C8D0E7;margin-bottom:8px">How cancellation works</div>
+              <div>&#10137; Either party sends a request with a reason</div>
+              <div style="margin-top:4px">&#10137; The other party must Accept or Decline</div>
+              <div style="margin-top:4px">&#10137; Both must agree for the deal to be cancelled</div>
+              <div style="margin-top:4px">&#10137; If stuck, open a dispute and Zeke steps in</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AGREEMENTS -->
+      <div id="tab-agreements" class="hidden">
+        <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Agreements</h2>
+        <p style="font-size:12px;color:#7B84A3;margin-bottom:20px">Auto-generated when both sides agree on terms</p>
+        <div id="agreements-list"><div class="empty-state">Loading...</div></div>
+        <div style="margin-top:12px;padding:12px 14px;background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.15);border-radius:12px;font-size:12px;color:#7B84A3;line-height:1.6">
+          <span style="color:#D97706;font-weight:700">How agreements work —</span> Generated the moment both sides accept deal terms. Terms are locked immediately.
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div id="tab-profile" class="hidden">
+        <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">My Profile</h2>
+        <p style="font-size:13px;color:#7B84A3;margin-bottom:20px">How brands see you on Zeke</p>
+        <div class="card card-md" style="margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+            <div id="profile-avatar" style="width:56px;height:56px;border-radius:50%;background:rgba(233,69,96,.2);border:2px solid rgba(233,69,96,.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#E94560;flex-shrink:0">--</div>
+            <div>
+              <div id="profile-name" style="font-size:18px;font-weight:900;color:#fff">--</div>
+              <div id="profile-handle" style="font-size:13px;color:#7B84A3">--</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap">
+                <span id="profile-niche" style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">--</span>
+                <span id="profile-shield-label" style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">Free Creator</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Platform display -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+            <div style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45">
+              <div id="profile-ig-count" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">Instagram</div>
+            </div>
+            <div id="profile-yt-row" style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45;display:none">
+              <div id="profile-yt-count" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">YouTube</div>
+            </div>
+            <div id="profile-x-row" style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45;display:none">
+              <div id="profile-x-count" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">Twitter / X</div>
+            </div>
+          </div>
+
+          <!-- Deal history -->
+          <div style="background:#0B0D1A;border-radius:12px;padding:12px;margin-bottom:16px;border:1px solid #252A45">
+            <div style="font-size:12px;font-weight:700;color:#C8D0E7;margin-bottom:10px">Deal History</div>
+            <div id="profile-deal-history"><div style="font-size:12px;color:#7B84A3">Loading...</div></div>
+          </div>
+
+          <!-- Shield upsell -->
+          <div style="padding:14px;background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.15);border-radius:12px;display:flex;align-items:center;justify-content:space-between">
+            <div><div style="font-size:13px;font-weight:700;color:#D97706">&#128737; Get Zeke Shield</div><div style="font-size:12px;color:#7B84A3;margin-top:2px">Legal protection + gold badge + priority in searches</div></div>
+            <a href="index.html" class="btn btn-gold btn-sm">&#8377;1,999/yr</a>
+          </div>
+        </div>
+
+        <!-- Edit platform counts -->
+        <div class="card card-md" style="margin-bottom:12px">
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px">Update Platform Stats</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+
+            <!-- Instagram mandatory -->
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                <span style="font-size:11px;font-weight:800;color:#E94560;background:rgba(233,69,96,.12);padding:2px 8px;border-radius:6px">IG</span>
+                <span style="font-size:13px;font-weight:700;color:#fff">Instagram</span>
+                <span style="font-size:10px;color:#E94560;font-weight:600;margin-left:auto">Required</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <input class="input-field no-icon" type="text" id="edit-ig-handle" placeholder="@yourhandle" style="font-size:13px;padding:8px 12px">
+                <input class="input-field no-icon" type="number" id="edit-ig-followers" placeholder="Followers" min="1" style="font-size:13px;padding:8px 12px">
+              </div>
+            </div>
+
+            <!-- YouTube toggle -->
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                <span style="font-size:11px;font-weight:800;color:#f87171;background:rgba(248,113,113,.12);padding:2px 8px;border-radius:6px">YT</span>
+                <span style="font-size:13px;font-weight:700;color:#fff">YouTube</span>
+                <label style="display:flex;align-items:center;gap:6px;margin-left:auto;cursor:pointer">
+                  <span style="font-size:11px;color:#7B84A3">Enable</span>
+                  <div style="position:relative;width:36px;height:20px">
+                    <input type="checkbox" id="edit-yt-toggle" onchange="togglePlatformEdit('yt')" style="opacity:0;width:0;height:0;position:absolute">
+                    <div id="edit-yt-track" style="position:absolute;inset:0;border-radius:20px;background:#252A45;transition:background .2s;cursor:pointer" onclick="document.getElementById('edit-yt-toggle').click()"></div>
+                    <div id="edit-yt-thumb" style="position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#7B84A3;transition:all .2s"></div>
+                  </div>
+                </label>
+              </div>
+              <div id="edit-yt-fields" style="display:none;grid-template-columns:1fr 1fr;gap:8px">
+                <input class="input-field no-icon" type="text" id="edit-yt-handle" placeholder="Channel name" style="font-size:13px;padding:8px 12px">
+                <input class="input-field no-icon" type="number" id="edit-yt-followers" placeholder="Subscribers" min="0" style="font-size:13px;padding:8px 12px">
+              </div>
+            </div>
+
+            <!-- X toggle -->
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                <span style="font-size:11px;font-weight:800;color:#38bdf8;background:rgba(56,189,248,.12);padding:2px 8px;border-radius:6px">X</span>
+                <span style="font-size:13px;font-weight:700;color:#fff">Twitter / X</span>
+                <label style="display:flex;align-items:center;gap:6px;margin-left:auto;cursor:pointer">
+                  <span style="font-size:11px;color:#7B84A3">Enable</span>
+                  <div style="position:relative;width:36px;height:20px">
+                    <input type="checkbox" id="edit-x-toggle" onchange="togglePlatformEdit('x')" style="opacity:0;width:0;height:0;position:absolute">
+                    <div id="edit-x-track" style="position:absolute;inset:0;border-radius:20px;background:#252A45;transition:background .2s;cursor:pointer" onclick="document.getElementById('edit-x-toggle').click()"></div>
+                    <div id="edit-x-thumb" style="position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#7B84A3;transition:all .2s"></div>
+                  </div>
+                </label>
+              </div>
+              <div id="edit-x-fields" style="display:none;grid-template-columns:1fr 1fr;gap:8px">
+                <input class="input-field no-icon" type="text" id="edit-x-handle" placeholder="@xhandle" style="font-size:13px;padding:8px 12px">
+                <input class="input-field no-icon" type="number" id="edit-x-followers" placeholder="Followers" min="0" style="font-size:13px;padding:8px 12px">
+              </div>
+            </div>
+          </div>
+          <div id="profile-save-error" class="error-msg hidden" style="margin-top:12px"></div>
+          <button id="profile-save-btn" class="btn btn-primary btn-md btn-full" onclick="saveProfile()" style="margin-top:16px">Save Changes</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="mob-bottom-nav">
+  <div class="mob-bottom-nav-inner">
+    <button class="mob-nav-btn active" id="mob-overview" onclick="switchTab('overview');setMob('overview')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
+    </button>
+    <button class="mob-nav-btn" id="mob-offers" onclick="switchTab('offers');setMob('offers')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Offers
+    </button>
+    <button class="mob-nav-btn" id="mob-chats" onclick="switchTab('chats');setMob('chats')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chats
+    </button>
+    <button class="mob-nav-btn" id="mob-deals" onclick="switchTab('deals');setMob('deals')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Deals
+    </button>
+    <button class="mob-nav-btn" id="mob-profile" onclick="switchTab('profile');setMob('profile');loadProfile()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile
+    </button>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div class="notif-overlay" id="notif-overlay" onclick="toggleNotif()"></div>
+<div class="notif-panel hidden" id="notif-panel">
+  <div id="notif-panel-inner">
+    <div class="notif-header"><div class="notif-title">Notifications</div><button class="notif-clear" onclick="clearNotifs()">Mark all read</button></div>
+  </div>
+</div>
+
+<script>var ZEKE_PAGE_ROLE = 'influencer';</script>
+<script src="js/supabase.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/session.js"></script>
+<script src="js/creator.js"></script>
+<script>
+// Toggle for profile edit platform fields
+function togglePlatformEdit(platform) {
+  var toggle = document.getElementById('edit-' + platform + '-toggle');
+  var fields = document.getElementById('edit-' + platform + '-fields');
+  var track  = document.getElementById('edit-' + platform + '-track');
+  var thumb  = document.getElementById('edit-' + platform + '-thumb');
+  if (!toggle || !fields) return;
+  var on = toggle.checked;
+  fields.style.display = on ? 'grid' : 'none';
+  if (track) track.style.background = on ? '#E94560' : '#252A45';
+  if (thumb) { thumb.style.left = on ? '19px' : '3px'; thumb.style.background = on ? '#fff' : '#7B84A3'; }
+}
+</script>
+</body>
+</html>
