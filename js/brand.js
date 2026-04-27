@@ -290,6 +290,7 @@ function openBrandDeal(dealId, creatorName) {
       _loadBrandTimeline(dealId);
       _renderBrandDeliverables(d);
       _renderBrandCancelRequest(d);
+      _renderBrandEditOfferButton(d);
       _loadBrandReview(dealId, d.status);
       _loadBrandPaymentPanel(dealId, d);
       _loadBrandAgreement(dealId);
@@ -371,6 +372,98 @@ function raiseBrandDispute() {
       loadBrandDeals();
       if (_activeBDeal === dealId) openBrandDeal(dealId, '');
     });
+}
+
+function _renderBrandEditOfferButton(d) {
+  var host = document.getElementById('bdpanel-overview'); if (!host) return;
+  var existing = document.getElementById('brand-edit-offer-banner');
+  if (existing) existing.remove();
+  if (d.status !== 'negotiating') return;
+  var banner = document.createElement('div');
+  banner.id = 'brand-edit-offer-banner';
+  banner.style.cssText = 'background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.25);border-radius:14px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px';
+  banner.innerHTML = '<div style="font-size:12px;color:#D97706;flex:1;line-height:1.5">'
+    + '<span style="font-weight:700">Negotiating</span> · You can still update the offer (price, platform, deliverables) before the creator accepts.'
+    + '</div>'
+    + '<button class="btn btn-gold btn-sm" onclick="openEditOfferModal(\'' + d.id + '\')">Update Offer</button>';
+  host.insertBefore(banner, host.firstChild);
+}
+
+function openEditOfferModal(dealId) {
+  zeke_sb.from('deals').select('*, profiles!deals_influencer_id_fkey(display_name)').eq('id', dealId).single().then(function (r) {
+    if (r.error || !r.data) { alert('Could not load the deal.'); return; }
+    var d = r.data;
+    if (d.status !== 'negotiating') { alert('Offer can only be edited while still negotiating.'); return; }
+    var creator = (d.profiles && d.profiles.display_name) || 'Creator';
+    var existing = document.getElementById('edit-offer-modal'); if (existing) existing.remove();
+    var modal = document.createElement('div');
+    modal.id = 'edit-offer-modal';
+    modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:20px';
+    modal.innerHTML =
+      '<div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:24px;width:100%;max-width:440px">'
+      + '<div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Update Offer</div>'
+      + '<div style="font-size:12px;color:#7B84A3;margin-bottom:16px">To: ' + esc(creator) + '</div>'
+      + '<div style="display:flex;flex-direction:column;gap:10px">'
+      +   '<div class="input-wrap"><label class="input-label">Title</label><input class="input-field no-icon" id="eo-title" type="text" value="' + esc(d.title || '') + '" style="font-size:13px;padding:10px 14px"></div>'
+      +   '<div class="input-wrap"><label class="input-label">Platform</label><input class="input-field no-icon" id="eo-platform" type="text" value="' + esc(d.platform || '') + '" style="font-size:13px;padding:10px 14px"></div>'
+      +   '<div class="input-wrap"><label class="input-label">Amount (₹)</label><input class="input-field no-icon" id="eo-amount" type="number" value="' + (d.amount || 0) + '" min="1" style="font-size:13px;padding:10px 14px"></div>'
+      +   '<div class="input-wrap"><label class="input-label">Deliverables</label><textarea class="input-field no-icon" id="eo-deliverables" rows="3" style="resize:vertical;padding:10px 14px;font-size:13px">' + esc(d.deliverables || '') + '</textarea></div>'
+      +   '<div class="input-wrap"><label class="input-label">Deadline (optional)</label><input class="input-field no-icon" id="eo-deadline" type="date" value="' + (d.deadline || '') + '" style="font-size:13px;padding:10px 14px"></div>'
+      + '</div>'
+      + '<div id="eo-error" class="error-msg hidden" style="margin-top:8px"></div>'
+      + '<div style="display:flex;gap:10px;margin-top:16px">'
+      +   '<button id="eo-save-btn" class="btn btn-primary btn-md" style="flex:1" onclick="saveEditedOffer(\'' + dealId + '\',' + (d.amount || 0) + ')">Save & Notify</button>'
+      +   '<button class="btn btn-outline btn-md" onclick="closeEditOfferModal()">Cancel</button>'
+      + '</div></div>';
+    document.body.appendChild(modal);
+  });
+}
+
+function closeEditOfferModal() {
+  var m = document.getElementById('edit-offer-modal'); if (m) m.remove();
+}
+
+function saveEditedOffer(dealId, oldAmount) {
+  var title    = ((document.getElementById('eo-title')        || {}).value || '').trim();
+  var platform = ((document.getElementById('eo-platform')     || {}).value || '').trim();
+  var amount   = parseFloat(((document.getElementById('eo-amount') || {}).value || '0'));
+  var deliv    = ((document.getElementById('eo-deliverables') || {}).value || '').trim();
+  var deadline = ((document.getElementById('eo-deadline')     || {}).value || '');
+  if (!title)              { showErr('eo-error', 'Enter a title.'); return; }
+  if (!platform)           { showErr('eo-error', 'Enter the platform.'); return; }
+  if (!amount || amount <= 0) { showErr('eo-error', 'Enter a valid amount.'); return; }
+  hideErr('eo-error');
+  setBtnLoading('eo-save-btn', true, 'Save & Notify');
+
+  zeke_sb.from('deals').update({
+    title: title, platform: platform, amount: amount,
+    deliverables: deliv || null, deadline: deadline || null,
+    updated_at: new Date().toISOString()
+  }).eq('id', dealId).then(function (r) {
+    setBtnLoading('eo-save-btn', false, 'Save & Notify');
+    if (r.error) { showErr('eo-error', r.error.message); return; }
+
+    var changes = [];
+    if (Number(oldAmount) !== Number(amount)) changes.push('₹' + fmtNum(oldAmount) + ' → ₹' + fmtNum(amount));
+    var summary = 'Offer updated by ' + ZK.display_name + (changes.length ? ' · ' + changes.join(', ') : '');
+
+    Promise.all([
+      zeke_sb.from('deal_messages').insert({ deal_id: dealId, sender_id: ZK.id, msg_type: 'event_gold', content: '✎ ' + summary }),
+      zeke_sb.from('deals').select('influencer_id').eq('id', dealId).single().then(function (rr) {
+        if (rr && rr.data) {
+          return zeke_sb.from('notifications').insert({
+            user_id: rr.data.influencer_id,
+            title: 'Offer updated',
+            body: ZK.display_name + ' updated the offer: ' + title + ' · ₹' + fmtNum(amount),
+            type: 'deal'
+          });
+        }
+      })
+    ]).then(function () {
+      closeEditOfferModal();
+      openBrandDeal(dealId, '');
+    });
+  });
 }
 
 function _renderBrandCancelRequest(d) {
