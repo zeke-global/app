@@ -14,12 +14,27 @@
 var SUPABASE_URL = 'https://fslthsbjtgmdbabwcubs.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzbHRoc2JqdGdtZGJhYndjdWJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyOTA5MTIsImV4cCI6MjA5Mjg2NjkxMn0.dGcEueAx6K5dqQf__jh96XDHA2rtDE7jmCQanSpWx24';
 
-// Load Supabase SDK from CDN then expose window.zeke_sb
+// Load Supabase SDK from CDN then expose window.zeke_sb.
+// Pinned to 2.45.4 — newer 2.46+ versions had a regression where
+// detectSessionInUrl misinterpreted non-auth URL hashes (like #deals
+// from our tab routing) and silently dropped the user's session.
 (function () {
   var script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+  script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js';
   script.onload = function () {
-    window.zeke_sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    var onAuthPage = window.location.pathname.indexOf('auth.html') !== -1;
+    window.zeke_sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession:     true,
+        autoRefreshToken:   true,
+        // Only auth.html ever needs to consume tokens from URL fragments
+        // (email verify / password reset). Dashboard pages keep this off
+        // so a hash like #deals can't confuse the SDK.
+        detectSessionInUrl: onAuthPage,
+        flowType:           'implicit',
+        storage:            window.localStorage
+      }
+    });
     document.dispatchEvent(new Event('zeke:supabase:ready'));
   };
   document.head.appendChild(script);

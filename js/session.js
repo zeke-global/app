@@ -62,8 +62,9 @@ onSupabaseReady(function () {
           _fireReady();
         }
 
-        // Wire all sign-out buttons
+        // Wire any sign-out buttons that don't already have an inline handler.
         document.querySelectorAll('.sign-out-btn').forEach(function (el) {
+          if (el.getAttribute('onclick')) return;
           el.addEventListener('click', function (e) { e.preventDefault(); zekeSignOut(); });
         });
       });
