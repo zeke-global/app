@@ -49,9 +49,11 @@ function requestReset() {
   if (!email || email.indexOf('@') < 0) { showErr('reset-error', 'Enter a valid email.'); return; }
   hideErr('reset-error');
   setBtnLoading('reset-btn', true, 'Send Reset Link');
+  var redirectTarget = window.location.href.split('#')[0].split('?')[0];
+
   onSupabaseReady(function () {
     zeke_sb.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + window.location.pathname.replace(/[^/]*$/, 'auth.html')
+      redirectTo: redirectTarget
     }).then(function (res) {
       setBtnLoading('reset-btn', false, 'Send Reset Link');
       if (res.error) { showErr('reset-error', res.error.message); return; }
@@ -238,13 +240,15 @@ function doRegister() {
     }
   }
 
+  var redirectTarget = window.location.href.split('#')[0].split('?')[0];
+
   onSupabaseReady(function () {
     zeke_sb.auth.signUp({
       email: email,
       password: pass,
       options: {
         data: meta,
-        emailRedirectTo: window.location.origin + '/auth.html'
+        emailRedirectTo: redirectTarget
       }
     })
       .then(function (res) {
