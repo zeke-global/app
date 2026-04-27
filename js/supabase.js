@@ -11,8 +11,8 @@
       <script src="js/supabase.js"></script>
 ═══════════════════════════════════════════════════════════ */
 
-var SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-var SUPABASE_ANON_KEY = 'YOUR_ANON_PUBLIC_KEY';
+var SUPABASE_URL = 'https://fslthsbjtgmdbabwcubs.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzbHRoc2JqdGdtZGJhYndjdWJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyOTA5MTIsImV4cCI6MjA5Mjg2NjkxMn0.dGcEueAx6K5dqQf__jh96XDHA2rtDE7jmCQanSpWx24';
 
 // Load Supabase SDK from CDN then expose window.zeke_sb
 (function () {
