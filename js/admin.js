@@ -11,6 +11,7 @@ function aSwitchTab(tab) {
   if (tab === 'verifications') loadVerifications();
   if (tab === 'disputes')      loadDisputes();
   if (tab === 'deals')         loadAllDeals();
+  if (tab === 'shield')        loadShieldRequests();
 }
 
 function aSetMob(tab) {
@@ -36,9 +37,23 @@ function loadAdminOverview() {
     .eq('status','open')
     .then(function (r) {
       _set('astat-disputes', r.count || 0);
-      var badge = document.getElementById('verif-count-badge');
-      if (badge && r.count > 0) { badge.textContent = r.count; badge.style.display = 'inline'; }
+      _set('astat-disputes-open', r.count || 0);
     });
+
+  zeke_sb.from('influencer_profiles').select('id', { count:'exact', head:true })
+    .eq('verified', false)
+    .then(function (r) {
+      _set('astat-verif-pending', r.count || 0);
+      var badge = document.getElementById('verif-count-badge');
+      if (badge) {
+        if (r.count > 0) { badge.textContent = r.count; badge.style.display = 'inline'; }
+        else { badge.style.display = 'none'; }
+      }
+    });
+
+  zeke_sb.from('shield_requests').select('id', { count:'exact', head:true })
+    .eq('status', 'pending')
+    .then(function (r) { _set('astat-shield-pending', r.count || 0); });
 
   loadRecentDealsPreview();
 }
@@ -136,6 +151,61 @@ function rejectVerification(influencerId, btn) {
       if (r.error) { alert(r.error.message); return; }
       loadVerifications();
     });
+}
+
+// ── SHIELD REQUESTS ───────────────────────────────────────
+function loadShieldRequests() {
+  zeke_sb.from('shield_requests')
+    .select('*, profiles!shield_requests_influencer_id_fkey(display_name, location)')
+    .eq('status', 'pending')
+    .order('requested_at', { ascending: true })
+    .then(function (r) {
+      var c = document.getElementById('shield-list'); if (!c) return;
+      var rows = r.data || [];
+      if (!rows.length) {
+        c.innerHTML = '<div class="empty-state"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>No pending Shield requests.</span></div>';
+        return;
+      }
+      c.innerHTML = rows.map(function (s) {
+        var p = s.profiles || {};
+        var name = p.display_name || 'Creator';
+        var initials = name.slice(0,2).toUpperCase();
+        return '<div class="item-card" style="margin-bottom:12px">'
+          + '<div class="item-card-header">'
+          + '<div style="display:flex;align-items:center;gap:10px">'
+          + '<div class="item-avatar" style="background:rgba(217,119,6,.15);color:#D97706">' + initials + '</div>'
+          + '<div><div style="font-size:14px;font-weight:700;color:#fff">' + esc(name) + '</div>'
+          + '<div style="font-size:12px;color:#7B84A3">' + esc(p.location||'') + ' · Requested ' + fmtDate(s.requested_at) + '</div></div></div>'
+          + '<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#D97706">₹' + (s.amount||1999) + '</div>'
+          + '<span class="badge badge-gold" style="margin-top:4px">Pending</span></div></div>'
+          + '<div class="item-actions">'
+          + '<button class="btn-approve" onclick="activateShield(\'' + s.id + '\',\'' + s.influencer_id + '\',this)">&#128737; Activate</button>'
+          + '<button class="btn-reject"  onclick="rejectShield(\''   + s.id + '\',\'' + s.influencer_id + '\',this)">&#10006; Reject</button>'
+          + '</div></div>';
+      }).join('');
+    });
+}
+
+function activateShield(reqId, influencerId, btn) {
+  if (!confirm('Confirm payment received and activate Shield for this creator?')) return;
+  btn.disabled = true; btn.textContent = 'Activating...';
+  var oneYear = new Date(); oneYear.setFullYear(oneYear.getFullYear() + 1);
+  var expires = oneYear.toISOString().slice(0,10);
+  Promise.all([
+    zeke_sb.from('shield_requests').update({ status:'activated', activated_at: new Date().toISOString(), expires_at: expires }).eq('id', reqId),
+    zeke_sb.from('influencer_profiles').update({ shield_active: true, shield_expires: expires }).eq('id', influencerId),
+    zeke_sb.from('notifications').insert({ user_id: influencerId, title: '🛡 Shield Activated', body: 'Your Zeke Shield is active until ' + expires + '. Welcome to the Shield circle.', type: 'system' })
+  ]).then(function () { loadShieldRequests(); loadAdminOverview(); });
+}
+
+function rejectShield(reqId, influencerId, btn) {
+  var reason = prompt('Reason (shown to creator):');
+  if (!reason) return;
+  btn.disabled = true;
+  Promise.all([
+    zeke_sb.from('shield_requests').update({ status:'rejected', note: reason }).eq('id', reqId),
+    zeke_sb.from('notifications').insert({ user_id: influencerId, title: 'Shield request not approved', body: reason, type: 'system' })
+  ]).then(function () { loadShieldRequests(); loadAdminOverview(); });
 }
 
 // ── DISPUTES ──────────────────────────────────────────────

@@ -6,13 +6,84 @@
 var isAdult = null;
 var regRole = 'influencer';
 
+// Capture this BEFORE Supabase consumes the URL hash.
+var ZEKE_RECOVERY_FLOW = window.location.hash.indexOf('type=recovery') !== -1;
+
 // ── VIEW TOGGLE ───────────────────────────────────────────
 function showView(v) {
-  var login = document.getElementById('login-view');
-  var reg   = document.getElementById('register-view');
-  if (login) login.classList.toggle('hidden', v !== 'login');
-  if (reg)   reg.classList.toggle('hidden',   v !== 'register');
+  ['login','register','verify','reset','newpw'].forEach(function (key) {
+    var el = document.getElementById(key + '-view');
+    if (el) el.classList.toggle('hidden', v !== key);
+  });
   if (v === 'register') { goStep1(); setRole('influencer'); }
+  if (v === 'reset') { hideErr('reset-error'); var s = document.getElementById('reset-success'); if (s) s.classList.add('hidden'); }
+}
+
+// ── BOOT ──────────────────────────────────────────────────
+onSupabaseReady(function () {
+  // Always listen for password-recovery — fires when Supabase finishes parsing the URL hash.
+  zeke_sb.auth.onAuthStateChange(function (event) {
+    if (event === 'PASSWORD_RECOVERY') showView('newpw');
+  });
+
+  // If the URL itself indicates recovery, switch view immediately (don't redirect to a dashboard).
+  if (ZEKE_RECOVERY_FLOW) { showView('newpw'); return; }
+
+  // Otherwise: if a session already exists, route to the appropriate dashboard.
+  zeke_sb.auth.getSession().then(function (res) {
+    var session = res.data && res.data.session;
+    if (!session) return;
+    zeke_sb.from('profiles').select('role').eq('id', session.user.id).single()
+      .then(function (r) {
+        if (!r.data) return;
+        if (r.data.role === 'admin')      window.location.href = 'admin.html';
+        else if (r.data.role === 'brand') window.location.href = 'brand.html';
+        else                              window.location.href = 'creator.html';
+      });
+  });
+});
+
+// ── PASSWORD RESET ────────────────────────────────────────
+function requestReset() {
+  var email = document.getElementById('reset-email').value.trim();
+  if (!email || email.indexOf('@') < 0) { showErr('reset-error', 'Enter a valid email.'); return; }
+  hideErr('reset-error');
+  setBtnLoading('reset-btn', true, 'Send Reset Link');
+  onSupabaseReady(function () {
+    zeke_sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + window.location.pathname.replace(/[^/]*$/, 'auth.html')
+    }).then(function (res) {
+      setBtnLoading('reset-btn', false, 'Send Reset Link');
+      if (res.error) { showErr('reset-error', res.error.message); return; }
+      var s = document.getElementById('reset-success'); if (s) s.classList.remove('hidden');
+    });
+  });
+}
+
+function submitNewPassword() {
+  var pw  = document.getElementById('newpw-password').value;
+  var pw2 = document.getElementById('newpw-confirm').value;
+  if (!pw || pw.length < 8) { showErr('newpw-error', 'Password must be at least 8 characters.'); return; }
+  if (pw !== pw2)            { showErr('newpw-error', 'Passwords do not match.'); return; }
+  hideErr('newpw-error');
+  setBtnLoading('newpw-btn', true, 'Update Password');
+  onSupabaseReady(function () {
+    zeke_sb.auth.updateUser({ password: pw }).then(function (res) {
+      setBtnLoading('newpw-btn', false, 'Update Password');
+      if (res.error) { showErr('newpw-error', res.error.message); return; }
+      // Clean URL hash and route to the appropriate dashboard.
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+      zeke_sb.from('profiles').select('role').eq('id', res.data.user.id).single()
+        .then(function (r) {
+          var role = r && r.data ? r.data.role : 'influencer';
+          if (role === 'admin')      window.location.href = 'admin.html';
+          else if (role === 'brand') window.location.href = 'brand.html';
+          else                       window.location.href = 'creator.html';
+        });
+    });
+  });
 }
 
 // ── LOGIN ─────────────────────────────────────────────────
@@ -135,60 +206,63 @@ function doRegister() {
   hideErr(err);
   setBtnLoading('register-btn', true, 'Create Account');
 
-  var userId = null;
+  // Build metadata for the DB trigger (handle_new_user) to consume.
+  var meta = { role: regRole, display_name: name };
+
+  if (regRole === 'brand') {
+    var bt = document.querySelector('input[name="btype"]:checked');
+    meta.brand_type = bt ? bt.value : 'business';
+    meta.location   = document.getElementById('brand-location').value.trim();
+  } else {
+    var ytOn = document.getElementById('inf-yt-toggle') ? document.getElementById('inf-yt-toggle').checked : false;
+    var xOn  = document.getElementById('inf-x-toggle')  ? document.getElementById('inf-x-toggle').checked  : false;
+    meta.location     = document.getElementById('inf-location').value.trim();
+    meta.niche        = document.getElementById('inf-niche').value;
+    meta.handle       = document.getElementById('inf-ig-handle').value.trim().replace('@','');
+    meta.ig_followers = parseInt(document.getElementById('inf-ig-followers').value, 10) || 0;
+    meta.yt_enabled   = ytOn;
+    meta.x_enabled    = xOn;
+    if (ytOn) {
+      meta.yt_handle    = document.getElementById('inf-yt-handle').value.trim();
+      meta.yt_followers = parseInt(document.getElementById('inf-yt-followers').value, 10) || 0;
+    }
+    if (xOn) {
+      meta.x_handle    = document.getElementById('inf-x-handle').value.trim();
+      meta.x_followers = parseInt(document.getElementById('inf-x-followers').value, 10) || 0;
+    }
+    meta.is_adult = isAdult !== false;
+    if (!meta.is_adult) {
+      meta.guardian_name     = document.getElementById('guardian-name').value.trim();
+      meta.guardian_email    = document.getElementById('guardian-email').value.trim();
+      meta.guardian_relation = document.getElementById('guardian-relation').value;
+    }
+  }
 
   onSupabaseReady(function () {
-    zeke_sb.auth.signUp({ email: email, password: pass })
+    zeke_sb.auth.signUp({
+      email: email,
+      password: pass,
+      options: {
+        data: meta,
+        emailRedirectTo: window.location.origin + '/auth.html'
+      }
+    })
       .then(function (res) {
-        if (res.error) throw new Error(res.error.message);
-        userId = res.data.user.id;
-        return zeke_sb.from('profiles').insert({
-          id: userId, role: regRole, display_name: name,
-          location: regRole === 'brand'
-            ? document.getElementById('brand-location').value.trim()
-            : document.getElementById('inf-location').value.trim()
-        });
-      })
-      .then(function (r) {
-        if (r.error) throw new Error(r.error.message);
-        if (regRole === 'brand') {
-          var bt = document.querySelector('input[name="btype"]:checked');
-          return zeke_sb.from('brand_profiles').insert({ id: userId, brand_type: bt ? bt.value : 'business' });
+        if (res.error) {
+          setBtnLoading('register-btn', false, 'Create Account');
+          showErr(err, res.error.message);
+          return;
+        }
+        // If email confirmation is OFF in Supabase, the user is already signed in
+        // and gets a session. Otherwise session is null and they must verify by email.
+        if (res.data && res.data.session) {
+          if (regRole === 'brand') window.location.href = 'brand.html';
+          else                     window.location.href = 'creator.html';
         } else {
-          var ytH = document.getElementById('inf-yt-handle') ? document.getElementById('inf-yt-handle').value.trim() : '';
-          var ytF = document.getElementById('inf-yt-followers') ? parseInt(document.getElementById('inf-yt-followers').value, 10) : 0;
-          var xH  = document.getElementById('inf-x-handle')  ? document.getElementById('inf-x-handle').value.trim()  : '';
-          var xF  = document.getElementById('inf-x-followers') ? parseInt(document.getElementById('inf-x-followers').value, 10) : 0;
-          var ytOn = document.getElementById('inf-yt-toggle') ? document.getElementById('inf-yt-toggle').checked : false;
-          var xOn  = document.getElementById('inf-x-toggle')  ? document.getElementById('inf-x-toggle').checked  : false;
-          return zeke_sb.from('influencer_profiles').insert({
-            id: userId,
-            niche: document.getElementById('inf-niche').value,
-            handle: document.getElementById('inf-ig-handle').value.trim(),
-            ig_followers: parseInt(document.getElementById('inf-ig-followers').value, 10) || 0,
-            yt_followers: (ytOn && ytF > 0) ? ytF : null,
-            x_followers:  (xOn  && xF  > 0) ? xF  : null,
-            yt_enabled: ytOn,
-            x_enabled:  xOn,
-            is_adult: isAdult !== false
-          });
+          var target = document.getElementById('verify-email-target');
+          if (target) target.textContent = 'We sent a verification link to ' + email + '.';
+          showView('verify');
         }
-      })
-      .then(function (r) {
-        if (r.error) throw new Error(r.error.message);
-        if (regRole === 'influencer' && isAdult === false) {
-          return zeke_sb.from('guardians').insert({
-            influencer_id: userId,
-            guardian_name:  document.getElementById('guardian-name').value.trim(),
-            guardian_email: document.getElementById('guardian-email').value.trim(),
-            relation:       document.getElementById('guardian-relation').value
-          });
-        }
-      })
-      .then(function (r) {
-        if (r && r.error) throw new Error(r.error.message);
-        if (regRole === 'brand') window.location.href = 'brand.html';
-        else                     window.location.href = 'creator.html';
       })
       .catch(function (e) {
         setBtnLoading('register-btn', false, 'Create Account');

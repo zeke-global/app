@@ -54,11 +54,7 @@
 
   <div class="dash-main">
     <div class="topbar">
-      <div class="topbar-search">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" placeholder="Search users, deals...">
-      </div>
-      <div style="font-size:12px;color:#7B84A3">Platform health: <span style="color:#059669;font-weight:700">All good</span></div>
+      <div style="margin-left:auto;font-size:12px;color:#7B84A3">Platform health: <span style="color:#059669;font-weight:700">All good</span></div>
     </div>
 
     <div class="dash-content">
@@ -89,15 +85,15 @@
         <div class="action-cards" style="margin-bottom:20px">
           <div class="action-card" onclick="aSwitchTab('verifications')">
             <div class="action-icon" style="background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.2)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E94560" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-            <div><div style="font-size:13px;font-weight:700;color:#fff">1 Pending</div><div style="font-size:11px;color:#7B84A3">Verifications</div></div>
+            <div><div style="font-size:13px;font-weight:700;color:#fff"><span id="astat-verif-pending">--</span> Pending</div><div style="font-size:11px;color:#7B84A3">Verifications</div></div>
           </div>
           <div class="action-card" onclick="aSwitchTab('shield')">
             <div class="action-icon" style="background:rgba(217,119,6,.1);border:1px solid rgba(217,119,6,.2)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-            <div><div style="font-size:13px;font-weight:700;color:#fff">0 Pending</div><div style="font-size:11px;color:#7B84A3">Shield Requests</div></div>
+            <div><div style="font-size:13px;font-weight:700;color:#fff"><span id="astat-shield-pending">--</span> Pending</div><div style="font-size:11px;color:#7B84A3">Shield Requests</div></div>
           </div>
           <div class="action-card" onclick="aSwitchTab('disputes')">
             <div class="action-icon" style="background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.2)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-            <div><div style="font-size:13px;font-weight:700;color:#fff">2 Open</div><div style="font-size:11px;color:#7B84A3">Disputes</div></div>
+            <div><div style="font-size:13px;font-weight:700;color:#fff"><span id="astat-disputes-open">--</span> Open</div><div style="font-size:11px;color:#7B84A3">Disputes</div></div>
           </div>
         </div>
 
@@ -119,47 +115,15 @@
       <!-- SHIELD REQUESTS -->
       <div id="atab-shield" class="hidden">
         <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Shield Requests</h2>
-        <p style="font-size:13px;color:#7B84A3;margin-bottom:20px">Creators who have paid for Zeke Shield and are awaiting activation</p>
-        <div class="empty-state">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>No pending Shield requests. All up to date.</span>
-        </div>
+        <p style="font-size:13px;color:#7B84A3;margin-bottom:20px">Creators who have requested Zeke Shield. Confirm payment offline, then activate.</p>
+        <div id="shield-list"><div class="empty-state">Loading...</div></div>
       </div>
 
       <!-- DISPUTES -->
       <div id="atab-disputes" class="hidden">
         <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Disputes</h2>
         <p style="font-size:13px;color:#7B84A3;margin-bottom:20px">Active disputes between creators and brands</p>
-        <div id="disputes-list"><div class="item-card" style="display:none" style="margin-bottom:12px">
-          <div class="item-card-header">
-            <div>
-              <div style="font-size:14px;font-weight:700;color:#fff">Creator vs. Brand X</div>
-              <div style="font-size:12px;color:#7B84A3">Payment not received &middot; Deal #8821 &middot; Opened 3d ago</div>
-            </div>
-            <span class="badge badge-accent">Open</span>
-          </div>
-          <div style="font-size:13px;color:#C8D0E7;line-height:1.6">Creator claims payment of &#8377;28,000 was not received after content was delivered and approved.</div>
-          <div class="item-actions">
-            <button class="btn-approve">&#10003; Resolve</button>
-            <button class="btn-reject">&#10006; Escalate</button>
-            <button class="btn btn-ghost btn-sm">View deal</button>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-card-header">
-            <div>
-              <div style="font-size:14px;font-weight:700;color:#fff">Brand Y vs. Creator</div>
-              <div style="font-size:12px;color:#7B84A3">Content not as agreed &middot; Deal #8814 &middot; Opened 5d ago</div>
-            </div>
-            <span class="badge badge-accent">Open</span>
-          </div>
-          <div style="font-size:13px;color:#C8D0E7;line-height:1.6">Brand claims delivered reel did not match agreed brief. Creator disputes this.</div>
-          <div class="item-actions">
-            <button class="btn-approve">&#10003; Resolve</button>
-            <button class="btn-reject">&#10006; Escalate</button>
-            <button class="btn btn-ghost btn-sm">View deal</button>
-          </div>
-        </div></div>
+        <div id="disputes-list"><div class="empty-state">Loading...</div></div>
       </div>
 
       <!-- ALL DEALS -->
@@ -197,20 +161,7 @@
 <div class="notif-overlay" id="notif-overlay" onclick="toggleNotif()"></div>
 <div class="notif-panel hidden" id="notif-panel"><div id="notif-panel-inner">
   <div class="notif-header"><div class="notif-title">Notifications</div><button class="notif-clear" onclick="clearNotifs()">Mark all read</button></div>
-  <div class="notif-item unread">
-    <div class="notif-icon" style="background:rgba(233,69,96,.12);color:#E94560">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    </div>
-    <div class="notif-body"><div class="notif-body-title">New verification request</div><div class="notif-body-sub">Aligerouszz &middot; Fashion & Lifestyle &middot; Dubai</div></div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div class="notif-time">2h ago</div><div class="notif-unread-dot"></div></div>
-  </div>
-  <div class="notif-item">
-    <div class="notif-icon" style="background:rgba(5,150,105,.12);color:#059669">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
-    <div class="notif-body"><div class="notif-body-title">Deal closed</div><div class="notif-body-sub">Lulu &times; Aligerouszz &middot; &#8377;45,000</div></div>
-    <div class="notif-time">2d ago</div>
-  </div>
+  <div style="padding:20px;text-align:center;font-size:13px;color:#7B84A3">Loading...</div>
 </div>
 
 <script>var ZEKE_PAGE_ROLE = "admin";</script>

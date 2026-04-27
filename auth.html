@@ -17,6 +17,86 @@
   </div>
 </nav>
 
+<!-- RESET PASSWORD (request link) -->
+<div class="auth-page hidden" id="reset-view">
+  <div class="auth-glow"></div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-logo-text">zeke<span>.</span></div>
+      <div class="auth-logo-sub">Reset your password</div>
+    </div>
+    <div class="card card-lg">
+      <div class="form-row">
+        <div style="font-size:13px;color:#7B84A3;line-height:1.6;margin-bottom:4px">Enter your email and we'll send you a link to set a new password.</div>
+        <div class="input-wrap">
+          <label class="input-label" for="reset-email">Email</label>
+          <div style="position:relative">
+            <span class="input-icon">&#9993;</span>
+            <input class="input-field" type="email" id="reset-email" placeholder="you@example.com" autocomplete="email">
+          </div>
+        </div>
+        <div id="reset-error" class="error-msg hidden"></div>
+        <div id="reset-success" class="hidden" style="font-size:13px;color:#059669;background:rgba(5,150,105,.06);border:1px solid rgba(5,150,105,.25);border-radius:10px;padding:10px 14px;line-height:1.6">&#10003; Reset link sent. Check your inbox (and spam folder).</div>
+        <button id="reset-btn" class="btn btn-primary btn-md btn-full" onclick="requestReset()">Send Reset Link</button>
+      </div>
+      <div class="auth-bottom">
+        <a onclick="showView('login')">&#8592; Back to Sign In</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW PASSWORD (after clicking recovery email) -->
+<div class="auth-page hidden" id="newpw-view">
+  <div class="auth-glow"></div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-logo-text">zeke<span>.</span></div>
+      <div class="auth-logo-sub">Set a new password</div>
+    </div>
+    <div class="card card-lg card-glow-accent">
+      <div class="form-row">
+        <div class="input-wrap">
+          <label class="input-label" for="newpw-password">New Password</label>
+          <div style="position:relative">
+            <span class="input-icon">&#128274;</span>
+            <input class="input-field" type="password" id="newpw-password" placeholder="Minimum 8 characters" autocomplete="new-password">
+            <button type="button" class="pw-toggle" onclick="togglePw('newpw-password',this)">Show</button>
+          </div>
+        </div>
+        <div class="input-wrap">
+          <label class="input-label" for="newpw-confirm">Confirm Password</label>
+          <div style="position:relative">
+            <span class="input-icon">&#128274;</span>
+            <input class="input-field" type="password" id="newpw-confirm" placeholder="Re-type new password" autocomplete="new-password">
+          </div>
+        </div>
+        <div id="newpw-error" class="error-msg hidden"></div>
+        <button id="newpw-btn" class="btn btn-primary btn-md btn-full" onclick="submitNewPassword()">Update Password</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VERIFY EMAIL -->
+<div class="auth-page hidden" id="verify-view">
+  <div class="auth-glow"></div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-logo-text">zeke<span>.</span></div>
+      <div class="auth-logo-sub">Verify your email</div>
+    </div>
+    <div class="card card-lg card-glow-accent" style="text-align:center">
+      <div style="font-size:40px;margin-bottom:10px">&#9993;</div>
+      <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:8px">Check your inbox</div>
+      <div id="verify-email-target" style="font-size:13px;color:#7B84A3;line-height:1.6;margin-bottom:18px">We sent a verification link to your email.</div>
+      <div style="font-size:12px;color:#7B84A3;line-height:1.7;margin-bottom:18px">Click the link in the email to activate your account. The link will redirect you back here automatically.</div>
+      <button class="btn btn-outline btn-md btn-full" onclick="showView('login')">Back to Sign In</button>
+    </div>
+    <div class="auth-note">&#128231; Can't find the email? Check spam or junk.</div>
+  </div>
+</div>
+
 <!-- LOGIN -->
 <div class="auth-page" id="login-view">
   <div class="auth-glow"></div>
@@ -42,6 +122,7 @@
             <button type="button" class="pw-toggle" onclick="togglePw('login-password',this)">Show</button>
           </div>
         </div>
+        <div style="text-align:right;margin-top:-4px"><a onclick="showView('reset')" style="font-size:12px;color:#7B84A3;cursor:pointer">Forgot password?</a></div>
         <div id="login-error" class="error-msg hidden"></div>
         <button id="login-btn" class="btn btn-primary btn-md btn-full" onclick="doLogin()">Sign In</button>
       </div>

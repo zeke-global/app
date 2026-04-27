@@ -18,6 +18,9 @@ function clearNotifs() {
   document.querySelectorAll('.notif-unread-dot').forEach(function(el){ el.style.display = 'none'; });
   var dot = document.getElementById('main-notif-dot');
   if (dot) dot.style.display = 'none';
+  if (window.zeke_sb && window.ZK) {
+    window.zeke_sb.from('notifications').update({ read: true }).eq('user_id', window.ZK.id).eq('read', false).then(function () {});
+  }
 }
 
 // ── PASSWORD TOGGLE ───────────────────────────────────────

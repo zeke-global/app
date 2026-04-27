@@ -146,7 +146,7 @@ function saveProfile() {
   var igH = document.getElementById('edit-ig-handle')    ? document.getElementById('edit-ig-handle').value.trim()    : '';
   var igF = document.getElementById('edit-ig-followers') ? parseInt(document.getElementById('edit-ig-followers').value,10) : 0;
   if (!igH)     { showErr('profile-save-error', 'Instagram handle is required.'); return; }
-  if (!igF > 0) { showErr('profile-save-error', 'Instagram follower count is required.'); return; }
+  if (!igF || igF < 1) { showErr('profile-save-error', 'Instagram follower count is required.'); return; }
   hideErr('profile-save-error');
 
   var ytToggle = document.getElementById('edit-yt-toggle');
@@ -205,17 +205,61 @@ function loadOffers() {
           + '<div style="font-size:12px;color:#7B84A3">' + esc(d.title||'') + ' · ' + esc(d.platform||'') + '</div></div></div>'
           + '<div style="font-size:14px;font-weight:900;color:#D97706">₹' + fmtNum(d.amount||0) + '</div></div>'
           + '<div class="item-actions">'
-          + '<button class="btn btn-primary btn-sm" style="flex:1" onclick="openChat(\'' + d.id + '\')">View & Negotiate</button>'
+          + '<button class="btn-approve" style="flex:1" onclick="acceptOffer(\'' + d.id + '\')">&#10003; Accept</button>'
+          + '<button class="btn btn-primary btn-sm" onclick="switchTab(\'chats\');setMob(\'chats\');openChat(\'' + d.id + '\')">Negotiate</button>'
           + '<button class="btn btn-outline btn-sm" onclick="declineOffer(\'' + d.id + '\')">Decline</button>'
           + '</div></div>';
       }).join('');
     });
 }
 
+function acceptOffer(dealId) {
+  if (!confirm('Accept this offer? Terms will be locked once accepted.')) return;
+  var inf = ZK.inf || {};
+  var isShield = !!inf.shield_active;
+
+  zeke_sb.from('deals').select('*').eq('id', dealId).single()
+    .then(function (r) {
+      if (r.error || !r.data) { alert('Could not load deal.'); return null; }
+      var d = r.data;
+      return Promise.all([
+        zeke_sb.from('deals').update({ status:'active', updated_at: new Date().toISOString() }).eq('id', dealId),
+        zeke_sb.from('agreements').insert({ deal_id: dealId, signed_brand: true, signed_creator: true }),
+        zeke_sb.from('deal_messages').insert({
+          deal_id: dealId, sender_id: ZK.id,
+          msg_type: isShield ? 'event_gold' : 'event',
+          content: (isShield ? '🛡 ' : '✓ ') + 'Offer accepted by ' + ZK.display_name + ' · Deal active' + (isShield ? ' · Shield agreement generated' : '')
+        }),
+        zeke_sb.from('notifications').insert({
+          user_id: d.brand_id,
+          title: 'Offer accepted',
+          body: ZK.display_name + ' accepted your offer · ' + d.title,
+          type: 'deal'
+        })
+      ]);
+    })
+    .then(function (results) {
+      if (!results) return;
+      loadOffers(); loadDeals(); loadOverview(); loadAgreements();
+      switchTab('deals'); setMob('deals');
+      openDeal(dealId);
+    });
+}
+
 function declineOffer(dealId) {
   if (!confirm('Decline this offer?')) return;
   zeke_sb.from('deals').update({ status:'cancelled' }).eq('id', dealId)
-    .then(function () { loadOffers(); });
+    .then(function (r) {
+      if (r && r.error) { alert(r.error.message); return; }
+      return zeke_sb.from('deals').select('brand_id,title').eq('id', dealId).single();
+    })
+    .then(function (r) {
+      if (!r || !r.data) { loadOffers(); return; }
+      Promise.all([
+        zeke_sb.from('deal_messages').insert({ deal_id: dealId, sender_id: ZK.id, msg_type:'event', content: '✗ Offer declined by ' + ZK.display_name }),
+        zeke_sb.from('notifications').insert({ user_id: r.data.brand_id, title: 'Offer declined', body: ZK.display_name + ' declined your offer · ' + r.data.title, type: 'deal' })
+      ]).then(function () { loadOffers(); });
+    });
 }
 
 // ── CHATS ─────────────────────────────────────────────────
@@ -318,14 +362,15 @@ function sendChatMessage() {
   input.value = '';
   var optimistic = { sender_id: ZK.id, msg_type:'text', content: text, created_at: new Date().toISOString() };
   _appendMsg(optimistic);
-  zeke_sb.from('deal_messages').insert({ deal_id: _activeChat, sender_id: ZK.id, msg_type:'text', content: text });
+  zeke_sb.from('deal_messages').insert({ deal_id: _activeChat, sender_id: ZK.id, msg_type:'text', content: text })
+    .then(function (r) { if (r && r.error) console.error('chat send failed:', r.error.message); });
 }
 
 // ── DEALS LIST ────────────────────────────────────────────
 function loadDeals() {
   zeke_sb.from('deals')
     .select('id,title,platform,amount,status,updated_at,profiles!deals_brand_id_fkey(display_name)')
-    .eq('influencer_id', ZK.id).not('status','eq','negotiating')
+    .eq('influencer_id', ZK.id).not('status','in','("negotiating","cancelled")')
     .order('updated_at',{ascending:false})
     .then(function (r) {
       var c = document.getElementById('deals-list-inner'); if (!c) return;
@@ -487,10 +532,24 @@ function submitFile(dealId) {
       return zeke_sb.from('submissions').insert({ deal_id: dealId, file_url: path, file_name: file.name, file_size_mb: parseFloat((file.size/1048576).toFixed(1)), status:'pending' });
     })
     .then(function (r) {
-      if (!r || r.error) return;
-      return zeke_sb.from('deal_messages').insert({ deal_id: dealId, sender_id: ZK.id, msg_type:'event', content: '✓ File submitted by ' + ZK.display_name + ' · Awaiting brand review' });
+      if (!r || r.error) return null;
+      return Promise.all([
+        zeke_sb.from('deals').update({ status:'submitted', updated_at: new Date().toISOString() }).eq('id', dealId),
+        zeke_sb.from('deal_messages').insert({ deal_id: dealId, sender_id: ZK.id, msg_type:'event', content: '✓ File submitted by ' + ZK.display_name + ' · Awaiting brand review' }),
+        zeke_sb.from('deals').select('brand_id,title').eq('id', dealId).single()
+      ]);
     })
-    .then(function () {
+    .then(function (results) {
+      if (!results) return;
+      var dealRes = results[2];
+      if (dealRes && dealRes.data) {
+        zeke_sb.from('notifications').insert({
+          user_id: dealRes.data.brand_id,
+          title: 'New submission from ' + ZK.display_name,
+          body: dealRes.data.title + ' — review pending',
+          type: 'deal'
+        }).then(function () {});
+      }
       document.getElementById('submissions-content').innerHTML =
         '<div style="background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px;font-size:13px;color:#059669;font-weight:600">✓ File submitted. Awaiting brand review.</div>';
     });
@@ -580,31 +639,93 @@ function requestCancel(dealId) {
   var reason = document.getElementById('cancel-reason') ? document.getElementById('cancel-reason').value.trim() : '';
   if (!reason) { alert('Please provide a reason.'); return; }
   zeke_sb.from('deals').update({ cancel_requested_by: ZK.id, cancel_reason: reason }).eq('id', dealId)
-    .then(function () {
+    .then(function (r) {
+      if (r && r.error) { alert(r.error.message); return; }
+      zeke_sb.from('deal_messages').insert({ deal_id: dealId, sender_id: ZK.id, msg_type:'event', content: '⊘ Cancellation requested by ' + ZK.display_name + ': ' + reason }).then(function () {});
+      zeke_sb.from('deals').select('brand_id,title').eq('id', dealId).single().then(function (rr) {
+        if (rr && rr.data) {
+          zeke_sb.from('notifications').insert({ user_id: rr.data.brand_id, title: 'Cancellation requested', body: ZK.display_name + ' wants to cancel ' + rr.data.title, type: 'deal' }).then(function () {});
+        }
+      });
       document.getElementById('cancel-content').innerHTML =
-        '<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:10px;padding:12px;font-size:12px;color:#D97706;font-weight:600">⊘ Cancellation request sent.</div>';
+        '<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:10px;padding:12px;font-size:12px;color:#D97706;font-weight:600">⊘ Cancellation request sent. The brand must agree before the deal closes.</div>';
     });
 }
 
 // ── AGREEMENTS ────────────────────────────────────────────
 function loadAgreements() {
   zeke_sb.from('agreements')
-    .select('*, deals(title, amount, deliverables, profiles!deals_brand_id_fkey(display_name))')
+    .select('*, deals(id, title, amount, deliverables, platform, deadline, profiles!deals_brand_id_fkey(display_name))')
     .then(function (r) {
       var c = document.getElementById('agreements-list'); if (!c) return;
       var rows = (r.data || []).filter(function (a) { return a.deals; });
       if (!rows.length) { c.innerHTML = '<div class="empty-state">No agreements yet.</div>'; return; }
+      var isShield = !!(ZK.inf && ZK.inf.shield_active);
       c.innerHTML = rows.map(function (a) {
         var d = a.deals;
         var brand = (d.profiles && d.profiles.display_name) || 'Brand';
+        var pdfBtn = isShield
+          ? '<button class="btn btn-outline btn-sm" style="flex:1" onclick="downloadAgreementPDF(\'' + a.id + '\')">⬇ Download PDF</button>'
+          : '<div style="font-size:11px;color:#7B84A3;text-align:center;margin-top:4px">🛡 PDF available to Shield members only.</div>';
         return '<div class="item-card" style="border-color:rgba(5,150,105,.25);margin-bottom:12px">'
           + '<div class="item-card-header"><div style="display:flex;align-items:center;gap:12px">'
           + '<div style="width:40px;height:40px;background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.25);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>'
           + '<div><div style="font-size:14px;font-weight:700;color:#fff">' + esc(brand) + ' × ' + esc(ZK.display_name) + '</div>'
           + '<div style="font-size:12px;color:#7B84A3">' + esc(d.title||'') + ' · ' + fmtDate(a.generated_at) + '</div></div>'
           + '</div><span class="badge badge-green">Active</span></div>'
-          + '<div class="item-actions"><button class="btn btn-outline btn-sm" style="flex:1">⬇ Download PDF</button></div></div>';
+          + '<div style="background:#0B0D1A;border-radius:10px;padding:10px 14px;font-size:12px;color:#7B84A3;line-height:1.9;margin-top:10px">'
+          + '<div><span style="color:#C8D0E7;font-weight:600">Title:</span> ' + esc(d.title||'') + '</div>'
+          + '<div><span style="color:#C8D0E7;font-weight:600">Platform:</span> ' + esc(d.platform||'—') + '</div>'
+          + '<div><span style="color:#C8D0E7;font-weight:600">Value:</span> ₹' + fmtNum(d.amount||0) + '</div>'
+          + (d.deliverables ? '<div><span style="color:#C8D0E7;font-weight:600">Deliverables:</span> ' + esc(d.deliverables) + '</div>' : '')
+          + (d.deadline ? '<div><span style="color:#C8D0E7;font-weight:600">Deadline:</span> ' + esc(d.deadline) + '</div>' : '')
+          + '</div>'
+          + '<div class="item-actions" style="margin-top:10px">' + pdfBtn + '</div></div>';
       }).join('');
+    });
+}
+
+// Client-side PDF generation for Shield members.
+function downloadAgreementPDF(agreementId) {
+  if (!window.jspdf) { alert('PDF library failed to load. Please refresh.'); return; }
+  zeke_sb.from('agreements')
+    .select('*, deals(title, amount, deliverables, platform, deadline, payment_terms, usage_rights, profiles!deals_brand_id_fkey(display_name))')
+    .eq('id', agreementId).single()
+    .then(function (r) {
+      if (r.error || !r.data) { alert('Could not load agreement.'); return; }
+      var a = r.data, d = a.deals || {};
+      var brand = (d.profiles && d.profiles.display_name) || 'Brand';
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF();
+      var y = 20;
+      doc.setFont('helvetica','bold').setFontSize(20).text('ZEKE', 20, y); y += 8;
+      doc.setFont('helvetica','normal').setFontSize(10).setTextColor(120).text('Legally Protected Influencer Marketplace', 20, y); y += 14;
+      doc.setTextColor(0).setFontSize(14).setFont('helvetica','bold').text('Deal Agreement', 20, y); y += 10;
+      doc.setFontSize(10).setFont('helvetica','normal');
+      var lines = [
+        ['Brand', brand],
+        ['Creator', ZK.display_name],
+        ['Title', d.title || '—'],
+        ['Platform', d.platform || '—'],
+        ['Value', '₹' + (d.amount || 0)],
+        ['Deliverables', d.deliverables || '—'],
+        ['Usage rights', d.usage_rights || 'As agreed'],
+        ['Payment terms', d.payment_terms || 'On completion'],
+        ['Deadline', d.deadline || 'As agreed'],
+        ['Generated', new Date(a.generated_at).toLocaleString()]
+      ];
+      lines.forEach(function (kv) {
+        doc.setFont('helvetica','bold').text(kv[0] + ':', 20, y);
+        var wrapped = doc.splitTextToSize(String(kv[1]), 140);
+        doc.setFont('helvetica','normal').text(wrapped, 60, y);
+        y += Math.max(8, wrapped.length * 6);
+        if (y > 260) { doc.addPage(); y = 20; }
+      });
+      y += 6;
+      doc.setFontSize(9).setTextColor(120);
+      var disclaimer = doc.splitTextToSize('This agreement is generated by Zeke based on the deal terms accepted by both parties. Both parties confirmed acceptance digitally on the platform. Any dispute will be reviewed by the Zeke team for Shield members.', 170);
+      doc.text(disclaimer, 20, y);
+      doc.save('zeke-agreement-' + (d.title || 'deal').replace(/\s+/g,'-').toLowerCase() + '.pdf');
     });
 }
 
@@ -668,6 +789,99 @@ function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// ── RAISE DISPUTE ─────────────────────────────────────────
+function raiseDispute() {
+  if (!_activeDeal) return;
+  var dealId = _activeDeal;
+  var inf = ZK.inf || {};
+  var isShield = !!inf.shield_active;
+  var prefix = isShield
+    ? '🛡 You are a Shield member — the Zeke team will personally review this dispute and work toward a fair resolution.\n\n'
+    : 'Free creators can raise disputes, but Zeke will not actively intervene without a Shield membership. The dispute will be recorded.\n\n';
+  var reason = prompt(prefix + 'Describe the issue (the brand and Zeke admin will see this):');
+  if (!reason || !reason.trim()) return;
+  reason = reason.trim();
+
+  zeke_sb.from('deals').select('brand_id,title,status').eq('id', dealId).single()
+    .then(function (r) {
+      if (r.error || !r.data) { alert('Could not load deal.'); return null; }
+      var d = r.data;
+      if (d.status === 'disputed')  { alert('A dispute is already open on this deal.'); return null; }
+      if (d.status === 'completed' || d.status === 'cancelled') { alert('This deal is closed; you cannot raise a dispute.'); return null; }
+      return Promise.all([
+        zeke_sb.from('disputes').insert({ deal_id: dealId, raised_by: ZK.id, reason: reason, status: 'open' }),
+        zeke_sb.from('deals').update({ status: 'disputed', updated_at: new Date().toISOString() }).eq('id', dealId),
+        zeke_sb.from('deal_messages').insert({
+          deal_id: dealId, sender_id: ZK.id,
+          msg_type: isShield ? 'event_gold' : 'event',
+          content: (isShield ? '🛡 ' : '⚠ ') + 'Dispute raised by ' + ZK.display_name + ': ' + reason
+        }),
+        zeke_sb.from('notifications').insert({
+          user_id: d.brand_id,
+          title: 'Dispute opened',
+          body: ZK.display_name + ' raised a dispute on ' + d.title,
+          type: 'system'
+        })
+      ]);
+    })
+    .then(function (results) {
+      if (!results) return;
+      alert(isShield
+        ? '🛡 Dispute submitted. The Zeke team will reach out within 24 hours.'
+        : '⚠ Dispute recorded. Upgrade to Zeke Shield for active resolution support.');
+      loadDeals(); loadOverview();
+      if (_activeDeal === dealId) openDeal(dealId);
+    });
+}
+
+// ── SHIELD REQUEST ────────────────────────────────────────
+function requestShield() {
+  var inf = ZK.inf || {};
+  if (inf.shield_active) { alert('You are already a Shield member.'); return; }
+  if (!confirm('Request Zeke Shield (₹1,999/yr)? Our team will follow up to confirm payment, then activate your Shield within 24h.')) return;
+  zeke_sb.from('shield_requests').select('id,status').eq('influencer_id', ZK.id).eq('status','pending').maybeSingle()
+    .then(function (r) {
+      if (r.data) { _renderShieldUpsell('pending'); alert('Your Shield request is already pending review.'); return null; }
+      return zeke_sb.from('shield_requests').insert({ influencer_id: ZK.id, amount: 1999, status: 'pending' });
+    })
+    .then(function (r) {
+      if (!r) return;
+      if (r.error) { alert(r.error.message); return; }
+      _renderShieldUpsell('pending');
+      alert('🛡 Shield requested. We will email you with payment instructions shortly.');
+    });
+}
+
+function _renderShieldUpsell(state) {
+  var card = document.getElementById('shield-upsell-card'); if (!card) return;
+  var btn  = document.getElementById('shield-cta-btn');
+  var sub  = document.getElementById('shield-upsell-sub');
+  if (state === 'active') {
+    card.style.borderColor = 'rgba(217,119,6,.4)';
+    card.style.background  = 'rgba(217,119,6,.08)';
+    if (sub) sub.textContent = 'You are a Shield member. Thank you for backing Zeke.';
+    if (btn) { btn.textContent = '🛡 Active'; btn.disabled = true; btn.style.opacity = '.7'; btn.onclick = null; }
+  } else if (state === 'pending') {
+    if (sub) sub.textContent = 'Shield request submitted. Awaiting activation.';
+    if (btn) { btn.textContent = 'Pending'; btn.disabled = true; btn.style.opacity = '.7'; btn.onclick = null; }
+  }
+}
+
+function _refreshShieldUpsellState() {
+  var inf = ZK.inf || {};
+  if (inf.shield_active) { _renderShieldUpsell('active'); return; }
+  zeke_sb.from('shield_requests').select('id').eq('influencer_id', ZK.id).eq('status','pending').maybeSingle()
+    .then(function (r) { if (r && r.data) _renderShieldUpsell('pending'); });
+}
+
+// ── REALTIME NOTIFICATIONS ────────────────────────────────
+function subscribeToNotifications() {
+  zeke_sb.channel('creator-notifs:' + ZK.id)
+    .on('postgres_changes', { event:'INSERT', schema:'public', table:'notifications', filter:'user_id=eq.'+ZK.id },
+      function () { loadNotifications(); })
+    .subscribe();
+}
+
 // ── BOOT ──────────────────────────────────────────────────
 document.addEventListener('zeke:ready', function () {
   loadOverview();
@@ -675,4 +889,6 @@ document.addEventListener('zeke:ready', function () {
   loadChats();
   loadDeals();
   loadAgreements();
+  subscribeToNotifications();
+  _refreshShieldUpsellState();
 });

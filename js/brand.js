@@ -96,7 +96,7 @@ function _renderCampaigns(containerId, campaigns, expanded) {
       + '<div style="font-size:12px;color:#7B84A3">' + esc(item.niche||'') + (item.deadline ? ' · Deadline ' + fmtDateShort(item.deadline) : '') + '</div></div>'
       + '<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#D97706">₹' + fmtNum(item.budget||0) + '</div>'
       + '<span class="badge ' + sc + '" style="margin-top:4px">' + (item.status||'Active') + '</span></div></div>'
-      + (expanded ? '<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1">View Applicants</button><button class="btn btn-outline btn-sm" onclick="deleteCampaign(\'' + item.id + '\')">Delete</button></div>' : '')
+      + (expanded ? '<div class="item-actions"><button class="btn btn-outline btn-sm" onclick="deleteCampaign(\'' + item.id + '\')">Close Campaign</button></div>' : '')
       + '</div>';
   }).join('');
 }
@@ -163,6 +163,14 @@ function openBrandChat(dealId, creatorName) {
   _set('brand-chat-creator-name', creatorName);
   var av = document.getElementById('brand-chat-avatar');
   if (av) av.textContent = creatorName.slice(0,2).toUpperCase();
+  zeke_sb.from('deals').select('title,amount,status').eq('id', dealId).single()
+    .then(function (r) {
+      if (r && r.data) {
+        var d = r.data;
+        var sub = (d.title || '') + (d.amount ? ' · ₹' + fmtNum(d.amount) : '');
+        _set('brand-chat-deal-sub', sub || _si(d.status).label);
+      }
+    });
   _loadBrandChatMsgs(dealId);
   _subscribeBrandChat(dealId);
 }
@@ -220,7 +228,8 @@ function sendBrandMessage() {
   var text = input.value.trim(); if (!text) return;
   input.value = '';
   _appendBrandMsg({ sender_id: ZK.id, msg_type:'text', content: text, created_at: new Date().toISOString() });
-  zeke_sb.from('deal_messages').insert({ deal_id: _activeBChat, sender_id: ZK.id, msg_type:'text', content: text });
+  zeke_sb.from('deal_messages').insert({ deal_id: _activeBChat, sender_id: ZK.id, msg_type:'text', content: text })
+    .then(function (r) { if (r && r.error) console.error('chat send failed:', r.error.message); });
 }
 
 // ── DEALS ─────────────────────────────────────────────────
@@ -265,6 +274,7 @@ function openBrandDeal(dealId, creatorName) {
       _set('bdeal-progress-label', si.label); document.getElementById('bdeal-progress-label').style.color = si.color;
       _loadBrandTimeline(dealId);
       _renderBrandDeliverables(d);
+      _renderBrandCancelRequest(d);
       _loadBrandReview(dealId, d.status);
       _loadBrandPaymentPanel(dealId, d);
       _loadBrandAgreement(dealId);
@@ -309,6 +319,88 @@ function _loadBrandTimeline(dealId) {
 function _renderBrandDeliverables(d) {
   var w = document.getElementById('bdeal-deliverables-wrap'); if (!w) return;
   w.innerHTML = '<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">Deliverables</div><div style="font-size:12px;color:#7B84A3;line-height:1.9">' + esc(d.deliverables||'No deliverables specified.') + '</div>';
+}
+
+function raiseBrandDispute() {
+  if (!_activeBDeal) return;
+  var dealId = _activeBDeal;
+  var reason = prompt('Describe the issue with this deal (the creator and Zeke admin will see this):');
+  if (!reason || !reason.trim()) return;
+  reason = reason.trim();
+
+  zeke_sb.from('deals').select('influencer_id,title,status').eq('id', dealId).single()
+    .then(function (r) {
+      if (r.error || !r.data) { alert('Could not load deal.'); return null; }
+      var d = r.data;
+      if (d.status === 'disputed')  { alert('A dispute is already open on this deal.'); return null; }
+      if (d.status === 'completed' || d.status === 'cancelled') { alert('This deal is closed; you cannot raise a dispute.'); return null; }
+      return Promise.all([
+        zeke_sb.from('disputes').insert({ deal_id: dealId, raised_by: ZK.id, reason: reason, status: 'open' }),
+        zeke_sb.from('deals').update({ status: 'disputed', updated_at: new Date().toISOString() }).eq('id', dealId),
+        zeke_sb.from('deal_messages').insert({
+          deal_id: dealId, sender_id: ZK.id,
+          msg_type: 'event',
+          content: '⚠ Dispute raised by ' + ZK.display_name + ': ' + reason
+        }),
+        zeke_sb.from('notifications').insert({
+          user_id: d.influencer_id,
+          title: 'Dispute opened',
+          body: ZK.display_name + ' raised a dispute on ' + d.title,
+          type: 'system'
+        })
+      ]);
+    })
+    .then(function (results) {
+      if (!results) return;
+      alert('⚠ Dispute submitted. The Zeke team will review.');
+      loadBrandDeals();
+      if (_activeBDeal === dealId) openBrandDeal(dealId, '');
+    });
+}
+
+function _renderBrandCancelRequest(d) {
+  var host = document.getElementById('bdpanel-overview'); if (!host) return;
+  var existing = document.getElementById('brand-cancel-banner');
+  if (existing) existing.remove();
+  if (!d.cancel_requested_by || d.cancel_requested_by === ZK.id || d.status === 'cancelled' || d.status === 'completed') return;
+  var banner = document.createElement('div');
+  banner.id = 'brand-cancel-banner';
+  banner.style.cssText = 'background:rgba(233,69,96,.06);border:1px solid rgba(233,69,96,.25);border-radius:14px;padding:16px;margin-bottom:14px';
+  banner.innerHTML = '<div style="font-size:13px;font-weight:700;color:#E94560;margin-bottom:6px">⊘ Cancellation requested by creator</div>'
+    + '<div style="font-size:12px;color:#C8D0E7;line-height:1.6;margin-bottom:12px">' + esc(d.cancel_reason||'') + '</div>'
+    + '<div style="display:flex;gap:8px">'
+    + '<button class="btn-approve" style="flex:1" onclick="acceptCancel(\'' + d.id + '\')">Accept Cancellation</button>'
+    + '<button class="btn-reject" onclick="declineCancel(\'' + d.id + '\')">Decline</button></div>';
+  host.insertBefore(banner, host.firstChild);
+}
+
+function acceptCancel(dealId) {
+  if (!confirm('Cancel this deal?')) return;
+  zeke_sb.from('deals').update({ status:'cancelled' }).eq('id', dealId)
+    .then(function (r) {
+      if (r && r.error) { alert(r.error.message); return; }
+      zeke_sb.from('deal_messages').insert({ deal_id: dealId, sender_id: ZK.id, msg_type:'event', content: '⊘ Cancellation accepted by ' + ZK.display_name + ' · Deal cancelled' }).then(function () {});
+      zeke_sb.from('deals').select('influencer_id,title').eq('id', dealId).single().then(function (rr) {
+        if (rr && rr.data) {
+          zeke_sb.from('notifications').insert({ user_id: rr.data.influencer_id, title: 'Deal cancelled', body: rr.data.title + ' has been cancelled.', type: 'deal' }).then(function () {});
+        }
+      });
+      closeBrandDeal(); loadBrandDeals();
+    });
+}
+
+function declineCancel(dealId) {
+  zeke_sb.from('deals').update({ cancel_requested_by: null, cancel_reason: null }).eq('id', dealId)
+    .then(function (r) {
+      if (r && r.error) { alert(r.error.message); return; }
+      zeke_sb.from('deal_messages').insert({ deal_id: dealId, sender_id: ZK.id, msg_type:'event', content: '✕ Cancellation declined by ' + ZK.display_name }).then(function () {});
+      zeke_sb.from('deals').select('influencer_id,title').eq('id', dealId).single().then(function (rr) {
+        if (rr && rr.data) {
+          zeke_sb.from('notifications').insert({ user_id: rr.data.influencer_id, title: 'Cancellation declined', body: 'The brand declined cancellation of ' + rr.data.title, type: 'deal' }).then(function () {});
+        }
+      });
+      var banner = document.getElementById('brand-cancel-banner'); if (banner) banner.remove();
+    });
 }
 
 function _loadBrandReview(dealId, status) {
@@ -381,27 +473,84 @@ function markPaymentSent(dealId, amount) {
 
 function _loadBrandAgreement(dealId) {
   var c = document.getElementById('brand-agreement-content'); if (!c) return;
-  zeke_sb.from('agreements').select('*,deals(title,amount,deliverables)').eq('deal_id',dealId).maybeSingle()
+  zeke_sb.from('agreements')
+    .select('*, deals(title, amount, deliverables, platform, deadline, payment_terms, usage_rights, influencer_id, profiles!deals_influencer_id_fkey(display_name))')
+    .eq('deal_id', dealId).maybeSingle()
     .then(function (r) {
       if (!r.data) {
-        c.innerHTML = '<div style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;opacity:.6"><div style="font-size:13px;font-weight:700;color:#fff">No Agreement Yet</div><div style="font-size:12px;color:#7B84A3;margin-top:6px">Generated automatically once both sides accept deal terms.</div></div>';
+        c.innerHTML = '<div style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;opacity:.6"><div style="font-size:13px;font-weight:700;color:#fff">No Agreement Yet</div><div style="font-size:12px;color:#7B84A3;margin-top:6px">Generated automatically once the creator accepts the offer.</div></div>';
         return;
       }
-      var d = r.data.deals || {};
-      c.innerHTML = '<div class="item-card" style="border-color:rgba(5,150,105,.25)">'
-        + '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:10px">Agreement</div>'
-        + '<div style="background:#0B0D1A;border-radius:10px;padding:10px 14px;font-size:12px;color:#7B84A3;line-height:1.9;margin-bottom:12px">'
-        + '<div><span style="color:#C8D0E7;font-weight:600">Title:</span> ' + esc(d.title||'') + '</div>'
-        + '<div><span style="color:#C8D0E7;font-weight:600">Value:</span> ₹' + fmtNum(d.amount||0) + '</div>'
-        + '<div><span style="color:#C8D0E7;font-weight:600">Generated:</span> ' + fmtDate(r.data.generated_at) + '</div></div>'
-        + '<div class="item-actions"><button class="btn btn-outline btn-sm" style="flex:1">&#8595; Download PDF</button></div></div>';
+      var a = r.data, d = a.deals || {};
+      // Check if creator is Shield (PDF only for Shield)
+      var creatorId = d.influencer_id;
+      zeke_sb.from('influencer_profiles').select('shield_active').eq('id', creatorId).maybeSingle()
+        .then(function (rr) {
+          var shield = !!(rr && rr.data && rr.data.shield_active);
+          var pdfBtn = shield
+            ? '<button class="btn btn-outline btn-sm" style="flex:1" onclick="downloadBrandAgreementPDF(\'' + a.id + '\')">⬇ Download PDF</button>'
+            : '<div style="font-size:11px;color:#7B84A3;text-align:center">PDF available when the creator is a Shield member.</div>';
+          c.innerHTML = '<div class="item-card" style="border-color:rgba(5,150,105,.25)">'
+            + '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:10px">Agreement</div>'
+            + '<div style="background:#0B0D1A;border-radius:10px;padding:10px 14px;font-size:12px;color:#7B84A3;line-height:1.9;margin-bottom:12px">'
+            + '<div><span style="color:#C8D0E7;font-weight:600">Title:</span> ' + esc(d.title||'') + '</div>'
+            + '<div><span style="color:#C8D0E7;font-weight:600">Platform:</span> ' + esc(d.platform||'—') + '</div>'
+            + '<div><span style="color:#C8D0E7;font-weight:600">Value:</span> ₹' + fmtNum(d.amount||0) + '</div>'
+            + (d.deliverables ? '<div><span style="color:#C8D0E7;font-weight:600">Deliverables:</span> ' + esc(d.deliverables) + '</div>' : '')
+            + '<div><span style="color:#C8D0E7;font-weight:600">Generated:</span> ' + fmtDate(a.generated_at) + '</div></div>'
+            + '<div class="item-actions">' + pdfBtn + '</div></div>';
+        });
+    });
+}
+
+function downloadBrandAgreementPDF(agreementId) {
+  if (!window.jspdf) { alert('PDF library failed to load. Please refresh.'); return; }
+  zeke_sb.from('agreements')
+    .select('*, deals(title, amount, deliverables, platform, deadline, payment_terms, usage_rights, profiles!deals_influencer_id_fkey(display_name))')
+    .eq('id', agreementId).single()
+    .then(function (r) {
+      if (r.error || !r.data) { alert('Could not load agreement.'); return; }
+      var a = r.data, d = a.deals || {};
+      var creator = (d.profiles && d.profiles.display_name) || 'Creator';
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF();
+      var y = 20;
+      doc.setFont('helvetica','bold').setFontSize(20).text('ZEKE', 20, y); y += 8;
+      doc.setFont('helvetica','normal').setFontSize(10).setTextColor(120).text('Legally Protected Influencer Marketplace', 20, y); y += 14;
+      doc.setTextColor(0).setFontSize(14).setFont('helvetica','bold').text('Deal Agreement', 20, y); y += 10;
+      doc.setFontSize(10).setFont('helvetica','normal');
+      var lines = [
+        ['Brand', ZK.display_name],
+        ['Creator', creator],
+        ['Title', d.title || '—'],
+        ['Platform', d.platform || '—'],
+        ['Value', '₹' + (d.amount || 0)],
+        ['Deliverables', d.deliverables || '—'],
+        ['Usage rights', d.usage_rights || 'As agreed'],
+        ['Payment terms', d.payment_terms || 'On completion'],
+        ['Deadline', d.deadline || 'As agreed'],
+        ['Generated', new Date(a.generated_at).toLocaleString()]
+      ];
+      lines.forEach(function (kv) {
+        doc.setFont('helvetica','bold').text(kv[0] + ':', 20, y);
+        var wrapped = doc.splitTextToSize(String(kv[1]), 140);
+        doc.setFont('helvetica','normal').text(wrapped, 60, y);
+        y += Math.max(8, wrapped.length * 6);
+        if (y > 260) { doc.addPage(); y = 20; }
+      });
+      y += 6;
+      doc.setFontSize(9).setTextColor(120);
+      var disclaimer = doc.splitTextToSize('This agreement is generated by Zeke based on the deal terms accepted by both parties. Both parties confirmed acceptance digitally on the platform. Any dispute will be reviewed by the Zeke team for Shield members.', 170);
+      doc.text(disclaimer, 20, y);
+      doc.save('zeke-agreement-' + (d.title || 'deal').replace(/\s+/g,'-').toLowerCase() + '.pdf');
     });
 }
 
 // ── DISCOVER ──────────────────────────────────────────────
 function loadAllCreators() {
   zeke_sb.from('influencer_profiles')
-    .select('id,niche,ig_followers,yt_followers,rating,shield_active,verified,handle,profiles!influencer_profiles_id_fkey(display_name,location)')
+    .select('id,niche,ig_followers,yt_followers,x_followers,yt_enabled,x_enabled,rating,shield_active,verified,handle,profiles!influencer_profiles_id_fkey(display_name,location)')
+    .order('shield_active',{ascending:false})
     .order('ig_followers',{ascending:false})
     .then(function (r) { _allCreators = r.data||[]; filterCreators(); });
 }
@@ -437,9 +586,68 @@ function _renderCreatorGrid(containerId, creators, expanded) {
       + '<div style="font-size:14px;font-weight:700;color:#fff">' + fmtNum(item.ig_followers||0) + '</div>'
       + '<div style="font-size:12px;color:#D97706">&#9733; ' + (item.rating||'--') + '</div></div></div>'
       + '<div style="font-size:12px;color:#7B84A3">' + esc([item.niche,loc].filter(Boolean).join(' · ')) + '</div>'
-      + (expanded ? '<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1" onclick="openOfferModal(\'' + item.id + '\',\'' + esc(name) + '\')">Send Offer</button><button class="btn btn-outline btn-sm">View Profile</button></div>' : '')
+      + (expanded ? '<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1" onclick="openOfferModal(\'' + item.id + '\',\'' + esc(name) + '\')">Send Offer</button><button class="btn btn-outline btn-sm" onclick="openCreatorProfile(\'' + item.id + '\')">View Profile</button></div>' : '')
       + '</div>';
   }).join('');
+}
+
+// ── CREATOR PROFILE MODAL ─────────────────────────────────
+function openCreatorProfile(influencerId) {
+  zeke_sb.from('influencer_profiles')
+    .select('*, profiles!influencer_profiles_id_fkey(display_name, location, created_at)')
+    .eq('id', influencerId).single()
+    .then(function (r) {
+      if (r.error || !r.data) { alert('Could not load profile.'); return; }
+      var inf = r.data, p = inf.profiles || {};
+      var name = p.display_name || 'Creator';
+      var initials = name.slice(0,2).toUpperCase();
+      var existing = document.getElementById('creator-profile-modal'); if (existing) existing.remove();
+      var modal = document.createElement('div');
+      modal.id = 'creator-profile-modal';
+      modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto';
+      var avatarBg = inf.shield_active ? 'rgba(217,119,6,.2)' : 'rgba(233,69,96,.15)';
+      var avatarBorder = inf.shield_active ? 'rgba(217,119,6,.4)' : 'rgba(233,69,96,.3)';
+      var avatarColor = inf.shield_active ? '#D97706' : '#E94560';
+      var shieldBadge = inf.shield_active
+        ? '<span style="font-size:11px;font-weight:700;color:#D97706;background:rgba(217,119,6,.12);border:1px solid rgba(217,119,6,.3);padding:3px 10px;border-radius:20px">🛡 Shield Member</span>'
+        : '<span style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">Free Creator</span>';
+      var verifiedBadge = inf.verified
+        ? '<span style="font-size:11px;font-weight:700;color:#059669;background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.3);padding:3px 10px;border-radius:20px">✓ Verified</span>' : '';
+      modal.innerHTML =
+        '<div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto">'
+        + '<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">'
+        + '<div style="width:56px;height:56px;border-radius:50%;background:' + avatarBg + ';border:2px solid ' + avatarBorder + ';display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:' + avatarColor + ';flex-shrink:0">' + initials + '</div>'
+        + '<div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:900;color:#fff">' + esc(name) + '</div>'
+        + '<div style="font-size:13px;color:#7B84A3">' + esc(inf.handle ? '@' + inf.handle.replace('@','') : '—') + ' · ' + esc(p.location || '') + '</div></div>'
+        + '<button onclick="closeCreatorProfile()" style="background:none;border:none;color:#7B84A3;font-size:22px;cursor:pointer;line-height:1">&times;</button></div>'
+        + '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">' + shieldBadge + verifiedBadge
+        + '<span style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">' + esc(inf.niche || 'Creator') + '</span></div>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">'
+        + _platformStat('Instagram', inf.ig_followers, '#E94560', true)
+        + _platformStat('YouTube',   inf.yt_followers, '#f87171', !!inf.yt_enabled)
+        + _platformStat('Twitter/X', inf.x_followers,  '#38bdf8', !!inf.x_enabled)
+        + '</div>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">'
+        + '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#D97706">★ ' + (inf.rating || '—') + '</div><div style="font-size:10px;color:#7B84A3">Rating</div></div>'
+        + '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div id="cprof-deals-count" style="font-size:14px;font-weight:900;color:#fff">…</div><div style="font-size:10px;color:#7B84A3">Completed deals</div></div>'
+        + '</div>'
+        + '<div style="display:flex;gap:10px">'
+        + '<button class="btn btn-primary btn-md" style="flex:1" onclick="closeCreatorProfile();openOfferModal(\'' + inf.id + '\',\'' + esc(name) + '\')">Send Offer</button>'
+        + '<button class="btn btn-outline btn-md" onclick="closeCreatorProfile()">Close</button>'
+        + '</div></div>';
+      document.body.appendChild(modal);
+      zeke_sb.from('deals').select('id', { count:'exact', head:true }).eq('influencer_id', inf.id).eq('status', 'completed')
+        .then(function (rr) { var el = document.getElementById('cprof-deals-count'); if (el) el.textContent = rr.count || 0; });
+    });
+}
+
+function _platformStat(label, count, color, enabled) {
+  if (!enabled) return '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45;opacity:.4"><div style="font-size:13px;color:#7B84A3">—</div><div style="font-size:10px;color:#7B84A3">' + label + '</div></div>';
+  return '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:' + color + '">' + fmtNum(count || 0) + '</div><div style="font-size:10px;color:#7B84A3">' + label + '</div></div>';
+}
+
+function closeCreatorProfile() {
+  var m = document.getElementById('creator-profile-modal'); if (m) m.remove();
 }
 
 // ── OFFER MODAL ───────────────────────────────────────────
@@ -476,9 +684,9 @@ function submitOffer(influencerId) {
   var plat   = (document.getElementById('offer-platform')     ||{}).value.trim();
   var amount = parseFloat((document.getElementById('offer-amount') ||{}).value||'0');
   var deliv  = (document.getElementById('offer-deliverables') ||{}).value.trim();
-  if (!title)      { showErr('offer-error','Enter a deal title.'); return; }
-  if (!plat)       { showErr('offer-error','Enter the platform.'); return; }
-  if (!amount > 0) { showErr('offer-error','Enter a valid amount.'); return; }
+  if (!title)            { showErr('offer-error','Enter a deal title.'); return; }
+  if (!plat)             { showErr('offer-error','Enter the platform.'); return; }
+  if (!amount || amount <= 0) { showErr('offer-error','Enter a valid amount.'); return; }
   hideErr('offer-error');
 
   zeke_sb.from('deals').insert({ brand_id:ZK.id, influencer_id:influencerId, title, amount, platform:plat, deliverables:deliv, status:'negotiating' })
@@ -487,8 +695,10 @@ function submitOffer(influencerId) {
       if (r.error) { showErr('offer-error', r.error.message); return; }
       var dealId = r.data && r.data.id;
       if (dealId) {
-        zeke_sb.from('deal_messages').insert({ deal_id:dealId, sender_id:ZK.id, msg_type:'event', content:'📩 Offer sent by ' + ZK.display_name + ' · ' + title + ' · ₹' + fmtNum(amount) + ' · ' + plat });
-        zeke_sb.from('notifications').insert({ user_id:influencerId, title:'New offer from ' + ZK.display_name, body:title+' · ₹'+fmtNum(amount), type:'deal' });
+        Promise.all([
+          zeke_sb.from('deal_messages').insert({ deal_id:dealId, sender_id:ZK.id, msg_type:'event', content:'📩 Offer sent by ' + ZK.display_name + ' · ' + title + ' · ₹' + fmtNum(amount) + ' · ' + plat }),
+          zeke_sb.from('notifications').insert({ user_id:influencerId, title:'New offer from ' + ZK.display_name, body:title+' · ₹'+fmtNum(amount), type:'deal' })
+        ]);
       }
       closeOfferModal();
       loadBrandDeals();
