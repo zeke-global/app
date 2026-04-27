@@ -3,14 +3,23 @@
    Requires session.js → window.ZK ready
 ═══════════════════════════════════════ */
 
+var _aLoaded = { overview:false, shield:false, disputes:false, deals:false };
+
 function aSwitchTab(tab) {
   ['overview','shield','disputes','deals'].forEach(function (t) {
     var el  = document.getElementById('atab-' + t);     if (el)  el.classList.toggle('hidden', t !== tab);
     var btn = document.getElementById('admin-tab-' + t); if (btn) btn.className = 'sidebar-nav-btn' + (t === tab ? ' active-tab' : '');
   });
-  if (tab === 'disputes') loadDisputes();
-  if (tab === 'deals')    loadAllDeals();
-  if (tab === 'shield')   loadShieldRequests();
+  if (window.history && window.history.replaceState) {
+    window.history.replaceState(null, '', '#' + tab);
+  }
+  if (!_aLoaded[tab]) {
+    _aLoaded[tab] = true;
+    if (tab === 'overview') loadAdminOverview();
+    if (tab === 'shield')   loadShieldRequests();
+    if (tab === 'disputes') loadDisputes();
+    if (tab === 'deals')    loadAllDeals();
+  }
 }
 
 function aSetMob(tab) {
@@ -239,6 +248,9 @@ function esc(str) {
 
 // ── BOOT ──────────────────────────────────────────────────
 document.addEventListener('zeke:ready', function () {
-  loadAdminOverview();
   loadAdminNotifications();
+  var initial = (window.location.hash || '').replace('#','');
+  if (!initial || ['overview','shield','disputes','deals'].indexOf(initial) === -1) initial = 'overview';
+  aSwitchTab(initial);
+  aSetMob(initial);
 });

@@ -9,11 +9,25 @@ var _activeBDeal  = null;
 var _bChatChannel = null;
 
 // ── TABS ──────────────────────────────────────────────────
+var _bLoaded = { overview:false, campaigns:false, chats:false, deals:false, discover:false, profile:false };
+
 function bSwitchTab(tab) {
   ['overview','campaigns','chats','deals','discover','profile'].forEach(function (t) {
     var el  = document.getElementById('btab-' + t);     if (el)  el.classList.toggle('hidden', t !== tab);
     var btn = document.getElementById('brand-tab-' + t); if (btn) btn.className = 'sidebar-nav-btn' + (t === tab ? ' active-tab' : '');
   });
+  if (window.history && window.history.replaceState) {
+    window.history.replaceState(null, '', '#' + tab);
+  }
+  // Lazy-load: only fetch the data for a tab the first time it's opened.
+  if (!_bLoaded[tab]) {
+    _bLoaded[tab] = true;
+    if (tab === 'overview')  loadBrandOverview();
+    if (tab === 'campaigns') loadBrandCampaigns();
+    if (tab === 'chats')     loadBrandChats();
+    if (tab === 'deals')     loadBrandDeals();
+    if (tab === 'discover')  loadAllCreators();
+  }
 }
 
 function bSetMob(tab) {
@@ -96,7 +110,11 @@ function _renderCampaigns(containerId, campaigns, expanded) {
       + '<div style="font-size:12px;color:#7B84A3">' + esc(item.niche||'') + (item.deadline ? ' · Deadline ' + fmtDateShort(item.deadline) : '') + '</div></div>'
       + '<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#D97706">₹' + fmtNum(item.budget||0) + '</div>'
       + '<span class="badge ' + sc + '" style="margin-top:4px">' + (item.status||'Active') + '</span></div></div>'
-      + (expanded ? '<div class="item-actions"><button class="btn btn-outline btn-sm" onclick="deleteCampaign(\'' + item.id + '\')">Close Campaign</button></div>' : '')
+      + (expanded
+          ? (item.status === 'active'
+              ? '<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1" onclick="openCampaignSendModal(\'' + item.id + '\')">&#10148; Send to Creators</button><button class="btn btn-outline btn-sm" onclick="deleteCampaign(\'' + item.id + '\')">Close</button></div>'
+              : '<div class="item-actions"><button class="btn btn-ghost btn-sm" disabled>Closed</button></div>')
+          : '')
       + '</div>';
   }).join('');
 }
@@ -612,6 +630,152 @@ function _renderCreatorGrid(containerId, creators, expanded) {
   }).join('');
 }
 
+// ── CAMPAIGN → OFFERS MODAL ───────────────────────────────
+function openCampaignSendModal(campaignId) {
+  zeke_sb.from('campaigns').select('*').eq('id', campaignId).single().then(function (cr) {
+    if (cr.error || !cr.data) { alert('Campaign not found.'); return; }
+    var camp = cr.data;
+    var existing = document.getElementById('camp-send-modal'); if (existing) existing.remove();
+    var modal = document.createElement('div');
+    modal.id = 'camp-send-modal';
+    modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto';
+    modal.innerHTML = ''
+      + '<div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:22px;width:100%;max-width:520px;max-height:92vh;display:flex;flex-direction:column;gap:14px">'
+      + '<div style="display:flex;align-items:center;gap:10px"><div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:800;color:#fff">Send "' + esc(camp.title) + '"</div><div style="font-size:12px;color:#7B84A3">Pick creators to send this campaign as an offer.</div></div><button onclick="closeCampaignSendModal()" style="background:none;border:none;color:#7B84A3;font-size:22px;cursor:pointer">&times;</button></div>'
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
+      +   '<input class="input-field no-icon" id="cs-platform" type="text" placeholder="Platform (e.g. Instagram Reel)" style="font-size:13px;padding:10px 14px">'
+      +   '<select class="input-field no-icon" id="cs-niche-filter" onchange="_csFilter()" style="font-size:13px;padding:10px 14px">'
+      +     '<option value="">All niches</option>'
+      +     ['Lifestyle','Food & Cooking','Travel','Fashion & Beauty','Tech & Gadgets','Health & Fitness','Finance','Education','Entertainment','Gaming','Real Estate','Automotive','Parenting','Comedy / Meme','Business / Entrepreneurship'].map(function (n) {
+            return '<option' + (camp.niche === n ? ' selected' : '') + '>' + esc(n) + '</option>';
+          }).join('')
+      +   '</select>'
+      + '</div>'
+      + '<div style="display:flex;gap:8px;align-items:center">'
+      +   '<input id="cs-search" type="text" oninput="_csFilter()" placeholder="Search creators..." style="flex:1;background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:8px 12px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif">'
+      +   '<label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#7B84A3;cursor:pointer"><input type="checkbox" id="cs-shield-only" onchange="_csFilter()"> Shield only</label>'
+      + '</div>'
+      + '<div id="cs-creators-list" style="flex:1;overflow-y:auto;border:1px solid #252A45;border-radius:12px;background:#0B0D1A;max-height:42vh"><div class="empty-state" style="padding:20px">Loading...</div></div>'
+      + '<div id="cs-error" class="error-msg hidden"></div>'
+      + '<div style="display:flex;gap:10px;align-items:center"><div id="cs-summary" style="flex:1;font-size:12px;color:#7B84A3">0 selected · ₹' + fmtNum(camp.budget||0) + ' each</div>'
+      +   '<button class="btn btn-outline btn-md" onclick="closeCampaignSendModal()">Cancel</button>'
+      +   '<button class="btn btn-primary btn-md" id="cs-send-btn" onclick="submitCampaignOffers(\'' + campaignId + '\')">Send Offers</button>'
+      + '</div></div>';
+    document.body.appendChild(modal);
+    _csCampaign = camp;
+    _csCreators = [];
+    _loadCsCreators();
+  });
+}
+
+var _csCampaign = null;
+var _csCreators = [];
+var _csSelected = {};
+
+function _loadCsCreators() {
+  zeke_sb.from('influencer_profiles')
+    .select('id,niche,ig_followers,shield_active,handle,profiles!influencer_profiles_id_fkey(display_name,location)')
+    .order('shield_active', { ascending: false })
+    .order('ig_followers', { ascending: false })
+    .then(function (r) {
+      _csCreators = r.data || [];
+      _csFilter();
+    });
+}
+
+function _csFilter() {
+  var q      = (document.getElementById('cs-search')        || {}).value || '';
+  var niche  = (document.getElementById('cs-niche-filter')  || {}).value || '';
+  var shield = !!(document.getElementById('cs-shield-only') && document.getElementById('cs-shield-only').checked);
+  q = q.toLowerCase();
+  var filtered = _csCreators.filter(function (c) {
+    var name = (c.profiles && c.profiles.display_name) ? c.profiles.display_name.toLowerCase() : '';
+    var n    = (c.niche||'').toLowerCase();
+    return (!q || name.indexOf(q) !== -1 || n.indexOf(q) !== -1)
+        && (!niche || c.niche === niche)
+        && (!shield || c.shield_active);
+  });
+  _csRender(filtered);
+}
+
+function _csRender(creators) {
+  var c = document.getElementById('cs-creators-list'); if (!c) return;
+  if (!creators.length) { c.innerHTML = '<div class="empty-state" style="padding:24px">No creators match.</div>'; return; }
+  c.innerHTML = creators.map(function (item) {
+    var name     = (item.profiles && item.profiles.display_name) || 'Creator';
+    var loc      = (item.profiles && item.profiles.location)     || '';
+    var initials = name.slice(0,2).toUpperCase();
+    var checked  = _csSelected[item.id] ? 'checked' : '';
+    return '<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #252A45;cursor:pointer" onclick="event.stopPropagation()">'
+      + '<input type="checkbox" data-creator="' + item.id + '" ' + checked + ' onchange="_csToggle(\'' + item.id + '\',this.checked)" style="margin:0;width:16px;height:16px;accent-color:#E94560">'
+      + '<div style="width:32px;height:32px;border-radius:50%;background:rgba(233,69,96,.15);color:#E94560;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">' + initials + '</div>'
+      + '<div style="flex:1;min-width:0">'
+      +   '<div style="font-size:13px;font-weight:700;color:#fff">' + esc(name) + (item.shield_active ? ' <span style="color:#D97706;font-size:11px">&#128737;</span>' : '') + '</div>'
+      +   '<div style="font-size:11px;color:#7B84A3">' + esc([item.niche, loc].filter(Boolean).join(' · ')) + '</div>'
+      + '</div>'
+      + '<div style="text-align:right;flex-shrink:0;font-size:12px;color:#7B84A3">' + fmtNum(item.ig_followers||0) + '</div>'
+      + '</label>';
+  }).join('');
+}
+
+function _csToggle(id, on) {
+  if (on) _csSelected[id] = true; else delete _csSelected[id];
+  _csUpdateSummary();
+}
+
+function _csUpdateSummary() {
+  var n = Object.keys(_csSelected).length;
+  var amount = _csCampaign && _csCampaign.budget ? _csCampaign.budget : 0;
+  var s = document.getElementById('cs-summary');
+  if (s) s.textContent = n + ' selected · ₹' + fmtNum(amount) + ' each · ₹' + fmtNum(amount * n) + ' total';
+}
+
+function closeCampaignSendModal() {
+  var m = document.getElementById('camp-send-modal'); if (m) m.remove();
+  _csSelected = {}; _csCampaign = null; _csCreators = [];
+}
+
+function submitCampaignOffers(campaignId) {
+  var ids = Object.keys(_csSelected);
+  if (!ids.length) { showErr('cs-error', 'Pick at least one creator.'); return; }
+  var platform = ((document.getElementById('cs-platform') || {}).value || '').trim();
+  if (!platform) { showErr('cs-error', 'Enter the platform (e.g. Instagram Reel).'); return; }
+  hideErr('cs-error');
+
+  var camp = _csCampaign || {};
+  var btn = document.getElementById('cs-send-btn'); if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+
+  var rows = ids.map(function (creatorId) {
+    return {
+      campaign_id:   campaignId,
+      brand_id:      ZK.id,
+      influencer_id: creatorId,
+      title:         camp.title,
+      platform:      platform,
+      amount:        camp.budget || 0,
+      deliverables:  camp.description || null,
+      deadline:      camp.deadline || null,
+      status:        'negotiating'
+    };
+  });
+
+  zeke_sb.from('deals').insert(rows).select('id,influencer_id')
+    .then(function (r) {
+      if (r.error) { if (btn) { btn.disabled = false; btn.textContent = 'Send Offers'; } showErr('cs-error', r.error.message); return; }
+      var inserted = r.data || [];
+      var msgRows = inserted.map(function (d) { return { deal_id: d.id, sender_id: ZK.id, msg_type:'event', content: '📩 Offer sent by ' + ZK.display_name + ' · ' + camp.title + ' · ₹' + fmtNum(camp.budget||0) + ' · ' + platform }; });
+      var notifRows = inserted.map(function (d) { return { user_id: d.influencer_id, title: 'New offer from ' + ZK.display_name, body: camp.title + ' · ₹' + fmtNum(camp.budget||0), type: 'deal' }; });
+      Promise.all([
+        msgRows.length   ? zeke_sb.from('deal_messages').insert(msgRows)     : Promise.resolve(),
+        notifRows.length ? zeke_sb.from('notifications').insert(notifRows)   : Promise.resolve()
+      ]).then(function () {
+        closeCampaignSendModal();
+        loadBrandDeals();
+        alert('✓ Offer sent to ' + inserted.length + ' creator' + (inserted.length === 1 ? '' : 's') + '.');
+      });
+    });
+}
+
 // ── CREATOR PROFILE MODAL ─────────────────────────────────
 function openCreatorProfile(influencerId) {
   zeke_sb.from('influencer_profiles')
@@ -818,11 +982,11 @@ function esc(str) {
 // ── BOOT ──────────────────────────────────────────────────
 document.addEventListener('zeke:ready', function () {
   populateBrandUI();
-  loadBrandOverview();
-  loadBrandCampaigns();
-  loadBrandChats();
-  loadBrandDeals();
-  loadAllCreators();
   loadBrandNotifications();
   subscribeToNotifications();
+  // Resume on the tab the user was on (URL hash) — defaults to overview.
+  var initial = (window.location.hash || '').replace('#','');
+  if (!initial || ['overview','campaigns','chats','deals','discover','profile'].indexOf(initial) === -1) initial = 'overview';
+  bSwitchTab(initial);
+  bSetMob(initial);
 });

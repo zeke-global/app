@@ -9,6 +9,8 @@ var _activeChat = null;
 var _chatChannel = null;
 
 // ── TABS ──────────────────────────────────────────────────
+var _cLoaded = { overview:false, offers:false, chats:false, deals:false, agreements:false, profile:false };
+
 function switchTab(tab) {
   ['overview','offers','chats','deals','agreements','profile'].forEach(function (t) {
     var el  = document.getElementById('tab-' + t);     if (el)  el.classList.toggle('hidden', t !== tab);
@@ -17,6 +19,18 @@ function switchTab(tab) {
   _activeTab = tab;
   if (tab !== 'deals') closeDeal();
   if (tab !== 'chats') closeChat();
+  if (window.history && window.history.replaceState) {
+    window.history.replaceState(null, '', '#' + tab);
+  }
+  if (!_cLoaded[tab]) {
+    _cLoaded[tab] = true;
+    if (tab === 'overview')   loadOverview();
+    if (tab === 'offers')     loadOffers();
+    if (tab === 'chats')      loadChats();
+    if (tab === 'deals')      loadDeals();
+    if (tab === 'agreements') loadAgreements();
+    if (tab === 'profile')    loadProfile();
+  }
 }
 
 function setMob(tab) {
@@ -884,11 +898,11 @@ function subscribeToNotifications() {
 
 // ── BOOT ──────────────────────────────────────────────────
 document.addEventListener('zeke:ready', function () {
-  loadOverview();
-  loadOffers();
-  loadChats();
-  loadDeals();
-  loadAgreements();
+  loadNotifications();
   subscribeToNotifications();
   _refreshShieldUpsellState();
+  var initial = (window.location.hash || '').replace('#','');
+  if (!initial || ['overview','offers','chats','deals','agreements','profile'].indexOf(initial) === -1) initial = 'overview';
+  switchTab(initial);
+  setMob(initial);
 });
