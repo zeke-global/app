@@ -134,8 +134,10 @@ function createCampaign() {
   if (!niche)  { showErr('camp-error','Select a niche.'); return; }
   if (!budget) { showErr('camp-error','Enter a budget.'); return; }
   hideErr('camp-error');
+  setBtnLoading('post-campaign-btn', true, 'Post Campaign');
   zeke_sb.from('campaigns').insert({ brand_id:ZK.id, title, niche, budget:parseFloat(budget), deadline:deadline||null, description:desc, status:'active' })
     .then(function (r) {
+      setBtnLoading('post-campaign-btn', false, 'Post Campaign');
       if (r.error) { showErr('camp-error', r.error.message); return; }
       hideCreateCampaign(); loadBrandCampaigns(); loadBrandOverview();
     });

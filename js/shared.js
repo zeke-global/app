@@ -41,6 +41,13 @@ function hideErr(id) {
   if (el) el.classList.add('hidden');
 }
 
+// ── BUTTON LOADING ────────────────────────────────────────
+function setBtnLoading(btnId, loading, label) {
+  var btn = document.getElementById(btnId); if (!btn) return;
+  btn.disabled = loading;
+  btn.textContent = loading ? 'Please wait...' : label;
+}
+
 // ── YEAR ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   var yearEl = document.getElementById('year');

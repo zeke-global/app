@@ -285,9 +285,3 @@ function selectBrandType(input) {
   });
   input.parentElement.className = 'radio-option selected';
 }
-
-function setBtnLoading(btnId, loading, label) {
-  var btn = document.getElementById(btnId); if (!btn) return;
-  btn.disabled = loading;
-  btn.textContent = loading ? 'Please wait...' : label;
-}
