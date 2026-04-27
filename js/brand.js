@@ -9,8 +9,6 @@ var _activeBDeal  = null;
 var _bChatChannel = null;
 
 // ── TABS ──────────────────────────────────────────────────
-var _bLoaded = { overview:false, campaigns:false, chats:false, deals:false, discover:false, profile:false };
-
 function bSwitchTab(tab) {
   ['overview','campaigns','chats','deals','discover','profile'].forEach(function (t) {
     var el  = document.getElementById('btab-' + t);     if (el)  el.classList.toggle('hidden', t !== tab);
@@ -19,15 +17,12 @@ function bSwitchTab(tab) {
   if (window.history && window.history.replaceState) {
     window.history.replaceState(null, '', '#' + tab);
   }
-  // Lazy-load: only fetch the data for a tab the first time it's opened.
-  if (!_bLoaded[tab]) {
-    _bLoaded[tab] = true;
-    if (tab === 'overview')  loadBrandOverview();
-    if (tab === 'campaigns') loadBrandCampaigns();
-    if (tab === 'chats')     loadBrandChats();
-    if (tab === 'deals')     loadBrandDeals();
-    if (tab === 'discover')  loadAllCreators();
-  }
+  // Refresh data on every switch so admin/brand actions in another tab show up.
+  if (tab === 'overview')  loadBrandOverview();
+  if (tab === 'campaigns') loadBrandCampaigns();
+  if (tab === 'chats')     loadBrandChats();
+  if (tab === 'deals')     loadBrandDeals();
+  if (tab === 'discover')  loadAllCreators();
 }
 
 function bSetMob(tab) {

@@ -3,23 +3,19 @@
    Requires session.js → window.ZK ready
 ═══════════════════════════════════════ */
 
-var _aLoaded = { overview:false, shield:false, disputes:false, deals:false };
-
 function aSwitchTab(tab) {
-  ['overview','shield','disputes','deals'].forEach(function (t) {
+  ['overview','users','shield','disputes','deals'].forEach(function (t) {
     var el  = document.getElementById('atab-' + t);     if (el)  el.classList.toggle('hidden', t !== tab);
     var btn = document.getElementById('admin-tab-' + t); if (btn) btn.className = 'sidebar-nav-btn' + (t === tab ? ' active-tab' : '');
   });
   if (window.history && window.history.replaceState) {
     window.history.replaceState(null, '', '#' + tab);
   }
-  if (!_aLoaded[tab]) {
-    _aLoaded[tab] = true;
-    if (tab === 'overview') loadAdminOverview();
-    if (tab === 'shield')   loadShieldRequests();
-    if (tab === 'disputes') loadDisputes();
-    if (tab === 'deals')    loadAllDeals();
-  }
+  if (tab === 'overview') loadAdminOverview();
+  if (tab === 'users')    usersSubTab(_usersSub);
+  if (tab === 'shield')   loadShieldRequests();
+  if (tab === 'disputes') loadDisputes();
+  if (tab === 'deals')    loadAllDeals();
 }
 
 function aSetMob(tab) {
@@ -98,6 +94,106 @@ function _renderDealsTable(containerId, deals) {
       + '<div style="font-size:14px;font-weight:900;color:#fff;flex-shrink:0">₹' + fmtNum(d.amount||0) + '</div>'
       + '<span class="badge ' + s.cls + '">' + s.label + '</span></div>';
   }).join('');
+}
+
+// ── USERS DIRECTORY ───────────────────────────────────────
+var _usersSub = 'brands';
+
+function usersSubTab(sub) {
+  _usersSub = sub;
+  var bb = document.getElementById('users-tab-brands');
+  var cb = document.getElementById('users-tab-creators');
+  if (bb) bb.className = 'btn btn-sm ' + (sub === 'brands'   ? 'btn-primary' : 'btn-outline');
+  if (cb) cb.className = 'btn btn-sm ' + (sub === 'creators' ? 'btn-primary' : 'btn-outline');
+  if (sub === 'brands')   loadBrandsDirectory();
+  if (sub === 'creators') loadCreatorsDirectory();
+}
+
+function loadBrandsDirectory() {
+  var c = document.getElementById('users-list'); if (!c) return;
+  c.innerHTML = '<div class="empty-state">Loading...</div>';
+  zeke_sb.from('brand_profiles')
+    .select('id,brand_type,profiles!brand_profiles_id_fkey(display_name,location,created_at)')
+    .then(function (r) {
+      var rows = r.data || [];
+      if (!rows.length) { c.innerHTML = '<div class="empty-state">No brands yet.</div>'; return; }
+      // Pull deal stats per brand in parallel
+      Promise.all(rows.map(function (b) {
+        return zeke_sb.from('deals').select('amount,status').eq('brand_id', b.id).then(function (rr) {
+          var deals = rr.data || [];
+          return {
+            id: b.id,
+            type: b.brand_type || 'business',
+            name: (b.profiles && b.profiles.display_name) || 'Brand',
+            location: (b.profiles && b.profiles.location) || '',
+            joined: (b.profiles && b.profiles.created_at) || null,
+            dealsTotal: deals.length,
+            dealsCompleted: deals.filter(function (d) { return d.status === 'completed'; }).length,
+            spent: deals.filter(function (d) { return d.status === 'completed'; }).reduce(function (s, d) { return s + (d.amount || 0); }, 0)
+          };
+        });
+      })).then(function (brands) {
+        c.innerHTML = brands.map(function (b) {
+          var initials = b.name.slice(0,2).toUpperCase();
+          var typeLabel = b.type.charAt(0).toUpperCase() + b.type.slice(1);
+          return '<div class="item-card" style="margin-bottom:8px;flex-direction:row;align-items:center;gap:12px;padding:14px 16px">'
+            + '<div class="item-avatar" style="background:rgba(15,52,96,.5);color:#C8D0E7">' + initials + '</div>'
+            + '<div style="flex:1;min-width:0">'
+            +   '<div style="font-size:14px;font-weight:700;color:#fff">' + esc(b.name) + '</div>'
+            +   '<div style="font-size:12px;color:#7B84A3">' + esc(typeLabel) + (b.location ? ' · ' + esc(b.location) : '') + ' · Joined ' + fmtDate(b.joined) + '</div>'
+            + '</div>'
+            + '<div style="text-align:right;flex-shrink:0">'
+            +   '<div style="font-size:13px;font-weight:700;color:#fff">' + b.dealsTotal + ' deal' + (b.dealsTotal === 1 ? '' : 's') + '</div>'
+            +   '<div style="font-size:11px;color:#059669">₹' + fmtNum(b.spent) + ' spent</div>'
+            + '</div></div>';
+        }).join('');
+      });
+    });
+}
+
+function loadCreatorsDirectory() {
+  var c = document.getElementById('users-list'); if (!c) return;
+  c.innerHTML = '<div class="empty-state">Loading...</div>';
+  zeke_sb.from('influencer_profiles')
+    .select('id,niche,handle,ig_followers,shield_active,rating,profiles!influencer_profiles_id_fkey(display_name,location,created_at)')
+    .order('shield_active', { ascending: false })
+    .order('ig_followers',  { ascending: false })
+    .then(function (r) {
+      var rows = r.data || [];
+      if (!rows.length) { c.innerHTML = '<div class="empty-state">No creators yet.</div>'; return; }
+      Promise.all(rows.map(function (cr) {
+        return zeke_sb.from('deals').select('amount,status').eq('influencer_id', cr.id).then(function (rr) {
+          var deals = rr.data || [];
+          return {
+            row: cr,
+            dealsCompleted: deals.filter(function (d) { return d.status === 'completed'; }).length,
+            earned: deals.filter(function (d) { return d.status === 'completed'; }).reduce(function (s, d) { return s + (d.amount || 0); }, 0)
+          };
+        });
+      })).then(function (creators) {
+        c.innerHTML = creators.map(function (k) {
+          var cr = k.row;
+          var name = (cr.profiles && cr.profiles.display_name) || 'Creator';
+          var loc  = (cr.profiles && cr.profiles.location) || '';
+          var initials = name.slice(0,2).toUpperCase();
+          var shieldChip = cr.shield_active
+            ? '<span class="badge badge-gold" style="margin-top:4px">🛡 Shield</span>'
+            : '<span class="badge badge-muted" style="margin-top:4px">Free</span>';
+          return '<div class="item-card" style="margin-bottom:8px;flex-direction:row;align-items:center;gap:12px;padding:14px 16px">'
+            + '<div class="item-avatar">' + initials + '</div>'
+            + '<div style="flex:1;min-width:0">'
+            +   '<div style="font-size:14px;font-weight:700;color:#fff">' + esc(name) + '</div>'
+            +   '<div style="font-size:12px;color:#7B84A3">' + esc(cr.niche || '') + (cr.handle ? ' · @' + esc(cr.handle) : '') + (loc ? ' · ' + esc(loc) : '') + '</div>'
+            +   '<div style="font-size:11px;color:#7B84A3">IG ' + fmtNum(cr.ig_followers || 0) + ' · Joined ' + fmtDate(cr.profiles && cr.profiles.created_at) + '</div>'
+            + '</div>'
+            + '<div style="text-align:right;flex-shrink:0">'
+            +   '<div style="font-size:13px;font-weight:700;color:#fff">' + k.dealsCompleted + ' deal' + (k.dealsCompleted === 1 ? '' : 's') + '</div>'
+            +   '<div style="font-size:11px;color:#059669">₹' + fmtNum(k.earned) + ' earned</div>'
+            +   shieldChip
+            + '</div></div>';
+        }).join('');
+      });
+    });
 }
 
 // ── SHIELD REQUESTS ───────────────────────────────────────
@@ -250,7 +346,7 @@ function esc(str) {
 document.addEventListener('zeke:ready', function () {
   loadAdminNotifications();
   var initial = (window.location.hash || '').replace('#','');
-  if (!initial || ['overview','shield','disputes','deals'].indexOf(initial) === -1) initial = 'overview';
+  if (!initial || ['overview','users','shield','disputes','deals'].indexOf(initial) === -1) initial = 'overview';
   aSwitchTab(initial);
   aSetMob(initial);
 });

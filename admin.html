@@ -35,6 +35,9 @@
     <button class="sidebar-nav-btn active-tab" id="admin-tab-overview" onclick="aSwitchTab('overview')">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Overview
     </button>
+    <button class="sidebar-nav-btn" id="admin-tab-users" onclick="aSwitchTab('users')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Users
+    </button>
     <button class="sidebar-nav-btn" id="admin-tab-shield" onclick="aSwitchTab('shield')">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Shield Requests
     </button>
@@ -94,6 +97,17 @@
 
         <div class="section-head"><div class="section-title">Recent Deals</div><div class="section-link" onclick="aSwitchTab('deals')">View all</div></div>
         <div id="recent-deals"></div>
+      </div>
+
+      <!-- USERS -->
+      <div id="atab-users" class="hidden">
+        <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Users</h2>
+        <p style="font-size:13px;color:#7B84A3;margin-bottom:16px">All registered brands and creators on Zeke</p>
+        <div style="display:flex;gap:8px;margin-bottom:16px">
+          <button id="users-tab-brands"   class="btn btn-primary btn-sm" onclick="usersSubTab('brands')">Brands</button>
+          <button id="users-tab-creators" class="btn btn-outline btn-sm" onclick="usersSubTab('creators')">Creators</button>
+        </div>
+        <div id="users-list"><div class="empty-state">Loading...</div></div>
       </div>
 
       <!-- SHIELD REQUESTS -->
