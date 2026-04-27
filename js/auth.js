@@ -186,11 +186,13 @@ function doRegister() {
     var loc = document.getElementById('brand-location').value.trim();
     if (!loc) { showErr(err, 'Enter your location.'); return; }
   } else {
-    var niche = document.getElementById('inf-niche').value;
+    var niche       = document.getElementById('inf-niche').value;
+    var nicheOther  = (document.getElementById('inf-niche-other') || {}).value || '';
     var loc2  = document.getElementById('inf-location').value.trim();
     var igH   = document.getElementById('inf-ig-handle').value.trim();
     var igF   = parseInt(document.getElementById('inf-ig-followers').value, 10);
     if (!niche)        { showErr(err, 'Select your niche.'); return; }
+    if (niche === '__other__' && !nicheOther.trim()) { showErr(err, 'Type your niche.'); return; }
     if (!loc2)         { showErr(err, 'Enter your location.'); return; }
     if (!igH)          { showErr(err, 'Enter your Instagram handle.'); return; }
     if (!igF || igF < 1) { showErr(err, 'Enter your Instagram follower count.'); return; }
@@ -218,8 +220,10 @@ function doRegister() {
   } else {
     var ytOn = document.getElementById('inf-yt-toggle') ? document.getElementById('inf-yt-toggle').checked : false;
     var xOn  = document.getElementById('inf-x-toggle')  ? document.getElementById('inf-x-toggle').checked  : false;
+    var nicheVal      = document.getElementById('inf-niche').value;
+    var nicheOtherEl  = document.getElementById('inf-niche-other');
     meta.location     = document.getElementById('inf-location').value.trim();
-    meta.niche        = document.getElementById('inf-niche').value;
+    meta.niche        = (nicheVal === '__other__' && nicheOtherEl) ? nicheOtherEl.value.trim() : nicheVal;
     meta.handle       = document.getElementById('inf-ig-handle').value.trim().replace('@','');
     meta.ig_followers = parseInt(document.getElementById('inf-ig-followers').value, 10) || 0;
     meta.yt_enabled   = ytOn;

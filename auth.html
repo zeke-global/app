@@ -207,7 +207,7 @@
         <div id="influencer-fields" class="hidden">
           <div class="input-wrap" style="margin-bottom:12px">
             <label class="input-label">Primary Niche</label>
-            <select class="input-field no-icon" id="inf-niche">
+            <select class="input-field no-icon" id="inf-niche" onchange="toggleNicheOther()">
               <option value="">Select your niche</option>
               <option>Lifestyle</option><option>Food &amp; Cooking</option><option>Travel</option>
               <option>Fashion &amp; Beauty</option><option>Tech &amp; Gadgets</option>
@@ -215,7 +215,9 @@
               <option>Entertainment</option><option>Gaming</option><option>Real Estate</option>
               <option>Automotive</option><option>Parenting</option><option>Comedy / Meme</option>
               <option>Business / Entrepreneurship</option>
+              <option value="__other__">Other (type your own)</option>
             </select>
+            <input class="input-field no-icon hidden" id="inf-niche-other" type="text" placeholder="Type your niche..." style="margin-top:8px" maxlength="60">
           </div>
           <div class="input-wrap" style="margin-bottom:16px">
             <label class="input-label">Based in</label>
@@ -284,8 +286,8 @@
           <div style="background:rgba(233,69,96,.04);border:1px solid rgba(233,69,96,.15);border-radius:12px;padding:14px;margin-bottom:12px">
             <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px">Are you 18 or older?</div>
             <div style="display:flex;gap:10px">
-              <label id="age-yes-btn" onclick="setAge(true)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid rgba(5,150,105,.4);border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#059669;background:rgba(5,150,105,.08)">
-                <input type="radio" name="agecheck" value="yes" style="display:none"> &#10003; Yes, 18+
+              <label id="age-yes-btn" onclick="setAge(true)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid #252A45;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#7B84A3;background:transparent">
+                <input type="radio" name="agecheck" value="yes" style="display:none"> Yes, 18+
               </label>
               <label id="age-no-btn" onclick="setAge(false)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid #252A45;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#7B84A3;background:transparent">
                 <input type="radio" name="agecheck" value="no" style="display:none"> Under 18
@@ -334,6 +336,19 @@
 <script src="js/shared.js"></script>
 <script src="js/auth.js"></script>
 <script>
+function toggleNicheOther() {
+  var sel   = document.getElementById('inf-niche');
+  var other = document.getElementById('inf-niche-other');
+  if (!sel || !other) return;
+  if (sel.value === '__other__') {
+    other.classList.remove('hidden');
+    other.focus();
+  } else {
+    other.classList.add('hidden');
+    other.value = '';
+  }
+}
+
 function toggleRegPlatform(platform) {
   var toggle = document.getElementById('inf-' + platform + '-toggle');
   var fields = document.getElementById('inf-' + platform + '-fields');
