@@ -434,9 +434,21 @@ function reviewSubmission(subId, dealId, decision) {
       var msg = decision === 'approved' ? '✓ Content approved by ' + ZK.display_name : '⟳ Changes requested by ' + ZK.display_name + (note ? ': ' + note : '');
       return Promise.all([
         zeke_sb.from('deal_messages').insert({ deal_id:dealId, sender_id:ZK.id, msg_type:'event', content:msg }),
-        decision === 'approved' ? zeke_sb.from('deals').update({status:'approved'}).eq('id',dealId) : Promise.resolve()
+        decision === 'approved' ? zeke_sb.from('deals').update({status:'approved'}).eq('id',dealId) : Promise.resolve(),
+        zeke_sb.from('deals').select('influencer_id,title').eq('id',dealId).single()
       ]);
-    }).then(function () { _loadBrandReview(dealId, ''); _loadBrandTimeline(dealId); });
+    }).then(function (results) {
+      if (results && results[2] && results[2].data) {
+        var d = results[2].data;
+        zeke_sb.from('notifications').insert({
+          user_id: d.influencer_id,
+          title: decision === 'approved' ? 'Content approved' : 'Changes requested',
+          body:  decision === 'approved' ? d.title + ' — you can now submit the live link.' : (d.title + ' — ' + (note || 'Brand requested changes.')),
+          type:  'deal'
+        }).then(function () {});
+      }
+      _loadBrandReview(dealId, ''); _loadBrandTimeline(dealId);
+    });
 }
 
 function _loadBrandPaymentPanel(dealId, deal) {
@@ -464,9 +476,19 @@ function markPaymentSent(dealId, amount) {
       if (r.error) { alert(r.error.message); return; }
       return Promise.all([
         zeke_sb.from('deals').update({status:'payment_sent'}).eq('id',dealId),
-        zeke_sb.from('deal_messages').insert({ deal_id:dealId, sender_id:ZK.id, msg_type:'event_gold', content:'₹ Payment of ₹' + fmtNum(amount) + ' sent by ' + ZK.display_name })
+        zeke_sb.from('deal_messages').insert({ deal_id:dealId, sender_id:ZK.id, msg_type:'event_gold', content:'₹ Payment of ₹' + fmtNum(amount) + ' sent by ' + ZK.display_name }),
+        zeke_sb.from('deals').select('influencer_id,title').eq('id',dealId).single()
       ]);
-    }).then(function () {
+    }).then(function (results) {
+      if (results && results[2] && results[2].data) {
+        var d = results[2].data;
+        zeke_sb.from('notifications').insert({
+          user_id: d.influencer_id,
+          title: 'Payment sent',
+          body: '₹' + fmtNum(amount) + ' has been sent for ' + d.title + '. Confirm receipt to close the deal.',
+          type: 'payment'
+        }).then(function () {});
+      }
       zeke_sb.from('deals').select('*').eq('id',dealId).single().then(function (r) { if (r.data) _loadBrandPaymentPanel(dealId,r.data); });
     });
 }
@@ -549,7 +571,7 @@ function downloadBrandAgreementPDF(agreementId) {
 // ── DISCOVER ──────────────────────────────────────────────
 function loadAllCreators() {
   zeke_sb.from('influencer_profiles')
-    .select('id,niche,ig_followers,yt_followers,x_followers,yt_enabled,x_enabled,rating,shield_active,verified,handle,profiles!influencer_profiles_id_fkey(display_name,location)')
+    .select('id,niche,ig_followers,yt_followers,x_followers,yt_enabled,x_enabled,rating,shield_active,handle,profiles!influencer_profiles_id_fkey(display_name,location)')
     .order('shield_active',{ascending:false})
     .order('ig_followers',{ascending:false})
     .then(function (r) { _allCreators = r.data||[]; filterCreators(); });
@@ -579,8 +601,7 @@ function _renderCreatorGrid(containerId, creators, expanded) {
       + '<div class="creator-avatar">' + initials + '</div>'
       + '<div style="flex:1;min-width:0">'
       + '<div style="display:flex;align-items:center;gap:6px"><div style="font-size:14px;font-weight:700;color:#fff">' + esc(name) + '</div>'
-      + (item.shield_active ? '<span style="color:#D97706;font-size:12px">&#128737;</span>' : '')
-      + (item.verified      ? '<span style="color:#059669;font-size:11px">&#10003;</span>' : '') + '</div>'
+      + (item.shield_active ? '<span style="color:#D97706;font-size:12px">&#128737;</span>' : '') + '</div>'
       + '<div style="font-size:12px;color:#7B84A3">' + esc(item.handle ? '@'+item.handle : item.niche||'') + '</div></div>'
       + '<div style="text-align:right;flex-shrink:0">'
       + '<div style="font-size:14px;font-weight:700;color:#fff">' + fmtNum(item.ig_followers||0) + '</div>'
@@ -611,8 +632,7 @@ function openCreatorProfile(influencerId) {
       var shieldBadge = inf.shield_active
         ? '<span style="font-size:11px;font-weight:700;color:#D97706;background:rgba(217,119,6,.12);border:1px solid rgba(217,119,6,.3);padding:3px 10px;border-radius:20px">🛡 Shield Member</span>'
         : '<span style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">Free Creator</span>';
-      var verifiedBadge = inf.verified
-        ? '<span style="font-size:11px;font-weight:700;color:#059669;background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.3);padding:3px 10px;border-radius:20px">✓ Verified</span>' : '';
+      var verifiedBadge = '';
       modal.innerHTML =
         '<div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto">'
         + '<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">'

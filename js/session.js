@@ -44,7 +44,7 @@ onSupabaseReady(function () {
         // Load role-specific extras then fire ready
         if (profile.role === 'influencer') {
           zeke_sb.from('influencer_profiles')
-            .select('handle, niche, ig_followers, yt_followers, x_followers, yt_enabled, x_enabled, rating, shield_active, verified')
+            .select('handle, niche, ig_followers, yt_followers, x_followers, yt_enabled, x_enabled, rating, shield_active')
             .eq('id', uid).single()
             .then(function (rr) {
               window.ZK.inf = rr.data || {};

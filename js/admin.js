@@ -4,18 +4,17 @@
 ═══════════════════════════════════════ */
 
 function aSwitchTab(tab) {
-  ['overview','verifications','shield','disputes','deals'].forEach(function (t) {
+  ['overview','shield','disputes','deals'].forEach(function (t) {
     var el  = document.getElementById('atab-' + t);     if (el)  el.classList.toggle('hidden', t !== tab);
     var btn = document.getElementById('admin-tab-' + t); if (btn) btn.className = 'sidebar-nav-btn' + (t === tab ? ' active-tab' : '');
   });
-  if (tab === 'verifications') loadVerifications();
-  if (tab === 'disputes')      loadDisputes();
-  if (tab === 'deals')         loadAllDeals();
-  if (tab === 'shield')        loadShieldRequests();
+  if (tab === 'disputes') loadDisputes();
+  if (tab === 'deals')    loadAllDeals();
+  if (tab === 'shield')   loadShieldRequests();
 }
 
 function aSetMob(tab) {
-  ['overview','verifications','disputes','deals'].forEach(function (t) {
+  ['overview','shield','disputes','deals'].forEach(function (t) {
     var b = document.getElementById('amob-' + t); if (b) b.className = 'mob-nav-btn' + (t === tab ? ' active' : '');
   });
 }
@@ -38,17 +37,6 @@ function loadAdminOverview() {
     .then(function (r) {
       _set('astat-disputes', r.count || 0);
       _set('astat-disputes-open', r.count || 0);
-    });
-
-  zeke_sb.from('influencer_profiles').select('id', { count:'exact', head:true })
-    .eq('verified', false)
-    .then(function (r) {
-      _set('astat-verif-pending', r.count || 0);
-      var badge = document.getElementById('verif-count-badge');
-      if (badge) {
-        if (r.count > 0) { badge.textContent = r.count; badge.style.display = 'inline'; }
-        else { badge.style.display = 'none'; }
-      }
     });
 
   zeke_sb.from('shield_requests').select('id', { count:'exact', head:true })
@@ -101,56 +89,6 @@ function _renderDealsTable(containerId, deals) {
       + '<div style="font-size:14px;font-weight:900;color:#fff;flex-shrink:0">₹' + fmtNum(d.amount||0) + '</div>'
       + '<span class="badge ' + s.cls + '">' + s.label + '</span></div>';
   }).join('');
-}
-
-// ── VERIFICATIONS ─────────────────────────────────────────
-function loadVerifications() {
-  zeke_sb.from('influencer_profiles')
-    .select('id,niche,handle,ig_followers,profiles!influencer_profiles_id_fkey(display_name,location,created_at)')
-    .eq('verified', false)
-    .then(function (r) {
-      var c = document.getElementById('verif-list'); if (!c) return;
-      var items = r.data || [];
-      if (!items.length) { c.innerHTML = '<div class="empty-state">No pending verifications.</div>'; return; }
-      c.innerHTML = items.map(function (v) {
-        var name    = (v.profiles && v.profiles.display_name) ? v.profiles.display_name : 'Creator';
-        var loc     = (v.profiles && v.profiles.location)     ? v.profiles.location     : '';
-        var joined  = (v.profiles && v.profiles.created_at)   ? fmtDate(v.profiles.created_at) : '';
-        var initials = name.slice(0,2).toUpperCase();
-        return '<div class="item-card" style="margin-bottom:12px">'
-          + '<div class="item-card-header">'
-          + '<div style="display:flex;align-items:center;gap:10px">'
-          + '<div class="item-avatar">' + initials + '</div>'
-          + '<div><div style="font-size:14px;font-weight:700;color:#fff">' + esc(name) + '</div>'
-          + '<div style="font-size:12px;color:#7B84A3">' + esc(v.niche||'') + ' · ' + esc(loc) + ' · @' + esc(v.handle||'') + '</div>'
-          + '<div style="font-size:11px;color:#7B84A3">IG: ' + fmtNum(v.ig_followers||0) + ' · Joined ' + joined + '</div></div></div>'
-          + '<span class="badge badge-muted">Pending</span></div>'
-          + '<div class="item-actions">'
-          + '<button class="btn-approve" onclick="approveVerification(\'' + v.id + '\',this)">&#10003; Approve</button>'
-          + '<button class="btn-reject"  onclick="rejectVerification(\''  + v.id + '\',this)">&#10006; Reject</button>'
-          + '</div></div>';
-      }).join('');
-    });
-}
-
-function approveVerification(influencerId, btn) {
-  btn.disabled = true; btn.textContent = 'Approving...';
-  zeke_sb.from('influencer_profiles').update({ verified: true }).eq('id', influencerId)
-    .then(function (r) {
-      if (r.error) { btn.disabled = false; btn.textContent = '✓ Approve'; alert(r.error.message); return; }
-      zeke_sb.from('notifications').insert({ user_id: influencerId, title: 'Account Verified', body: 'Your Zeke account has been verified. You can now receive brand offers.', type:'system' })
-        .then(function () { loadVerifications(); loadAdminOverview(); });
-    });
-}
-
-function rejectVerification(influencerId, btn) {
-  var reason = prompt('Reason for rejection (shown to creator):');
-  if (!reason) return;
-  zeke_sb.from('notifications').insert({ user_id: influencerId, title: 'Verification Not Approved', body: reason, type:'system' })
-    .then(function (r) {
-      if (r.error) { alert(r.error.message); return; }
-      loadVerifications();
-    });
 }
 
 // ── SHIELD REQUESTS ───────────────────────────────────────
